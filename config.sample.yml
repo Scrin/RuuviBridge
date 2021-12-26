@@ -1,0 +1,31 @@
+# Easiest option: let RuuviBridge poll the gateway for measurements
+#gateway_polling:
+#  gateway_url: http://ip.or.hostname.of.the.gateway
+#  interval: 10s
+
+# Recommended option: Have the gateway send the measurements to a MQTT server and let RuuviBridge subscribe to updates in real time
+#mqtt_listener:
+#  broker_address: ip.or.hostname
+#  broker_port: 1883
+#  client_id: RuuviBridge
+#  username: ruuvibridge
+#  password: ruuvipassword
+#  topic_prefix: ruuvi
+
+# Extra processing of the values. Extended values are enabled by default but can be disabled by changing extended_values to false
+#processing:
+#  extended_values: true
+
+# Supports both InfluxDB 1.8 and 2.x
+# For 1.8 the auth_token is username and password in format "username:password" and bucket is the database name
+influxdb_publisher:
+  url: http://localhost:8086
+  auth_token: changethis
+  org: ""
+  bucket: ruuvi
+  measurement: ruuvi_measurements
+
+# Optional names for the tags with the key being the mac address and value being the desired name
+tag_names:
+  FFEEDDCCBBAA: Indoors
+  F0E1D2C3B4A5: Fridge

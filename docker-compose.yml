@@ -1,0 +1,8 @@
+version: "3.5"
+services:
+  ruuvibridge:
+    image: ghcr.io/scrin/ruuvibridge
+    container_name: ruuvibridge
+    restart: unless-stopped
+    volumes:
+      - ./config.yml:/config.yml:ro
