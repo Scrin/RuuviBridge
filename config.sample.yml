@@ -1,10 +1,12 @@
 # Easiest option: let RuuviBridge poll the gateway for measurements
 #gateway_polling:
+#  enabled: true
 #  gateway_url: http://ip.or.hostname.of.the.gateway
 #  interval: 10s
 
 # Recommended option: Have the gateway send the measurements to a MQTT server and let RuuviBridge subscribe to updates in real time
 #mqtt_listener:
+#  enabled: true
 #  broker_address: ip.or.hostname
 #  broker_port: 1883
 #  client_id: RuuviBridge
@@ -19,11 +21,17 @@
 # Supports both InfluxDB 1.8 and 2.x
 # For 1.8 the auth_token is username and password in format "username:password" and bucket is the database name
 influxdb_publisher:
+  enabled: true
   url: http://localhost:8086
   auth_token: changethis
   org: ""
   bucket: ruuvi
   measurement: ruuvi_measurements
+
+# Prometheus exporter for data
+#prometheus:
+#  enabled: true
+#  port: 8080
 
 # Optional names for the tags with the key being the mac address and value being the desired name
 tag_names:

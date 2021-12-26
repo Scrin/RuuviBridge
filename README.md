@@ -6,6 +6,16 @@ Note: This is very early in development; breaking changes will occur. Be sure to
 
 ### Features
 
+Supports following sources (sources of RuuviTag data):
+
+- MQTT (in RuuviGateway format)
+- RuuviGateway /history http-api endpoint
+
+Supports following sinks (things that use the data):
+
+- InfluxDB 1.8 and 2.x
+- Prometheus
+
 Supports following RuuviTag [Data Formats](https://github.com/ruuvi/ruuvi-sensor-protocols):
 
 - Data Format 3: "RAW v1" BLE Manufacturer specific data, all current sensor readings
@@ -38,7 +48,6 @@ In no particular order:
 
 - Proper documentation
 - Standalone binary releases
-- Prometheus support
 - Properly versioned releases with changelogs
 - Support for MQTT as an output for making it easier to use your own applications with already parsed data
 - HTTP endpoint to allow "pushes" from a Ruuvi Gateway without having a MQTT server

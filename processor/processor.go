@@ -23,11 +23,11 @@ func Run(config config.Config) {
 	}
 
 	fmt.Println("Starting data sources...")
-	if config.GatewayPolling != nil {
+	if config.GatewayPolling != nil && (config.GatewayPolling.Enabled == nil || *config.GatewayPolling.Enabled) {
 		stop := data_sources.StartGatewayPolling(*config.GatewayPolling, measurements)
 		defer func() { stop <- true }()
 	}
-	if config.MQTTListener != nil {
+	if config.MQTTListener != nil && (config.MQTTListener.Enabled == nil || *config.MQTTListener.Enabled) {
 		stop := data_sources.StartMQTTListener(*config.MQTTListener, measurements)
 		defer func() { stop <- true }()
 	}
@@ -36,8 +36,11 @@ func Run(config config.Config) {
 	if config.Debug {
 		sinks = append(sinks, data_sinks.Debug())
 	}
-	if config.InfluxDBPublisher != nil {
+	if config.InfluxDBPublisher != nil && (config.InfluxDBPublisher.Enabled == nil || *config.InfluxDBPublisher.Enabled) {
 		sinks = append(sinks, data_sinks.InfluxDB(*config.InfluxDBPublisher))
+	}
+	if config.Prometheus != nil && (config.Prometheus.Enabled == nil || *config.Prometheus.Enabled) {
+		sinks = append(sinks, data_sinks.Prometheus(*config.Prometheus))
 	}
 
 	fmt.Println("Starting processing...")

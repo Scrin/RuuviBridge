@@ -10,11 +10,13 @@ import (
 )
 
 type GatewayPolling struct {
+	Enabled    *bool         `yaml:"enabled,omitempty"`
 	GatewayUrl string        `yaml:"gateway_url"`
 	Interval   time.Duration `yaml:"interval"`
 }
 
 type MQTTListener struct {
+	Enabled       *bool  `yaml:"enabled,omitempty"`
 	BrokerAddress string `yaml:"broker_address"`
 	BrokerPort    int    `yaml:"broker_port"`
 	ClientID      string `yaml:"client_id"`
@@ -28,6 +30,7 @@ type Processing struct {
 }
 
 type InfluxDBPublisher struct {
+	Enabled     *bool  `yaml:"enabled,omitempty"`
 	Url         string `yaml:"url"`
 	AuthToken   string `yaml:"auth_token"`
 	Org         string `yaml:"org"`
@@ -35,13 +38,19 @@ type InfluxDBPublisher struct {
 	Measurement string `yaml:"measurement"`
 }
 
+type Prometheus struct {
+	Enabled *bool `yaml:"enabled,omitempty"`
+	Port    int   `yaml:"port"`
+}
+
 type Config struct {
 	Debug             bool               `yaml:"debug,omitempty"`
 	GatewayPolling    *GatewayPolling    `yaml:"gateway_polling,omitempty"`
 	MQTTListener      *MQTTListener      `yaml:"mqtt_listener,omitempty"`
 	Processing        *Processing        `yaml:"processing,omitempty"`
-	InfluxDBPublisher *InfluxDBPublisher `yaml:"influxdb_publisher"`
-	TagNames          map[string]string  `yaml:"tag_names"`
+	InfluxDBPublisher *InfluxDBPublisher `yaml:"influxdb_publisher,omitempty"`
+	Prometheus        *Prometheus        `yaml:"prometheus,omitempty"`
+	TagNames          map[string]string  `yaml:"tag_names,omitempty"`
 }
 
 func ReadConfig(configFile string) (Config, error) {
