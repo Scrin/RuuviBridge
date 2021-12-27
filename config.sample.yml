@@ -21,6 +21,16 @@ mqtt_listener:
 processing:
   # Extended values are enabled by default but can be disabled by changing extended_values to false
   extended_values: true
+  # Filter which tags are considered. Valid options:
+  # none - no filtering is done, all tags are processed (default)
+  # named - only tags which have a name configured will be processed
+  # allowlist - only mac addresses listed in filter_list will be processed
+  # denylist - mac addresses listed in filter_list will be skipped
+  filter_mode: none
+  # List of mac addresses to allow or deny if filter_mode is either allowlist or denylist
+  filter_list:
+    - FFEEDDCCBBAA
+    - F0E1D2C3B4A5
 
 # Supports both InfluxDB 1.8 and 2.x
 influxdb_publisher:

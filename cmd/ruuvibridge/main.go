@@ -24,5 +24,8 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	processor.Run(conf)
+	ok := processor.Run(conf)
+	if !ok {
+		os.Exit(1)
+	}
 }

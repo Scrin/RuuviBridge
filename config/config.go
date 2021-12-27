@@ -26,7 +26,9 @@ type MQTTListener struct {
 }
 
 type Processing struct {
-	ExtendedValues *bool `yaml:"extended_values,omitempty"`
+	ExtendedValues *bool    `yaml:"extended_values,omitempty"`
+	FilterMode     string   `yaml:"filter_mode"`
+	FilterList     []string `yaml:"filter_list"`
 }
 
 type InfluxDBPublisher struct {

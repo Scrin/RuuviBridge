@@ -11,14 +11,47 @@ import (
 	"github.com/Scrin/RuuviBridge/value_calculator"
 )
 
-func Run(config config.Config) {
+func Run(config config.Config) bool {
 	measurements := make(chan parser.Measurement)
 	var sinks []chan<- parser.Measurement
+
 	extendedValues := true // default
+	filterMap := make(map[string]interface{})
+	allowlist := false
+	denylist := false
+	namedOnly := false
 	if config.Processing != nil {
 		processing := config.Processing
 		if processing.ExtendedValues != nil {
 			extendedValues = *processing.ExtendedValues
+		}
+		switch processing.FilterMode {
+		case "allowlist":
+			allowlist = true
+			if len(config.Processing.FilterList) == 0 {
+				fmt.Println("filter_mode configured as allowlist but no allowed tags configured!")
+				return false
+			}
+		case "denylist":
+			denylist = true
+			if len(config.Processing.FilterList) == 0 {
+				fmt.Println("filter_mode configured as denylist but no denied tags configured!")
+				return false
+			}
+		case "named":
+			namedOnly = true
+			if len(config.TagNames) == 0 {
+				fmt.Println("filter_mode configured as named but no tag names configured!")
+				return false
+			}
+		case "none":
+		default:
+			fmt.Println("Unrecognized filter_mode: " + processing.FilterMode)
+			return false
+		}
+		for _, mac := range config.Processing.FilterList {
+			formattedMac := strings.ToUpper(strings.ReplaceAll(mac, ":", ""))
+			filterMap[formattedMac] = struct{}{}
 		}
 	}
 
@@ -36,6 +69,7 @@ func Run(config config.Config) {
 	}
 	if !datasourcesStarted {
 		fmt.Println("No datasources configured! Please check the config.")
+		return false
 	}
 
 	fmt.Println("Starting data sinks...")
@@ -58,19 +92,33 @@ func Run(config config.Config) {
 	}
 	if !datasinksStarted {
 		fmt.Println("No data consumers/sinks configured! Please check the config.")
+		return false
 	}
 
 	fmt.Println("Starting processing...")
 	for measurement := range measurements {
-		if extendedValues {
-			value_calculator.CalcExtendedValues(&measurement)
+		_, isOnList := filterMap[strings.ReplaceAll(measurement.Mac, ":", "")]
+		if denylist && isOnList {
+			continue
 		}
+		if allowlist && !isOnList {
+			continue
+		}
+
 		name := config.TagNames[strings.ReplaceAll(measurement.Mac, ":", "")]
 		if name != "" {
 			measurement.Name = &name
+		} else if namedOnly {
+			continue
 		}
+
+		if extendedValues {
+			value_calculator.CalcExtendedValues(&measurement)
+		}
+
 		for _, sink := range sinks {
 			sink <- measurement
 		}
 	}
+	return true
 }
