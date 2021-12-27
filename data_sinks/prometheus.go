@@ -1,7 +1,6 @@
 package data_sinks
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -128,8 +127,8 @@ func recordMetrics(m parser.Measurement) {
 	safeSetF(metrics.accelerationAngleFromZ, m.AccelerationAngleFromZ)
 }
 
-func Prometheus(config config.Prometheus) chan<- parser.Measurement {
-	port := config.Port
+func Prometheus(conf config.Prometheus) chan<- parser.Measurement {
+	port := conf.Port
 	if port == 0 {
 		port = 8080
 	}
@@ -138,12 +137,7 @@ func Prometheus(config config.Prometheus) chan<- parser.Measurement {
 	initMetrics()
 	go func() {
 		for measurement := range measurements {
-			_, err := json.Marshal(measurement)
-			if err != nil {
-				fmt.Println(err)
-			} else {
-				recordMetrics(measurement)
-			}
+			recordMetrics(measurement)
 		}
 	}()
 

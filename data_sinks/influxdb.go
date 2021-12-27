@@ -12,23 +12,23 @@ import (
 	"github.com/influxdata/influxdb-client-go/v2/api/write"
 )
 
-func InfluxDB(config config.InfluxDBPublisher) chan<- parser.Measurement {
-	url := config.Url
+func InfluxDB(conf config.InfluxDBPublisher) chan<- parser.Measurement {
+	url := conf.Url
 	if url == "" {
 		url = "https://localhost:8086"
 	}
-	bucket := config.Bucket
+	bucket := conf.Bucket
 	if bucket == "" {
 		bucket = "ruuvi"
 	}
-	measurementName := config.Measurement
+	measurementName := conf.Measurement
 	if measurementName == "" {
 		measurementName = "ruuvi_measurements"
 	}
 	fmt.Printf("Starting InfluxDB sink to %s\n", url)
 
-	client := influxdb.NewClient(url, config.AuthToken)
-	writeAPI := client.WriteAPIBlocking(config.Org, bucket)
+	client := influxdb.NewClient(url, conf.AuthToken)
+	writeAPI := client.WriteAPIBlocking(conf.Org, bucket)
 
 	measurements := make(chan parser.Measurement)
 	go func() {

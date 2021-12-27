@@ -15,6 +15,7 @@ Supports following sinks (things that use the data):
 
 - InfluxDB 1.8 and 2.x
 - Prometheus
+- MQTT (including Home Assistant MQTT discovery for automatic configuration)
 
 Supports following RuuviTag [Data Formats](https://github.com/ruuvi/ruuvi-sensor-protocols):
 
@@ -49,7 +50,6 @@ In no particular order:
 - Proper documentation
 - Standalone binary releases
 - Properly versioned releases with changelogs
-- Support for MQTT as an output for making it easier to use your own applications with already parsed data
 - HTTP endpoint to allow "pushes" from a Ruuvi Gateway without having a MQTT server
 - And other stuff I forgot I had plans for
 
@@ -62,3 +62,9 @@ Check [config.sample.yml](./config.sample.yml) for a sample config. By default t
 Recommended method is using Docker with the prebuilt dockerimage: [ghcr.io/scrin/ruuvibridge](https://ghcr.io/scrin/ruuvibridge) for which you can use the provided [composefile](./docker-compose.yml)
 
 Without docker you have to build the binaries yourself until I have time to set up a release process. Easiest way to do this is to install Go 1.17 or later and run `go install -v github.com/Scrin/RuuviBridge/cmd/ruuvibridge@latest` which will download, build and install ruuvibridge into `$GOPATH/bin`
+
+### Home Assistant MQTT discovery
+
+Home Assistant allows automatic configuration of MQTT entities using [MQTT Discovery](https://www.home-assistant.io/docs/mqtt/discovery/). To enable RuuviBridge to automatically configure all of your RuuviTags to Home Assistant for you, all you need to do (assuming default configuration) is to set `homeassistant_discovery_prefix` in the config under `mqtt_publisher`. In default Home Assistant configuration this should be simply `homeassistant`.
+
+After setting this configuration, it should be a matter of seconds before your RuuviTags should appear as entities in Home Assistant for reporting temperature, humidity and pressure, with properly set names, units and icons.

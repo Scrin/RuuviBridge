@@ -42,6 +42,9 @@ func Run(config config.Config) {
 	if config.Prometheus != nil && (config.Prometheus.Enabled == nil || *config.Prometheus.Enabled) {
 		sinks = append(sinks, data_sinks.Prometheus(*config.Prometheus))
 	}
+	if config.MQTTPublisher != nil && (config.MQTTPublisher.Enabled == nil || *config.MQTTPublisher.Enabled) {
+		sinks = append(sinks, data_sinks.MQTT(*config.MQTTPublisher))
+	}
 
 	fmt.Println("Starting processing...")
 	for measurement := range measurements {

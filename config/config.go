@@ -43,6 +43,17 @@ type Prometheus struct {
 	Port    int   `yaml:"port"`
 }
 
+type MQTTPublisher struct {
+	Enabled                      *bool  `yaml:"enabled,omitempty"`
+	BrokerAddress                string `yaml:"broker_address"`
+	BrokerPort                   int    `yaml:"broker_port"`
+	ClientID                     string `yaml:"client_id"`
+	Username                     string `yaml:"username"`
+	Password                     string `yaml:"password"`
+	TopicPrefix                  string `yaml:"topic_prefix"`
+	HomeassistantDiscoveryPrefix string `yaml:"homeassistant_discovery_prefix,omitempty"`
+}
+
 type Config struct {
 	Debug             bool               `yaml:"debug,omitempty"`
 	GatewayPolling    *GatewayPolling    `yaml:"gateway_polling,omitempty"`
@@ -50,6 +61,7 @@ type Config struct {
 	Processing        *Processing        `yaml:"processing,omitempty"`
 	InfluxDBPublisher *InfluxDBPublisher `yaml:"influxdb_publisher,omitempty"`
 	Prometheus        *Prometheus        `yaml:"prometheus,omitempty"`
+	MQTTPublisher     *MQTTPublisher     `yaml:"mqtt_publisher,omitempty"`
 	TagNames          map[string]string  `yaml:"tag_names,omitempty"`
 }
 

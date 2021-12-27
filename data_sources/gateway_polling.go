@@ -28,14 +28,14 @@ type gatewayHistory struct {
 	} `json:"data"`
 }
 
-func StartGatewayPolling(polling config.GatewayPolling, measurements chan<- parser.Measurement) chan<- bool {
-	interval := polling.Interval
+func StartGatewayPolling(conf config.GatewayPolling, measurements chan<- parser.Measurement) chan<- bool {
+	interval := conf.Interval
 	if interval == 0 {
 		interval = 10 * time.Second
 	}
-	fmt.Printf("Starting gateway polling at %s every %s\n", polling.GatewayUrl, polling.Interval)
+	fmt.Printf("Starting gateway polling at %s every %s\n", conf.GatewayUrl, conf.Interval)
 	stop := make(chan bool)
-	go gatewayPoller(polling.GatewayUrl, interval, measurements, stop)
+	go gatewayPoller(conf.GatewayUrl, interval, measurements, stop)
 	return stop
 }
 

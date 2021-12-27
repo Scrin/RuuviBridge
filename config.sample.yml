@@ -33,6 +33,17 @@ influxdb_publisher:
 #  enabled: true
 #  port: 8080
 
+# Publish the parsed and processed data back to MQTT. Can be the same server or a different one. If you use the same server for a source, be sure to use a differnet topic prefix!
+#mqtt_publisher:
+#  enabled: true
+#  broker_address: ip.or.hostname
+#  broker_port: 1883
+#  client_id: RuuviBridge
+#  username: ruuvibridge
+#  password: ruuvipassword
+#  topic_prefix: ruuvitag
+#  homeassistant_discovery_prefix: homeassistant
+
 # Optional names for the tags with the key being the mac address and value being the desired name
 tag_names:
   FFEEDDCCBBAA: Indoors
