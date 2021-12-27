@@ -1,50 +1,66 @@
 # Easiest option: let RuuviBridge poll the gateway for measurements
-#gateway_polling:
-#  enabled: true
-#  gateway_url: http://ip.or.hostname.of.the.gateway
-#  interval: 10s
+gateway_polling:
+  # Flag to enable or disable gateway polling
+  enabled: false
+  gateway_url: http://ip.or.hostname.of.the.gateway
+  interval: 10s
 
 # Recommended option: Have the gateway send the measurements to a MQTT server and let RuuviBridge subscribe to updates in real time
-#mqtt_listener:
-#  enabled: true
-#  broker_address: ip.or.hostname
-#  broker_port: 1883
-#  client_id: RuuviBridge
-#  username: ruuvibridge
-#  password: ruuvipassword
-#  topic_prefix: ruuvi
+mqtt_listener:
+  # Flag to enable or disable subscribing to a topic on a MQTT server
+  enabled: false
+  broker_address: ip.or.hostname
+  broker_port: 1883
+  client_id: RuuviBridge
+  username: ruuvibridge
+  password: ruuvipassword
+  # Topic prefix to subscribe to, expecting RuuviTag measurements to be published as <topic_prefix>/<mac>
+  topic_prefix: ruuvi
 
-# Extra processing of the values. Extended values are enabled by default but can be disabled by changing extended_values to false
-#processing:
-#  extended_values: true
+# Extra processing of the values
+processing:
+  # Extended values are enabled by default but can be disabled by changing extended_values to false
+  extended_values: true
 
 # Supports both InfluxDB 1.8 and 2.x
-# For 1.8 the auth_token is username and password in format "username:password" and bucket is the database name
 influxdb_publisher:
-  enabled: true
+  # Flag to enable or disable publishing the processed data to InfluxDB
+  enabled: false
+  # URL for InfluxDB, including scheme, hostname and port
   url: http://localhost:8086
+  # For InfluxDB 1.8 the auth_token is username and password in format "username:password"
   auth_token: changethis
+  # This is ignored for InfluxDB 1.8
   org: ""
+  # For InfluxDB 1.8 the bucket is the database name, with optional retention policy in format "database/retentionpolicy"
   bucket: ruuvi
+  # Measurement name to use
   measurement: ruuvi_measurements
 
 # Prometheus exporter for data
-#prometheus:
-#  enabled: true
-#  port: 8080
+prometheus:
+  # Flag to enable or disable exporting the measurements and RuuviBridge diagnostics in prometheus exposition format
+  enabled: false
+  port: 8080
 
-# Publish the parsed and processed data back to MQTT. Can be the same server or a different one. If you use the same server for a source, be sure to use a differnet topic prefix!
-#mqtt_publisher:
-#  enabled: true
-#  broker_address: ip.or.hostname
-#  broker_port: 1883
-#  client_id: RuuviBridge
-#  username: ruuvibridge
-#  password: ruuvipassword
-#  topic_prefix: ruuvitag
-#  homeassistant_discovery_prefix: homeassistant
+# Publish the parsed and processed data back to MQTT. Can be the same server or a different one.
+mqtt_publisher:
+  enabled: false
+  broker_address: ip.or.hostname
+  broker_port: 1883
+  client_id: RuuviBridge
+  username: ruuvibridge
+  password: ruuvipassword
+  # Topic prefix where to publish, in format <topic_prefix>/<mac>
+  # If you use the same server for a source, be sure to use a differnet topic prefix to avoid conflicts!
+  topic_prefix: ruuvitag
+  # Uncomment to enable creating Home Assistant MQTT discovery topics
+  #homeassistant_discovery_prefix: homeassistant
 
 # Optional names for the tags with the key being the mac address and value being the desired name
 tag_names:
   FFEEDDCCBBAA: Indoors
   F0E1D2C3B4A5: Fridge
+
+# Enable or disable debug mode. This will print all received measurements to the console among other debuggy things, useful for development, testing and troubleshooting purposes.
+debug: false
