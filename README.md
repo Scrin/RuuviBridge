@@ -67,4 +67,4 @@ Without docker you have to build the binaries yourself until I have time to set 
 
 Home Assistant allows automatic configuration of MQTT entities using [MQTT Discovery](https://www.home-assistant.io/docs/mqtt/discovery/). To enable RuuviBridge to automatically configure all of your RuuviTags to Home Assistant for you, all you need to do (assuming default configuration) is to set `homeassistant_discovery_prefix` in the config under `mqtt_publisher`. In default Home Assistant configuration this should be simply `homeassistant`.
 
-After setting this configuration, it should be a matter of seconds before your RuuviTags should appear as entities in Home Assistant for reporting temperature, humidity, pressure and battery voltage, with properly set names, units and icons.
+After setting this configuration, it should be a matter of seconds before your RuuviTags should appear as devices in Home Assistant for reporting all available measurements, with properly set names, units, icons and other attributes.
