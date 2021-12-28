@@ -34,9 +34,8 @@ func StartMQTTListener(conf config.MQTTListener, measurements chan<- parser.Meas
 
 	fmt.Printf("Starting MQTT subscriber to %s\n", server)
 
-	prefixLength := len(conf.TopicPrefix) + 1 // +1 for the / after the prefix
 	messagePubHandler := func(client mqtt.Client, msg mqtt.Message) {
-
+		topic := msg.Topic()
 		var message message
 		err := json.Unmarshal(msg.Payload(), &message)
 		if err != nil {
@@ -44,7 +43,7 @@ func StartMQTTListener(conf config.MQTTListener, measurements chan<- parser.Meas
 			return
 		}
 
-		mac := strings.ToUpper(msg.Topic()[prefixLength:])
+		mac := topic[strings.LastIndex(topic, "/")+1:]
 		timestamp, _ := strconv.ParseInt(message.Ts, 10, 64)
 
 		measurement, ok := parser.Parse(message.Data)
