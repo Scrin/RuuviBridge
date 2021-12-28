@@ -34,6 +34,7 @@ jobs:
     name: binaries
     runs-on: ubuntu-latest
     strategy:
+      max-parallel: 1
       matrix:
         goos: [linux, windows, darwin]
         goarch: [amd64, arm64, arm]
@@ -53,6 +54,10 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
+          goversion: 1.17
           ldflags: "-X github.com/Scrin/RuuviBridge/common/version.Version=${{ github.event.release.tag_name }}"
           project_path: ./cmd/ruuvibridge
           binary_name: ruuvibridge
+          retry: 10
+          md5sum: false
+          overwrite: true

@@ -49,7 +49,6 @@ In no particular order:
 
 - Proper documentation
 - Standalone binary releases
-- Properly versioned releases with changelogs
 - HTTP endpoint to allow "pushes" from a Ruuvi Gateway without having a MQTT server
 - And other stuff I forgot I had plans for
 
