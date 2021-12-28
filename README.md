@@ -61,7 +61,7 @@ Check [config.sample.yml](./config.sample.yml) for a sample config. By default t
 
 Recommended method is using Docker with the prebuilt dockerimage: [ghcr.io/scrin/ruuvibridge](https://ghcr.io/scrin/ruuvibridge) for which you can use the provided [composefile](./docker-compose.yml)
 
-Without docker you have to build the binaries yourself until I have time to set up a release process. Easiest way to do this is to install Go 1.17 or later and run `go install -v github.com/Scrin/RuuviBridge/cmd/ruuvibridge@latest` which will download, build and install ruuvibridge into `$GOPATH/bin`
+Without docker you can download prebuilt binaries from the [releases](https://github.com/Scrin/RuuviBridge/releases) page. For production use it's recommended to set up as a service.
 
 ### Home Assistant MQTT discovery
 
