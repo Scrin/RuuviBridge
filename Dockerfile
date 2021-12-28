@@ -1,10 +1,10 @@
 FROM golang:1.17-alpine as build
 
-RUN apk add git
+ARG VERSION="unknown-docker"
 
 WORKDIR /go/src/github.com/Scrin/RuuviBridge/
 COPY . ./
-RUN go install -v -ldflags "-X github.com/Scrin/RuuviBridge/common/version.Version=git-$(git rev-list -1 HEAD 2>/dev/null || echo unknown)" ./cmd/ruuvibridge
+RUN go install -v -ldflags "-X github.com/Scrin/RuuviBridge/common/version.Version=${VERSION}" ./cmd/ruuvibridge
 
 FROM alpine
 
