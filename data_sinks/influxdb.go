@@ -26,7 +26,7 @@ func InfluxDB(conf config.InfluxDBPublisher) chan<- parser.Measurement {
 	if measurementName == "" {
 		measurementName = "ruuvi_measurements"
 	}
-	log.Info("Starting InfluxDB sink to " + url)
+	log.WithFields(log.Fields{"target": url}).Info("Starting InfluxDB sink")
 
 	client := influxdb.NewClient(url, conf.AuthToken)
 	writeAPI := client.WriteAPIBlocking(conf.Org, bucket)
@@ -62,7 +62,7 @@ func InfluxDB(conf config.InfluxDBPublisher) chan<- parser.Measurement {
 			p.SetTime(time.Now())
 			err := writeAPI.WritePoint(context.Background(), p)
 			if err != nil {
-				log.Error("Failed to send data to InfluxDB: " + err.Error())
+				log.Error("Failed to send data to InfluxDB: ", err)
 			}
 		}
 		client.Close()

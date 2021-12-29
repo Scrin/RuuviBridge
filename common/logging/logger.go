@@ -39,7 +39,7 @@ func Setup(conf config.Logging) {
 	case "simple":
 	case "":
 	default:
-		log.Fatal("Invalid logging type: " + conf.Type)
+		log.Fatal("Invalid logging type: ", conf.Type)
 	}
 
 	switch conf.Level {
@@ -60,6 +60,6 @@ func Setup(conf config.Logging) {
 	case "":
 		log.SetLevel(log.InfoLevel)
 	default:
-		log.Fatal("Invalid logging level: " + conf.Level)
+		log.Fatal("Invalid logging level: ", conf.Level)
 	}
 }

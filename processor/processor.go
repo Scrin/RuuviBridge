@@ -3,6 +3,7 @@ package processor
 import (
 	"strings"
 
+	"github.com/Scrin/RuuviBridge/common/version"
 	"github.com/Scrin/RuuviBridge/config"
 	"github.com/Scrin/RuuviBridge/data_sinks"
 	"github.com/Scrin/RuuviBridge/data_sources"
@@ -12,6 +13,7 @@ import (
 )
 
 func Run(config config.Config) {
+	log.WithFields(log.Fields{"version": version.Version}).Info("RuuviBridge starting up")
 	measurements := make(chan parser.Measurement)
 	var sinks []chan<- parser.Measurement
 
@@ -43,7 +45,7 @@ func Run(config config.Config) {
 			}
 		case "none":
 		default:
-			log.Fatal("Unrecognized filter_mode: " + processing.FilterMode)
+			log.Fatal("Unrecognized filter_mode: ", processing.FilterMode)
 		}
 		for _, mac := range config.Processing.FilterList {
 			formattedMac := strings.ToUpper(strings.ReplaceAll(mac, ":", ""))
@@ -51,7 +53,7 @@ func Run(config config.Config) {
 		}
 	}
 
-	log.Info("Starting data sources...")
+	log.Info("Starting data sources")
 	datasourcesStarted := false
 	if config.GatewayPolling != nil && (config.GatewayPolling.Enabled == nil || *config.GatewayPolling.Enabled) {
 		stop := data_sources.StartGatewayPolling(*config.GatewayPolling, measurements)
@@ -67,7 +69,7 @@ func Run(config config.Config) {
 		log.Fatal("No datasources configured! Please check the config.")
 	}
 
-	log.Info("Starting data sinks...")
+	log.Info("Starting data sinks")
 	datasinksStarted := false
 	if config.Debug {
 		sinks = append(sinks, data_sinks.Debug())
@@ -89,7 +91,7 @@ func Run(config config.Config) {
 		log.Fatal("No data consumers/sinks configured! Please check the config.")
 	}
 
-	log.Info("Starting processing...")
+	log.Info("Starting processing")
 	for measurement := range measurements {
 		_, isOnList := filterMap[strings.ReplaceAll(measurement.Mac, ":", "")]
 		if denylist && isOnList {

@@ -25,7 +25,7 @@ func main() {
 	conf, err := config.ReadConfig(*configPath, *strictConfig)
 	logging.Setup(conf.Logging) // logging should be set up with logging config before logging a possible error in the config, weird, I know
 	if err != nil {
-		log.Panic(err)
+		log.Fatal(err)
 	}
 	processor.Run(conf)
 }

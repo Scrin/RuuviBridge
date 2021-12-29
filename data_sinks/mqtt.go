@@ -20,7 +20,7 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 		port = 1883
 	}
 	server := fmt.Sprintf("tcp://%s:%d", address, port)
-	log.Info("Starting MQTT sink")
+	log.WithFields(log.Fields{"target": server}).Info("Starting MQTT sink")
 
 	opts := mqtt.NewClientOptions()
 	opts.AddBroker(server)

@@ -33,7 +33,7 @@ func StartMQTTListener(conf config.MQTTListener, measurements chan<- parser.Meas
 	}
 	server := fmt.Sprintf("tcp://%s:%d", address, port)
 
-	log.Info("Starting MQTT subscriber to " + server)
+	log.WithFields(log.Fields{"target": server}).Info("Starting MQTT subscriber")
 
 	messagePubHandler := func(client mqtt.Client, msg mqtt.Message) {
 		topic := msg.Topic()

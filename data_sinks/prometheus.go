@@ -133,7 +133,7 @@ func Prometheus(conf config.Prometheus) chan<- parser.Measurement {
 	if port == 0 {
 		port = 8080
 	}
-	log.Info("Starting prometheus sink")
+	log.WithFields(log.Fields{"port": port}).Info("Starting prometheus sink")
 	measurements := make(chan parser.Measurement)
 	initMetrics()
 	go func() {
