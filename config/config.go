@@ -75,7 +75,7 @@ type Config struct {
 	Debug             bool               `yaml:"debug"`
 }
 
-func ReadConfig(configFile string) (Config, error) {
+func ReadConfig(configFile string, strict bool) (Config, error) {
 	if _, err := os.Stat(configFile); errors.Is(err, os.ErrNotExist) {
 		return Config{}, errors.New(fmt.Sprintf("No config found! Tried to open \"%s\"", configFile))
 	}
@@ -88,7 +88,7 @@ func ReadConfig(configFile string) (Config, error) {
 
 	var conf Config
 	decoder := yaml.NewDecoder(f)
-	decoder.KnownFields(true)
+	decoder.KnownFields(strict)
 	err = decoder.Decode(&conf)
 
 	if err != nil {

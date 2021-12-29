@@ -13,6 +13,7 @@ import (
 
 func main() {
 	configPath := flag.String("config", "./config.yml", "The path to the configuration")
+	strictConfig := flag.Bool("strict-config", false, "Use strict parsing for the config file; will throw errors for invalid fields")
 	versionFlag := flag.Bool("version", false, "Prints the version and exits")
 	flag.Parse()
 
@@ -21,7 +22,7 @@ func main() {
 		return
 	}
 
-	conf, err := config.ReadConfig(*configPath)
+	conf, err := config.ReadConfig(*configPath, *strictConfig)
 	logging.Setup(conf.Logging) // logging should be set up with logging config before logging a possible error in the config, weird, I know
 	if err != nil {
 		log.Panic(err)

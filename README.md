@@ -48,13 +48,14 @@ Ability to calculate following values in addition to the raw data (the accuracy 
 In no particular order:
 
 - Proper documentation
-- Standalone binary releases
 - HTTP endpoint to allow "pushes" from a Ruuvi Gateway without having a MQTT server
 - And other stuff I forgot I had plans for
 
 ### Configuration
 
 Check [config.sample.yml](./config.sample.yml) for a sample config. By default the bridge assumes to find a file called `config.yml` in the current working directory, but that can be overridden with `-config /path/to/config.yml` command line flag.
+
+By default RuuviBridge parses the config in a flexible way, ignoring all unknown fields. This can be changed with `-strict-config` command line flag, which will make RuuviBridge throw errors if there are unknown entries in the config. Do note that this only validates whether the config has a valid structure with right keys (ie. no typos in the keys), it does not validate whether the config makes sense as such.
 
 ### Installation
 
