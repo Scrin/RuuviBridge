@@ -2,9 +2,10 @@ package main
 
 import (
 	"flag"
-	"fmt"
-	"os"
 
+	log "github.com/sirupsen/logrus"
+
+	"github.com/Scrin/RuuviBridge/common/logging"
 	"github.com/Scrin/RuuviBridge/common/version"
 	"github.com/Scrin/RuuviBridge/config"
 	"github.com/Scrin/RuuviBridge/processor"
@@ -19,13 +20,11 @@ func main() {
 		version.Print()
 		return
 	}
+
 	conf, err := config.ReadConfig(*configPath)
+	logging.Setup(conf.Logging) // logging should be set up with logging config before logging a possible error in the config, weird, I know
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		log.Panic(err)
 	}
-	ok := processor.Run(conf)
-	if !ok {
-		os.Exit(1)
-	}
+	processor.Run(conf)
 }

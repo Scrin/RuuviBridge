@@ -9,6 +9,7 @@ import (
 	"github.com/Scrin/RuuviBridge/config"
 	"github.com/Scrin/RuuviBridge/parser"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
+	log "github.com/sirupsen/logrus"
 )
 
 type message struct {
@@ -32,14 +33,14 @@ func StartMQTTListener(conf config.MQTTListener, measurements chan<- parser.Meas
 	}
 	server := fmt.Sprintf("tcp://%s:%d", address, port)
 
-	fmt.Printf("Starting MQTT subscriber to %s\n", server)
+	log.Info("Starting MQTT subscriber to " + server)
 
 	messagePubHandler := func(client mqtt.Client, msg mqtt.Message) {
 		topic := msg.Topic()
 		var message message
 		err := json.Unmarshal(msg.Payload(), &message)
 		if err != nil {
-			fmt.Println(err)
+			log.Error(err)
 			return
 		}
 

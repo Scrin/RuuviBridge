@@ -2,7 +2,6 @@ package data_sources
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -11,6 +10,7 @@ import (
 
 	"github.com/Scrin/RuuviBridge/config"
 	"github.com/Scrin/RuuviBridge/parser"
+	log "github.com/sirupsen/logrus"
 )
 
 type gatewayHistoryTag struct {
@@ -33,7 +33,7 @@ func StartGatewayPolling(conf config.GatewayPolling, measurements chan<- parser.
 	if interval == 0 {
 		interval = 10 * time.Second
 	}
-	fmt.Printf("Starting gateway polling at %s every %s\n", conf.GatewayUrl, conf.Interval)
+	log.Info("Starting gateway polling at %s every %s\n", conf.GatewayUrl, conf.Interval)
 	stop := make(chan bool)
 	go gatewayPoller(conf.GatewayUrl, interval, measurements, stop)
 	return stop
@@ -55,19 +55,19 @@ func gatewayPoller(url string, interval time.Duration, measurements chan<- parse
 func poll(url string, measurements chan<- parser.Measurement, seenTags map[string]int64) {
 	resp, err := http.Get(url + "/history")
 	if err != nil {
-		fmt.Println(err)
+		log.Error("Failed to get history from gateway: " + err.Error())
 		return
 	}
 	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
-	if resp.StatusCode != 200 {
-		fmt.Printf("Got %d status code, expected code 200", resp.StatusCode)
+	if err != nil {
+		log.Error("Failed to read data from gateway: " + err.Error())
 		return
 	}
 	var gatewayHistory gatewayHistory
 	err = json.Unmarshal(body, &gatewayHistory)
 	if err != nil {
-		fmt.Println(err)
+		log.Error(err)
 		return
 	}
 

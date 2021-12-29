@@ -10,6 +10,7 @@ import (
 	"github.com/Scrin/RuuviBridge/parser"
 	influxdb "github.com/influxdata/influxdb-client-go/v2"
 	"github.com/influxdata/influxdb-client-go/v2/api/write"
+	log "github.com/sirupsen/logrus"
 )
 
 func InfluxDB(conf config.InfluxDBPublisher) chan<- parser.Measurement {
@@ -25,7 +26,7 @@ func InfluxDB(conf config.InfluxDBPublisher) chan<- parser.Measurement {
 	if measurementName == "" {
 		measurementName = "ruuvi_measurements"
 	}
-	fmt.Printf("Starting InfluxDB sink to %s\n", url)
+	log.Info("Starting InfluxDB sink to " + url)
 
 	client := influxdb.NewClient(url, conf.AuthToken)
 	writeAPI := client.WriteAPIBlocking(conf.Org, bucket)
@@ -61,7 +62,7 @@ func InfluxDB(conf config.InfluxDBPublisher) chan<- parser.Measurement {
 			p.SetTime(time.Now())
 			err := writeAPI.WritePoint(context.Background(), p)
 			if err != nil {
-				fmt.Println(err)
+				log.Error("Failed to send data to InfluxDB: " + err.Error())
 			}
 		}
 		client.Close()

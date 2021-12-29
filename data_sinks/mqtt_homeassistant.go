@@ -8,6 +8,7 @@ import (
 	"github.com/Scrin/RuuviBridge/config"
 	"github.com/Scrin/RuuviBridge/parser"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
+	log "github.com/sirupsen/logrus"
 )
 
 type homeassistantDiscoveryDevice struct {
@@ -188,7 +189,7 @@ func publishHomeAssistantDiscovery(client mqtt.Client, conf config.MQTTPublisher
 		},
 	})
 	if err != nil {
-		fmt.Println(err)
+		log.Error(err)
 		return
 	}
 	attributesJson, err := json.Marshal(homeassistantAttributes{
@@ -199,7 +200,7 @@ func publishHomeAssistantDiscovery(client mqtt.Client, conf config.MQTTPublisher
 		MeasurementSequenceNumber: measurement.MeasurementSequenceNumber,
 	})
 	if err != nil {
-		fmt.Println(err)
+		log.Error(err)
 		return
 	}
 	client.Publish(confTopicPrefix+"/attributes", 0, false, string(attributesJson))

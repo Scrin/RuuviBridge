@@ -24,6 +24,7 @@ require (
 	github.com/influxdata/line-protocol v0.0.0-20200327222509-2487e7298839 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_golang v1.11.0
+	github.com/sirupsen/logrus v1.8.1
 	golang.org/x/net v0.0.0-20210119194325-5f4716e94777 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 )

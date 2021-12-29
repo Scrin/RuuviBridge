@@ -56,8 +56,14 @@ type MQTTPublisher struct {
 	HomeassistantDiscoveryPrefix string `yaml:"homeassistant_discovery_prefix,omitempty"`
 }
 
+type Logging struct {
+	Type       string `yaml:"type"`
+	Level      string `yaml:"level"`
+	Timestamps *bool  `yaml:"timestamps,omitempty"`
+	WithCaller bool   `yaml:"with_caller,omitempty"`
+}
+
 type Config struct {
-	Debug             bool               `yaml:"debug,omitempty"`
 	GatewayPolling    *GatewayPolling    `yaml:"gateway_polling,omitempty"`
 	MQTTListener      *MQTTListener      `yaml:"mqtt_listener,omitempty"`
 	Processing        *Processing        `yaml:"processing,omitempty"`
@@ -65,12 +71,13 @@ type Config struct {
 	Prometheus        *Prometheus        `yaml:"prometheus,omitempty"`
 	MQTTPublisher     *MQTTPublisher     `yaml:"mqtt_publisher,omitempty"`
 	TagNames          map[string]string  `yaml:"tag_names,omitempty"`
+	Logging           Logging            `yaml:"logging"`
+	Debug             bool               `yaml:"debug"`
 }
 
 func ReadConfig(configFile string) (Config, error) {
 	if _, err := os.Stat(configFile); errors.Is(err, os.ErrNotExist) {
-		fmt.Printf("No config found! Tried to open \"%s\"\n", configFile)
-		os.Exit(1)
+		return Config{}, errors.New(fmt.Sprintf("No config found! Tried to open \"%s\"", configFile))
 	}
 
 	f, err := os.Open(configFile)

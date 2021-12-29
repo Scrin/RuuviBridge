@@ -7,6 +7,7 @@ import (
 	"github.com/Scrin/RuuviBridge/config"
 	"github.com/Scrin/RuuviBridge/parser"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
+	log "github.com/sirupsen/logrus"
 )
 
 func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
@@ -19,7 +20,7 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 		port = 1883
 	}
 	server := fmt.Sprintf("tcp://%s:%d", address, port)
-	fmt.Println("Starting MQTT sink")
+	log.Info("Starting MQTT sink")
 
 	opts := mqtt.NewClientOptions()
 	opts.AddBroker(server)
@@ -36,7 +37,7 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 		for measurement := range measurements {
 			data, err := json.Marshal(measurement)
 			if err != nil {
-				fmt.Println(err)
+				log.Error(err)
 			} else {
 				client.Publish(conf.TopicPrefix+"/"+measurement.Mac, 0, false, string(data))
 				if conf.HomeassistantDiscoveryPrefix != "" {

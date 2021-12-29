@@ -74,5 +74,16 @@ tag_names:
   FFEEDDCCBBAA: Indoors
   F0E1D2C3B4A5: Fridge
 
+# Logging options for RuuviBridge itself
+logging:
+  # Type can be either "structured", "json" or "simple"
+  type: simple
+  # Valid logging levels from most verbose to least verbose: trace, debug, info, warn, error, fatal, panic
+  level: info
+  # Include timestamp in the log line. Can be useful to turn off with certain logging systems which add their own timestamps
+  timestamps: true
+  # Whether to include the log caller in the logs. This will increase the size of logs but it helps in troubleshooting in some cases
+  with_caller: false
+
 # Enable or disable debug mode. This will print all received measurements to the console among other debuggy things, useful for development, testing and troubleshooting purposes.
 debug: false

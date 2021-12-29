@@ -1,7 +1,6 @@
 package processor
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/Scrin/RuuviBridge/config"
@@ -9,9 +8,10 @@ import (
 	"github.com/Scrin/RuuviBridge/data_sources"
 	"github.com/Scrin/RuuviBridge/parser"
 	"github.com/Scrin/RuuviBridge/value_calculator"
+	log "github.com/sirupsen/logrus"
 )
 
-func Run(config config.Config) bool {
+func Run(config config.Config) {
 	measurements := make(chan parser.Measurement)
 	var sinks []chan<- parser.Measurement
 
@@ -29,25 +29,21 @@ func Run(config config.Config) bool {
 		case "allowlist":
 			allowlist = true
 			if len(config.Processing.FilterList) == 0 {
-				fmt.Println("filter_mode configured as allowlist but no allowed tags configured!")
-				return false
+				log.Fatal("filter_mode configured as allowlist but no allowed tags configured!")
 			}
 		case "denylist":
 			denylist = true
 			if len(config.Processing.FilterList) == 0 {
-				fmt.Println("filter_mode configured as denylist but no denied tags configured!")
-				return false
+				log.Fatal("filter_mode configured as denylist but no denied tags configured!")
 			}
 		case "named":
 			namedOnly = true
 			if len(config.TagNames) == 0 {
-				fmt.Println("filter_mode configured as named but no tag names configured!")
-				return false
+				log.Fatal("filter_mode configured as named but no tag names configured!")
 			}
 		case "none":
 		default:
-			fmt.Println("Unrecognized filter_mode: " + processing.FilterMode)
-			return false
+			log.Fatal("Unrecognized filter_mode: " + processing.FilterMode)
 		}
 		for _, mac := range config.Processing.FilterList {
 			formattedMac := strings.ToUpper(strings.ReplaceAll(mac, ":", ""))
@@ -55,7 +51,7 @@ func Run(config config.Config) bool {
 		}
 	}
 
-	fmt.Println("Starting data sources...")
+	log.Info("Starting data sources...")
 	datasourcesStarted := false
 	if config.GatewayPolling != nil && (config.GatewayPolling.Enabled == nil || *config.GatewayPolling.Enabled) {
 		stop := data_sources.StartGatewayPolling(*config.GatewayPolling, measurements)
@@ -68,11 +64,10 @@ func Run(config config.Config) bool {
 		datasourcesStarted = true
 	}
 	if !datasourcesStarted {
-		fmt.Println("No datasources configured! Please check the config.")
-		return false
+		log.Fatal("No datasources configured! Please check the config.")
 	}
 
-	fmt.Println("Starting data sinks...")
+	log.Info("Starting data sinks...")
 	datasinksStarted := false
 	if config.Debug {
 		sinks = append(sinks, data_sinks.Debug())
@@ -91,11 +86,10 @@ func Run(config config.Config) bool {
 		datasinksStarted = true
 	}
 	if !datasinksStarted {
-		fmt.Println("No data consumers/sinks configured! Please check the config.")
-		return false
+		log.Fatal("No data consumers/sinks configured! Please check the config.")
 	}
 
-	fmt.Println("Starting processing...")
+	log.Info("Starting processing...")
 	for measurement := range measurements {
 		_, isOnList := filterMap[strings.ReplaceAll(measurement.Mac, ":", "")]
 		if denylist && isOnList {
@@ -120,5 +114,4 @@ func Run(config config.Config) bool {
 			sink <- measurement
 		}
 	}
-	return true
 }
