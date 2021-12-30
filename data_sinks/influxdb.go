@@ -42,7 +42,7 @@ func InfluxDB(conf config.InfluxDBPublisher) chan<- parser.Measurement {
 	go func() {
 		for measurement := range measurements {
 			if !limiter.Check(measurement) {
-				log.Trace("Skipping MQTT publish for tag ", measurement.Mac, " due to interval limit")
+				log.Trace("Skipping InfluxDB publish for tag ", measurement.Mac, " due to interval limit")
 				continue
 			}
 			p := influxdb.NewPointWithMeasurement(measurementName).
