@@ -28,7 +28,7 @@ func main() {
 		log.WithError(err).Fatal("Failed to load config")
 	}
 	log.WithFields(log.Fields{
-		"file": *configPath,
+		"configfile": *configPath,
 	}).Debug("Config loaded")
 	processor.Run(conf)
 }

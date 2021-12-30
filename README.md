@@ -8,9 +8,9 @@ Note: This is very early in development; breaking changes will occur. Be sure to
 
 Supports following sources (sources of RuuviTag data):
 
-- MQTT (in RuuviGateway format)
-- RuuviGateway by polling the /history http-api endpoint
-- HTTP POST (in RuuviGateway format, the custom http server setting)
+- MQTT (in Ruuvi Gateway format)
+- Ruuvi Gateway by polling the /history http-api endpoint
+- HTTP POST (in Ruuvi Gateway format, the custom http server setting)
 
 Supports following sinks (things that use the data):
 
@@ -43,14 +43,6 @@ Ability to calculate following values in addition to the raw data (the accuracy 
 - Equilibrium vapor pressure (Pascal)
 - Air density (Accounts for humidity in the air, kg/m³)
 - Acceleration angle from X, Y and Z axes (Degrees)
-
-### Roadmap
-
-In no particular order:
-
-- Proper documentation
-- HTTP endpoint to allow "pushes" from a Ruuvi Gateway without having a MQTT server
-- And other stuff I forgot I had plans for
 
 ### Configuration
 
