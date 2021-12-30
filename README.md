@@ -9,7 +9,8 @@ Note: This is very early in development; breaking changes will occur. Be sure to
 Supports following sources (sources of RuuviTag data):
 
 - MQTT (in RuuviGateway format)
-- RuuviGateway /history http-api endpoint
+- RuuviGateway by polling the /history http-api endpoint
+- HTTP POST (in RuuviGateway format, the custom http server setting)
 
 Supports following sinks (things that use the data):
 

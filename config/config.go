@@ -25,6 +25,11 @@ type MQTTListener struct {
 	TopicPrefix   string `yaml:"topic_prefix"`
 }
 
+type HTTPListener struct {
+	Enabled *bool `yaml:"enabled,omitempty"`
+	Port    int   `yaml:"port"`
+}
+
 type Processing struct {
 	ExtendedValues *bool    `yaml:"extended_values,omitempty"`
 	FilterMode     string   `yaml:"filter_mode"`
@@ -68,6 +73,7 @@ type Logging struct {
 type Config struct {
 	GatewayPolling    *GatewayPolling    `yaml:"gateway_polling,omitempty"`
 	MQTTListener      *MQTTListener      `yaml:"mqtt_listener,omitempty"`
+	HTTPListener      *HTTPListener      `yaml:"http_listener,omitempty"`
 	Processing        *Processing        `yaml:"processing,omitempty"`
 	InfluxDBPublisher *InfluxDBPublisher `yaml:"influxdb_publisher,omitempty"`
 	Prometheus        *Prometheus        `yaml:"prometheus,omitempty"`

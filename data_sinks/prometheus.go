@@ -131,7 +131,7 @@ func recordMetrics(m parser.Measurement) {
 func Prometheus(conf config.Prometheus) chan<- parser.Measurement {
 	port := conf.Port
 	if port == 0 {
-		port = 8080
+		port = 8081
 	}
 	log.WithFields(log.Fields{"port": port}).Info("Starting prometheus sink")
 	measurements := make(chan parser.Measurement)
@@ -142,8 +142,7 @@ func Prometheus(conf config.Prometheus) chan<- parser.Measurement {
 		}
 	}()
 
-	http.Handle("/metrics", promhttp.Handler())
-	go http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
+	go http.ListenAndServe(fmt.Sprintf(":%d", port), promhttp.Handler())
 
 	return measurements
 }

@@ -65,6 +65,11 @@ func Run(config config.Config) {
 		defer func() { stop <- true }()
 		datasourcesStarted = true
 	}
+	if config.HTTPListener != nil && (config.HTTPListener.Enabled == nil || *config.HTTPListener.Enabled) {
+		stop := data_sources.StartHTTPListener(*config.HTTPListener, measurements)
+		defer func() { stop <- true }()
+		datasourcesStarted = true
+	}
 	if !datasourcesStarted {
 		log.Fatal("No datasources configured! Please check the config.")
 	}

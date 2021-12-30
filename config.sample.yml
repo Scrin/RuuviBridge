@@ -19,6 +19,13 @@ mqtt_listener:
   # for example: ruuvi/+ as the topic prefix would match the topic ruuvi/<gateway_mac>/<tag_mac>
   topic_prefix: ruuvi
 
+# Third option: Configure Ruuvi Gateway to send measurements here via the custom http server setting
+http_listener:
+  # Flag to enable or disable the http listener
+  enabled: false
+  # Port to listen on. Cannot be the same as prometheus listen port if enabled
+  port: 8080
+
 # Extra processing of the values
 processing:
   # Extended values are enabled by default but can be disabled by changing extended_values to false
@@ -55,7 +62,8 @@ influxdb_publisher:
 prometheus:
   # Flag to enable or disable exporting the measurements and RuuviBridge diagnostics in prometheus exposition format
   enabled: false
-  port: 8080
+  # Port to listen on. Cannot be the same as http listener port if enabled
+  port: 8081
 
 # Publish the parsed and processed data back to MQTT. Can be the same server or a different one.
 mqtt_publisher:
