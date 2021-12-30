@@ -189,7 +189,7 @@ func publishHomeAssistantDiscovery(client mqtt.Client, conf config.MQTTPublisher
 		},
 	})
 	if err != nil {
-		log.Error(err)
+		log.WithError(err).Error("Failed to serialize Home Assistant discovery data")
 		return
 	}
 	attributesJson, err := json.Marshal(homeassistantAttributes{
@@ -200,7 +200,7 @@ func publishHomeAssistantDiscovery(client mqtt.Client, conf config.MQTTPublisher
 		MeasurementSequenceNumber: measurement.MeasurementSequenceNumber,
 	})
 	if err != nil {
-		log.Error(err)
+		log.WithError(err).Error("Failed to serialize Home Assistant attribute data")
 		return
 	}
 	client.Publish(confTopicPrefix+"/attributes", 0, false, string(attributesJson))

@@ -21,7 +21,11 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 		port = 1883
 	}
 	server := fmt.Sprintf("tcp://%s:%d", address, port)
-	log.WithFields(log.Fields{"target": server}).Info("Starting MQTT sink")
+	log.WithFields(log.Fields{
+		"target":           server,
+		"topic_prefix":     conf.TopicPrefix,
+		"minimum_interval": conf.MinimumInterval,
+	}).Info("Starting MQTT sink")
 
 	opts := mqtt.NewClientOptions()
 	opts.AddBroker(server)
@@ -43,7 +47,7 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 			}
 			data, err := json.Marshal(measurement)
 			if err != nil {
-				log.Error(err)
+				log.WithError(err).Error("Failed to serialize measurement")
 			} else {
 				client.Publish(conf.TopicPrefix+"/"+measurement.Mac, 0, false, string(data))
 				if conf.HomeassistantDiscoveryPrefix != "" {

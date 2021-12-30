@@ -15,7 +15,7 @@ func Debug() chan<- parser.Measurement {
 		for measurement := range measurements {
 			data, err := json.Marshal(measurement)
 			if err != nil {
-				log.Error(err)
+				log.WithError(err).Error("Failed to serialize measurement")
 			} else {
 				fmt.Println(string(data))
 			}

@@ -33,7 +33,10 @@ func StartGatewayPolling(conf config.GatewayPolling, measurements chan<- parser.
 	if interval == 0 {
 		interval = 10 * time.Second
 	}
-	log.WithFields(log.Fields{"target": conf.GatewayUrl, "interval": conf.Interval}).Info("Starting gateway polling")
+	log.WithFields(log.Fields{
+		"target":   conf.GatewayUrl,
+		"interval": interval,
+	}).Info("Starting gateway polling")
 	stop := make(chan bool)
 	go gatewayPoller(conf.GatewayUrl, interval, measurements, stop)
 	return stop
@@ -55,19 +58,19 @@ func gatewayPoller(url string, interval time.Duration, measurements chan<- parse
 func poll(url string, measurements chan<- parser.Measurement, seenTags map[string]int64) {
 	resp, err := http.Get(url + "/history")
 	if err != nil {
-		log.Error("Failed to get history from gateway: ", err)
+		log.WithError(err).Error("Failed to get history from gateway")
 		return
 	}
 	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Error("Failed to read data from gateway: ", err)
+		log.WithError(err).Error("Failed to read data from gateway")
 		return
 	}
 	var gatewayHistory gatewayHistory
 	err = json.Unmarshal(body, &gatewayHistory)
 	if err != nil {
-		log.Error(err)
+		log.WithError(err).Error("Failed to deserialize gateway data")
 		return
 	}
 

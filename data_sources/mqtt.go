@@ -33,14 +33,17 @@ func StartMQTTListener(conf config.MQTTListener, measurements chan<- parser.Meas
 	}
 	server := fmt.Sprintf("tcp://%s:%d", address, port)
 
-	log.WithFields(log.Fields{"target": server}).Info("Starting MQTT subscriber")
+	log.WithFields(log.Fields{
+		"target":       server,
+		"topic_prefix": conf.TopicPrefix,
+	}).Info("Starting MQTT subscriber")
 
 	messagePubHandler := func(client mqtt.Client, msg mqtt.Message) {
 		topic := msg.Topic()
 		var message message
 		err := json.Unmarshal(msg.Payload(), &message)
 		if err != nil {
-			log.Error(err)
+			log.WithError(err).Error("Failed to deserialize MQTT message")
 			return
 		}
 

@@ -1,5 +1,7 @@
 package parser
 
+import log "github.com/sirupsen/logrus"
+
 type Measurement struct {
 	Name       *string `json:"name,omitempty"`
 	Mac        string  `json:"mac,omitempty"`
@@ -38,11 +40,18 @@ func i64(value int64) *int64 {
 }
 
 func Parse(input string) (Measurement, bool) {
-	if measurement, err := ParseFormat5(input); err == nil {
+	var measurement Measurement
+	var err_format5, err_format3 error
+	if measurement, err_format5 = ParseFormat5(input); err_format5 == nil {
 		return measurement, true
 	}
-	if measurement, err := ParseFormat3(input); err == nil {
+	if measurement, err_format3 = ParseFormat3(input); err_format3 == nil {
 		return measurement, true
 	}
+	log.WithFields(log.Fields{
+		"raw_data":      input,
+		"format5_error": err_format5,
+		"format3_error": err_format3,
+	}).Trace("Failed to parse data")
 	return Measurement{}, false
 }

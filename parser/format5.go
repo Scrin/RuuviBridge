@@ -4,6 +4,8 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"errors"
+
+	log "github.com/sirupsen/logrus"
 )
 
 func ParseFormat5(input string) (Measurement, error) {
@@ -46,5 +48,9 @@ func ParseFormat5(input string) (Measurement, error) {
 	m.MovementCounter = i64(int64(data[15]))
 	m.MeasurementSequenceNumber = i64(int64(binary.BigEndian.Uint16(data[16:])))
 
+	log.WithFields(log.Fields{
+		"raw_data":    input,
+		"data_format": m.DataFormat,
+	}).Trace("Successfully parsed data")
 	return m, nil
 }
