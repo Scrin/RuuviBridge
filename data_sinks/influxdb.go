@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Scrin/RuuviBridge/common/limiter"
 	"github.com/Scrin/RuuviBridge/config"
 	"github.com/Scrin/RuuviBridge/parser"
 	influxdb "github.com/influxdata/influxdb-client-go/v2"
@@ -31,9 +32,14 @@ func InfluxDB(conf config.InfluxDBPublisher) chan<- parser.Measurement {
 	client := influxdb.NewClient(url, conf.AuthToken)
 	writeAPI := client.WriteAPIBlocking(conf.Org, bucket)
 
+	limiter := limiter.New(conf.MinimumInterval)
 	measurements := make(chan parser.Measurement)
 	go func() {
 		for measurement := range measurements {
+			if !limiter.Check(measurement) {
+				log.Trace("Skipping MQTT publish for tag ", measurement.Mac, " due to interval limit")
+				continue
+			}
 			p := influxdb.NewPointWithMeasurement(measurementName).
 				AddTag("dataFormat", fmt.Sprintf("%d", measurement.DataFormat)).
 				AddTag("mac", strings.ReplaceAll(measurement.Mac, ":", ""))

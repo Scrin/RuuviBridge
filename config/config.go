@@ -32,12 +32,13 @@ type Processing struct {
 }
 
 type InfluxDBPublisher struct {
-	Enabled     *bool  `yaml:"enabled,omitempty"`
-	Url         string `yaml:"url"`
-	AuthToken   string `yaml:"auth_token"`
-	Org         string `yaml:"org"`
-	Bucket      string `yaml:"bucket"`
-	Measurement string `yaml:"measurement"`
+	Enabled         *bool         `yaml:"enabled,omitempty"`
+	MinimumInterval time.Duration `yaml:"minimum_interval,omitempty"`
+	Url             string        `yaml:"url"`
+	AuthToken       string        `yaml:"auth_token"`
+	Org             string        `yaml:"org"`
+	Bucket          string        `yaml:"bucket"`
+	Measurement     string        `yaml:"measurement"`
 }
 
 type Prometheus struct {
@@ -46,14 +47,15 @@ type Prometheus struct {
 }
 
 type MQTTPublisher struct {
-	Enabled                      *bool  `yaml:"enabled,omitempty"`
-	BrokerAddress                string `yaml:"broker_address"`
-	BrokerPort                   int    `yaml:"broker_port"`
-	ClientID                     string `yaml:"client_id"`
-	Username                     string `yaml:"username"`
-	Password                     string `yaml:"password"`
-	TopicPrefix                  string `yaml:"topic_prefix"`
-	HomeassistantDiscoveryPrefix string `yaml:"homeassistant_discovery_prefix,omitempty"`
+	Enabled                      *bool         `yaml:"enabled,omitempty"`
+	MinimumInterval              time.Duration `yaml:"minimum_interval,omitempty"`
+	BrokerAddress                string        `yaml:"broker_address"`
+	BrokerPort                   int           `yaml:"broker_port"`
+	ClientID                     string        `yaml:"client_id"`
+	Username                     string        `yaml:"username"`
+	Password                     string        `yaml:"password"`
+	TopicPrefix                  string        `yaml:"topic_prefix"`
+	HomeassistantDiscoveryPrefix string        `yaml:"homeassistant_discovery_prefix,omitempty"`
 }
 
 type Logging struct {

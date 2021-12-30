@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/Scrin/RuuviBridge/common/limiter"
 	"github.com/Scrin/RuuviBridge/config"
 	"github.com/Scrin/RuuviBridge/parser"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
@@ -32,9 +33,14 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 		panic(token.Error())
 	}
 
+	limiter := limiter.New(conf.MinimumInterval)
 	measurements := make(chan parser.Measurement)
 	go func() {
 		for measurement := range measurements {
+			if !limiter.Check(measurement) {
+				log.Trace("Skipping MQTT publish for tag ", measurement.Mac, " due to interval limit")
+				continue
+			}
 			data, err := json.Marshal(measurement)
 			if err != nil {
 				log.Error(err)

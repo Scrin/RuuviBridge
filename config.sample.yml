@@ -38,6 +38,8 @@ processing:
 influxdb_publisher:
   # Flag to enable or disable publishing the processed data to InfluxDB
   enabled: false
+  # Minimum interval for measurements to publish per tag. InfluxDB handles frequent updates very efficiently due to delta compression so the default is no limit
+  minimum_interval: 0s
   # URL for InfluxDB, including scheme, hostname and port
   url: http://localhost:8086
   # For InfluxDB 1.8 the auth_token is username and password in format "username:password"
@@ -57,7 +59,10 @@ prometheus:
 
 # Publish the parsed and processed data back to MQTT. Can be the same server or a different one.
 mqtt_publisher:
+  # Flag to enable or disable publishing the processed data to a MQTT server
   enabled: false
+  # Minimum interval for measurements to publish per tag. Accepts values in go duration format ( https://pkg.go.dev/time#ParseDuration ), for example 1m30s
+  minimum_interval: 30s
   broker_address: ip.or.hostname
   broker_port: 1883
   client_id: RuuviBridge
