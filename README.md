@@ -1,8 +1,6 @@
 # RuuviBridge
 
-RuuviBridge is designed to act as a "data bridge" between various sources and consumers of data. Original design goal is to work as a drop-in replacement for [RuuviCollector](https://github.com/Scrin/RuuviCollector) for users who have a [Ruuvi Gateway](https://ruuvi.com/gateway/).
-
-Note: This is very early in development; breaking changes will occur. Be sure to check the config.sample.yml for changes when you update
+RuuviBridge is designed to act as a "data bridge" between various sources and consumers of data. Original design goal is to work as a drop-in replacement for [RuuviCollector](https://github.com/Scrin/RuuviCollector) for users who have a [Ruuvi Gateway](https://ruuvi.com/gateway/) or use [ruuvi-go-gateway](https://github.com/Scrin/ruuvi-go-gateway).
 
 ### Features
 
