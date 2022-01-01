@@ -1,6 +1,8 @@
 package logging
 
 import (
+	"sort"
+
 	"github.com/Scrin/RuuviBridge/config"
 	log "github.com/sirupsen/logrus"
 )
@@ -31,6 +33,7 @@ func Setup(conf config.Logging) {
 	case "structured":
 		log.SetFormatter(&log.TextFormatter{
 			DisableTimestamp: !timestamps,
+			SortingFunc:      sortFN,
 		})
 	case "json":
 		log.SetFormatter(&log.JSONFormatter{
@@ -62,4 +65,38 @@ func Setup(conf config.Logging) {
 	default:
 		log.Fatal("Invalid logging level: ", conf.Level)
 	}
+}
+
+func sortFN(keys []string) {
+	sort.Slice(keys, func(i, j int) bool {
+		switch keys[i] {
+		case "time":
+			return true
+		case "level":
+			return keys[j] != "time"
+		case "msg":
+			return keys[j] != "time" && keys[j] != "level"
+		case "error":
+			return keys[j] == "file" || keys[j] == "func"
+		case "func":
+			return keys[j] == "file"
+		case "file":
+			return false
+		}
+		switch keys[j] {
+		case "time":
+			return false
+		case "level":
+			return keys[j] == "time"
+		case "msg":
+			return keys[i] == "level"
+		case "error":
+			return keys[i] != "file" && keys[i] != "func"
+		case "func":
+			return keys[i] != "file"
+		case "file":
+			return true
+		}
+		return keys[i] < keys[j]
+	})
 }

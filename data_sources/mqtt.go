@@ -48,7 +48,7 @@ func StartMQTTListener(conf config.MQTTListener, measurements chan<- parser.Meas
 		}
 
 		mac := topic[strings.LastIndex(topic, "/")+1:]
-		timestamp, _ := strconv.ParseInt(fmt.Sprintf("%v", message.Ts), 10, 64)
+		timestamp, _ := strconv.ParseInt(fmt.Sprint(message.Ts), 10, 64)
 
 		measurement, ok := parser.Parse(message.Data)
 		if ok {
