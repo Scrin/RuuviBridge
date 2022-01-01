@@ -16,8 +16,8 @@ type message struct {
 	GwMac  string        `json:"gw_mac"`
 	Rssi   int64         `json:"rssi"`
 	Aoa    []interface{} `json:"aoa"`
-	Gwts   string        `json:"gwts"`
-	Ts     string        `json:"ts"`
+	Gwts   interface{}   `json:"gwts"`
+	Ts     interface{}   `json:"ts"`
 	Data   string        `json:"data"`
 	Coords string        `json:"coords"`
 }
@@ -48,7 +48,7 @@ func StartMQTTListener(conf config.MQTTListener, measurements chan<- parser.Meas
 		}
 
 		mac := topic[strings.LastIndex(topic, "/")+1:]
-		timestamp, _ := strconv.ParseInt(message.Ts, 10, 64)
+		timestamp, _ := strconv.ParseInt(fmt.Sprintf("%v", message.Ts), 10, 64)
 
 		measurement, ok := parser.Parse(message.Data)
 		if ok {
