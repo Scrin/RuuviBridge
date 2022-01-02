@@ -3,7 +3,9 @@ package data_sinks
 import (
 	"fmt"
 	"net/http"
+	"runtime"
 
+	"github.com/Scrin/RuuviBridge/common/version"
 	"github.com/Scrin/RuuviBridge/config"
 	"github.com/Scrin/RuuviBridge/parser"
 	"github.com/prometheus/client_golang/prometheus"
@@ -12,6 +14,7 @@ import (
 )
 
 var metrics struct {
+	info         prometheus.Gauge
 	measurements *prometheus.CounterVec
 
 	temperature               *prometheus.GaugeVec
@@ -37,92 +40,104 @@ var metrics struct {
 }
 
 func initMetrics() {
-	metricPrefix := "ruuvitag_"
+	bridgeMetricPrefix := "ruuvibridge_"
+	tagMetricPrefix := "ruuvitag_"
 	tagLabels := []string{"name", "mac", "data_format"}
 
+	metrics.info = prometheus.NewGauge(prometheus.GaugeOpts{
+		Name: bridgeMetricPrefix + "info",
+		Help: "RuuviBridge info",
+		ConstLabels: prometheus.Labels{
+			"version": version.Version,
+			"os":      runtime.GOOS,
+			"arch":    runtime.GOARCH,
+		},
+	})
+
 	metrics.measurements = prometheus.NewCounterVec(prometheus.CounterOpts{
-		Name: metricPrefix + "measurements",
-		Help: "Number of received measurements"},
-		tagLabels)
+		Name: tagMetricPrefix + "measurements",
+		Help: "Number of received measurements",
+	}, tagLabels)
 
 	metrics.temperature = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: metricPrefix + "temperature",
-		Help: "Temperature in ºC"},
-		tagLabels)
+		Name: tagMetricPrefix + "temperature",
+		Help: "Temperature in ºC",
+	}, tagLabels)
 	metrics.humidity = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: metricPrefix + "humidity",
-		Help: "Relative humidity in %"},
-		tagLabels)
+		Name: tagMetricPrefix + "humidity",
+		Help: "Relative humidity in %",
+	}, tagLabels)
 	metrics.pressure = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: metricPrefix + "pressure",
-		Help: "Pressure in Pa"},
-		tagLabels)
+		Name: tagMetricPrefix + "pressure",
+		Help: "Pressure in Pa",
+	}, tagLabels)
 	metrics.accelerationX = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: metricPrefix + "acceleration_x",
-		Help: "X acceleration in g"},
-		tagLabels)
+		Name: tagMetricPrefix + "acceleration_x",
+		Help: "X acceleration in g",
+	}, tagLabels)
 	metrics.accelerationY = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: metricPrefix + "acceleration_y",
-		Help: "Y acceleration in g"},
-		tagLabels)
+		Name: tagMetricPrefix + "acceleration_y",
+		Help: "Y acceleration in g",
+	}, tagLabels)
 	metrics.accelerationZ = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: metricPrefix + "acceleration_z",
-		Help: "Z acceleration in g"},
-		tagLabels)
+		Name: tagMetricPrefix + "acceleration_z",
+		Help: "Z acceleration in g",
+	}, tagLabels)
 	metrics.batteryVoltage = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: metricPrefix + "battery_voltage",
-		Help: "Battery voltage in V"},
-		tagLabels)
+		Name: tagMetricPrefix + "battery_voltage",
+		Help: "Battery voltage in V",
+	}, tagLabels)
 	metrics.txPower = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: metricPrefix + "tx_power",
-		Help: "Transmission power in dBm"},
-		tagLabels)
+		Name: tagMetricPrefix + "tx_power",
+		Help: "Transmission power in dBm",
+	}, tagLabels)
 	metrics.rssi = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: metricPrefix + "rssi",
-		Help: "RSSI in dBm"},
-		tagLabels)
+		Name: tagMetricPrefix + "rssi",
+		Help: "RSSI in dBm",
+	}, tagLabels)
 	metrics.movementCounter = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: metricPrefix + "movement_counter",
-		Help: "Number of detected movements"},
-		tagLabels)
+		Name: tagMetricPrefix + "movement_counter",
+		Help: "Number of detected movements",
+	}, tagLabels)
 	metrics.measurementSequenceNumber = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: metricPrefix + "measurement_sequence_number",
-		Help: "Measurement sequence number"},
-		tagLabels)
+		Name: tagMetricPrefix + "measurement_sequence_number",
+		Help: "Measurement sequence number",
+	}, tagLabels)
 
 	metrics.accelerationTotal = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: metricPrefix + "acceleration_total",
-		Help: "Total acceleration in g"},
-		tagLabels)
+		Name: tagMetricPrefix + "acceleration_total",
+		Help: "Total acceleration in g",
+	}, tagLabels)
 	metrics.absoluteHumidity = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: metricPrefix + "absolute_humidity",
-		Help: "Absolute humidity in g/m3"},
-		tagLabels)
+		Name: tagMetricPrefix + "absolute_humidity",
+		Help: "Absolute humidity in g/m3",
+	}, tagLabels)
 	metrics.dewPoint = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: metricPrefix + "dew_point",
-		Help: "Dew point in ºC"},
-		tagLabels)
+		Name: tagMetricPrefix + "dew_point",
+		Help: "Dew point in ºC",
+	}, tagLabels)
 	metrics.equilibriumVaporPressure = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: metricPrefix + "equilibrium_vapor_pressure",
-		Help: "Equilibrium vapor pressure in Pa"},
-		tagLabels)
+		Name: tagMetricPrefix + "equilibrium_vapor_pressure",
+		Help: "Equilibrium vapor pressure in Pa",
+	}, tagLabels)
 	metrics.airDensity = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: metricPrefix + "air_density",
-		Help: "Air density in kg/m3"},
-		tagLabels)
+		Name: tagMetricPrefix + "air_density",
+		Help: "Air density in kg/m3",
+	}, tagLabels)
 	metrics.accelerationAngleFromX = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: metricPrefix + "acceleration_angle_from_x",
-		Help: "Acceleration angle from X in degrees"},
-		tagLabels)
+		Name: tagMetricPrefix + "acceleration_angle_from_x",
+		Help: "Acceleration angle from X in degrees",
+	}, tagLabels)
 	metrics.accelerationAngleFromY = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: metricPrefix + "acceleration_angle_from_y",
-		Help: "Acceleration angle from Y in degrees"},
-		tagLabels)
+		Name: tagMetricPrefix + "acceleration_angle_from_y",
+		Help: "Acceleration angle from Y in degrees",
+	}, tagLabels)
 	metrics.accelerationAngleFromZ = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: metricPrefix + "acceleration_angle_from_z",
-		Help: "Acceleration angle from Z in degrees"},
-		tagLabels)
+		Name: tagMetricPrefix + "acceleration_angle_from_z",
+		Help: "Acceleration angle from Z in degrees",
+	}, tagLabels)
 
+	prometheus.MustRegister(metrics.info)
 	prometheus.MustRegister(metrics.measurements)
 
 	prometheus.MustRegister(metrics.temperature)
@@ -145,6 +160,8 @@ func initMetrics() {
 	prometheus.MustRegister(metrics.accelerationAngleFromX)
 	prometheus.MustRegister(metrics.accelerationAngleFromY)
 	prometheus.MustRegister(metrics.accelerationAngleFromZ)
+
+	metrics.info.Set(1)
 }
 
 func recordMetrics(m parser.Measurement) {
