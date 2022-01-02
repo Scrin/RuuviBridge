@@ -33,29 +33,30 @@ func StartGatewayPolling(conf config.GatewayPolling, measurements chan<- parser.
 	if interval == 0 {
 		interval = 10 * time.Second
 	}
-	log.WithFields(log.Fields{
+	log := log.WithFields(log.Fields{
 		"target":   conf.GatewayUrl,
 		"interval": interval,
-	}).Info("Starting gateway polling")
+	})
+	log.Info("Starting gateway polling")
 	stop := make(chan bool)
-	go gatewayPoller(conf.GatewayUrl, interval, measurements, stop)
+	go gatewayPoller(conf.GatewayUrl, interval, measurements, stop, log)
 	return stop
 }
 
-func gatewayPoller(url string, interval time.Duration, measurements chan<- parser.Measurement, stop <-chan bool) {
+func gatewayPoller(url string, interval time.Duration, measurements chan<- parser.Measurement, stop <-chan bool, log *log.Entry) {
 	seenTags := make(map[string]int64)
-	poll(url, measurements, seenTags)
+	poll(url, measurements, seenTags, log)
 	for {
 		select {
 		case <-stop:
 			return
 		case <-time.After(interval):
-			poll(url, measurements, seenTags)
+			poll(url, measurements, seenTags, log)
 		}
 	}
 }
 
-func poll(url string, measurements chan<- parser.Measurement, seenTags map[string]int64) {
+func poll(url string, measurements chan<- parser.Measurement, seenTags map[string]int64, log *log.Entry) {
 	resp, err := http.Get(url + "/history")
 	if err != nil {
 		log.WithError(err).Error("Failed to get history from gateway")

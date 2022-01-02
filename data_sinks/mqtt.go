@@ -34,7 +34,11 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 	opts.SetPassword(conf.Password)
 	client := mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
-		panic(token.Error())
+		log.WithFields(log.Fields{
+			"target":           server,
+			"topic_prefix":     conf.TopicPrefix,
+			"minimum_interval": conf.MinimumInterval,
+		}).WithError(token.Error()).Error("Failed to connect to MQTT")
 	}
 
 	limiter := limiter.New(conf.MinimumInterval)
@@ -42,7 +46,7 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 	go func() {
 		for measurement := range measurements {
 			if !limiter.Check(measurement) {
-				log.Trace("Skipping MQTT publish for tag ", measurement.Mac, " due to interval limit")
+				log.WithFields(log.Fields{"mac": measurement.Mac}).Trace("Skipping MQTT publish due to interval limit")
 				continue
 			}
 			data, err := json.Marshal(measurement)

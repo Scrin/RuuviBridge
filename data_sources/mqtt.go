@@ -32,11 +32,12 @@ func StartMQTTListener(conf config.MQTTListener, measurements chan<- parser.Meas
 		port = 1883
 	}
 	server := fmt.Sprintf("tcp://%s:%d", address, port)
-
-	log.WithFields(log.Fields{
+	log := log.WithFields(log.Fields{
 		"target":       server,
 		"topic_prefix": conf.TopicPrefix,
-	}).Info("Starting MQTT subscriber")
+	})
+
+	log.Info("Starting MQTT subscriber")
 
 	messagePubHandler := func(client mqtt.Client, msg mqtt.Message) {
 		topic := msg.Topic()
@@ -66,10 +67,10 @@ func StartMQTTListener(conf config.MQTTListener, measurements chan<- parser.Meas
 	opts.SetPassword(conf.Password)
 	client := mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
-		panic(token.Error())
+		log.WithError(token.Error()).Fatal("Failed to connect to MQTT")
 	}
 	if token := client.Subscribe(conf.TopicPrefix+"/+", 0, messagePubHandler); token.Wait() && token.Error() != nil {
-		panic(token.Error())
+		log.WithError(token.Error()).Fatal("Failed to subscribe to MQTT topic")
 	}
 	stop := make(chan bool)
 	go func() {

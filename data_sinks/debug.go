@@ -2,7 +2,6 @@ package data_sinks
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"github.com/Scrin/RuuviBridge/parser"
 	log "github.com/sirupsen/logrus"
@@ -17,7 +16,13 @@ func Debug() chan<- parser.Measurement {
 			if err != nil {
 				log.WithError(err).Error("Failed to serialize measurement")
 			} else {
-				fmt.Println(string(data))
+				fields := map[string]interface{}{}
+				err = json.Unmarshal(data, &fields)
+				if err != nil {
+					log.WithError(err).Error("Failed to deserialize measurement")
+				} else {
+					log.WithFields(fields).Println("Processed measurement")
+				}
 			}
 		}
 	}()

@@ -42,7 +42,7 @@ func InfluxDB(conf config.InfluxDBPublisher) chan<- parser.Measurement {
 	go func() {
 		for measurement := range measurements {
 			if !limiter.Check(measurement) {
-				log.Trace("Skipping InfluxDB publish for tag ", measurement.Mac, " due to interval limit")
+				log.WithFields(log.Fields{"mac": measurement.Mac}).Trace("Skipping InfluxDB publish due to interval limit")
 				continue
 			}
 			p := influxdb.NewPointWithMeasurement(measurementName).

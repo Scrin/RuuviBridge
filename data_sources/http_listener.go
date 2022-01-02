@@ -25,14 +25,17 @@ func StartHTTPListener(conf config.HTTPListener, measurements chan<- parser.Meas
 	handlerFunc := func(w http.ResponseWriter, req *http.Request) {
 		body, err := ioutil.ReadAll(req.Body)
 		if err != nil {
-			log.Print(err)
+			log.WithFields(log.Fields{
+				"path": req.URL.Path,
+			}).WithError(err).Error("Failed to read request body")
 			return
 		}
 		req.Body.Close()
-		log.WithFields(log.Fields{
+		log := log.WithFields(log.Fields{
 			"path": req.URL.Path,
 			"body": string(body),
-		}).Trace("Received a http call")
+		})
+		log.Trace("Received a http call")
 
 		var gatewayHistory gatewayHistory
 		err = json.Unmarshal(body, &gatewayHistory)
