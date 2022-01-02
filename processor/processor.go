@@ -14,7 +14,7 @@ import (
 
 func Run(config config.Config) {
 	log.WithFields(log.Fields{"version": version.Version}).Info("RuuviBridge starting up")
-	measurements := make(chan parser.Measurement)
+	measurements := make(chan parser.Measurement, 1024)
 	var sinks []chan<- parser.Measurement
 
 	extendedValues := true // default
@@ -100,9 +100,17 @@ func Run(config config.Config) {
 	for measurement := range measurements {
 		_, isOnList := filterMap[strings.ReplaceAll(measurement.Mac, ":", "")]
 		if denylist && isOnList {
+			log.WithFields(log.Fields{
+				"mac":         measurement.Mac,
+				"filter_mode": "denylist",
+			}).Trace("Measurement dropped")
 			continue
 		}
 		if allowlist && !isOnList {
+			log.WithFields(log.Fields{
+				"mac":         measurement.Mac,
+				"filter_mode": "allowlist",
+			}).Trace("Measurement dropped")
 			continue
 		}
 
@@ -110,6 +118,10 @@ func Run(config config.Config) {
 		if name != "" {
 			measurement.Name = &name
 		} else if namedOnly {
+			log.WithFields(log.Fields{
+				"mac":         measurement.Mac,
+				"filter_mode": "named",
+			}).Trace("Measurement dropped")
 			continue
 		}
 
@@ -120,5 +132,6 @@ func Run(config config.Config) {
 		for _, sink := range sinks {
 			sink <- measurement
 		}
+		log.WithFields(log.Fields{"mac": measurement.Mac}).Trace("Measurement processed")
 	}
 }

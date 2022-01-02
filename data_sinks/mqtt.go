@@ -42,7 +42,7 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 	}
 
 	limiter := limiter.New(conf.MinimumInterval)
-	measurements := make(chan parser.Measurement)
+	measurements := make(chan parser.Measurement, 1024)
 	go func() {
 		for measurement := range measurements {
 			if !limiter.Check(measurement) {

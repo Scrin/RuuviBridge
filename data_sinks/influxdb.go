@@ -38,7 +38,7 @@ func InfluxDB(conf config.InfluxDBPublisher) chan<- parser.Measurement {
 	writeAPI := client.WriteAPIBlocking(conf.Org, bucket)
 
 	limiter := limiter.New(conf.MinimumInterval)
-	measurements := make(chan parser.Measurement)
+	measurements := make(chan parser.Measurement, 1024)
 	go func() {
 		for measurement := range measurements {
 			if !limiter.Check(measurement) {

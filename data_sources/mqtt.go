@@ -32,9 +32,11 @@ func StartMQTTListener(conf config.MQTTListener, measurements chan<- parser.Meas
 		port = 1883
 	}
 	server := fmt.Sprintf("tcp://%s:%d", address, port)
+	subscription := conf.TopicPrefix + "/+"
 	log := log.WithFields(log.Fields{
-		"target":       server,
-		"topic_prefix": conf.TopicPrefix,
+		"target":            server,
+		"topic_prefix":      conf.TopicPrefix,
+		"mqtt_subscription": subscription,
 	})
 
 	log.Info("Starting MQTT subscriber")
@@ -69,7 +71,7 @@ func StartMQTTListener(conf config.MQTTListener, measurements chan<- parser.Meas
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
 		log.WithError(token.Error()).Fatal("Failed to connect to MQTT")
 	}
-	if token := client.Subscribe(conf.TopicPrefix+"/+", 0, messagePubHandler); token.Wait() && token.Error() != nil {
+	if token := client.Subscribe(subscription, 0, messagePubHandler); token.Wait() && token.Error() != nil {
 		log.WithError(token.Error()).Fatal("Failed to subscribe to MQTT topic")
 	}
 	stop := make(chan bool)
