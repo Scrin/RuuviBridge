@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/Scrin/RuuviBridge/config"
 	"github.com/Scrin/RuuviBridge/parser"
@@ -67,6 +68,8 @@ func StartMQTTListener(conf config.MQTTListener, measurements chan<- parser.Meas
 	opts.SetClientID(conf.ClientID)
 	opts.SetUsername(conf.Username)
 	opts.SetPassword(conf.Password)
+	opts.SetAutoReconnect(true)
+	opts.SetMaxReconnectInterval(10 * time.Second)
 	client := mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
 		log.WithError(token.Error()).Fatal("Failed to connect to MQTT")

@@ -3,6 +3,7 @@ package data_sinks
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/Scrin/RuuviBridge/common/limiter"
 	"github.com/Scrin/RuuviBridge/config"
@@ -32,6 +33,8 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 	opts.SetClientID(conf.ClientID)
 	opts.SetUsername(conf.Username)
 	opts.SetPassword(conf.Password)
+	opts.SetAutoReconnect(true)
+	opts.SetMaxReconnectInterval(10 * time.Second)
 	client := mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
 		log.WithFields(log.Fields{
