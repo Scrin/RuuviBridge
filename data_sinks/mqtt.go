@@ -33,6 +33,7 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 	opts.SetClientID(conf.ClientID)
 	opts.SetUsername(conf.Username)
 	opts.SetPassword(conf.Password)
+	opts.SetKeepAlive(10 * time.Second)
 	opts.SetAutoReconnect(true)
 	opts.SetMaxReconnectInterval(10 * time.Second)
 	client := mqtt.NewClient(opts)
