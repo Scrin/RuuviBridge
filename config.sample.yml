@@ -11,7 +11,8 @@ mqtt_listener:
   enabled: false
   broker_address: ip.or.hostname
   broker_port: 1883
-  client_id: RuuviBridge
+  # Client ID, required for persistent sessions and has to be unique on the MQTT server
+  client_id: RuuviBridgeListener
   username: ruuvibridge
   password: ruuvipassword
   # Topic prefix to subscribe to, expecting RuuviTag measurements to be published as <topic_prefix>/<mac>
@@ -73,7 +74,8 @@ mqtt_publisher:
   minimum_interval: 30s
   broker_address: ip.or.hostname
   broker_port: 1883
-  client_id: RuuviBridge
+  # Client ID, required for persistent sessions and has to be unique on the MQTT server
+  client_id: RuuviBridgePublisher
   username: ruuvibridge
   password: ruuvipassword
   # Topic prefix where to publish, in format <topic_prefix>/<mac>
