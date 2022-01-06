@@ -64,6 +64,7 @@ func StartMQTTListener(conf config.MQTTListener, measurements chan<- parser.Meas
 	}
 
 	opts := mqtt.NewClientOptions()
+	opts.SetCleanSession(false)
 	opts.AddBroker(server)
 	opts.SetClientID(conf.ClientID)
 	opts.SetUsername(conf.Username)

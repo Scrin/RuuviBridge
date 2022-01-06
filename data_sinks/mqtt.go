@@ -29,6 +29,7 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 	}).Info("Starting MQTT sink")
 
 	opts := mqtt.NewClientOptions()
+	opts.SetCleanSession(false)
 	opts.AddBroker(server)
 	opts.SetClientID(conf.ClientID)
 	opts.SetUsername(conf.Username)
