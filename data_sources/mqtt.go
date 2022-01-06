@@ -62,11 +62,14 @@ func StartMQTTListener(conf config.MQTTListener, measurements chan<- parser.Meas
 			measurements <- measurement
 		}
 	}
-
+	clientID := conf.ClientID
+	if clientID == "" {
+		clientID = "RuuviBridgeListener"
+	}
 	opts := mqtt.NewClientOptions()
 	opts.SetCleanSession(false)
 	opts.AddBroker(server)
-	opts.SetClientID(conf.ClientID)
+	opts.SetClientID(clientID)
 	opts.SetUsername(conf.Username)
 	opts.SetPassword(conf.Password)
 	opts.SetKeepAlive(10 * time.Second)

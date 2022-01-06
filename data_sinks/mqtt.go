@@ -28,10 +28,14 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 		"minimum_interval": conf.MinimumInterval,
 	}).Info("Starting MQTT sink")
 
+	clientID := conf.ClientID
+	if clientID == "" {
+		clientID = "RuuviBridgePublisher"
+	}
 	opts := mqtt.NewClientOptions()
 	opts.SetCleanSession(false)
 	opts.AddBroker(server)
-	opts.SetClientID(conf.ClientID)
+	opts.SetClientID(clientID)
 	opts.SetUsername(conf.Username)
 	opts.SetPassword(conf.Password)
 	opts.SetKeepAlive(10 * time.Second)
