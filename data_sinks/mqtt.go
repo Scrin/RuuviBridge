@@ -21,7 +21,10 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 	if port == 0 {
 		port = 1883
 	}
-	server := fmt.Sprintf("tcp://%s:%d", address, port)
+	server := conf.BrokerUrl
+	if server == "" {
+		server = fmt.Sprintf("tcp://%s:%d", address, port)
+	}
 	log.WithFields(log.Fields{
 		"target":           server,
 		"topic_prefix":     conf.TopicPrefix,

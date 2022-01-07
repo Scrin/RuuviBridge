@@ -17,6 +17,7 @@ type GatewayPolling struct {
 
 type MQTTListener struct {
 	Enabled       *bool  `yaml:"enabled,omitempty"`
+	BrokerUrl     string `yaml:"broker_url"`
 	BrokerAddress string `yaml:"broker_address"`
 	BrokerPort    int    `yaml:"broker_port"`
 	ClientID      string `yaml:"client_id"`
@@ -54,6 +55,7 @@ type Prometheus struct {
 type MQTTPublisher struct {
 	Enabled                      *bool         `yaml:"enabled,omitempty"`
 	MinimumInterval              time.Duration `yaml:"minimum_interval,omitempty"`
+	BrokerUrl                    string        `yaml:"broker_url"`
 	BrokerAddress                string        `yaml:"broker_address"`
 	BrokerPort                   int           `yaml:"broker_port"`
 	ClientID                     string        `yaml:"client_id"`

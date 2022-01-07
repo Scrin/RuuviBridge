@@ -9,8 +9,8 @@ gateway_polling:
 mqtt_listener:
   # Flag to enable or disable subscribing to a topic on a MQTT server
   enabled: false
-  broker_address: ip.or.hostname
-  broker_port: 1883
+  # MQTT broker url, including scheme (tcp, ssl or ws), hostname or IP address, and port
+  broker_url: tcp://ip.or.hostname:1883
   # Client ID, required for persistent sessions and has to be unique on the MQTT server
   client_id: RuuviBridgeListener
   username: ruuvibridge
@@ -72,8 +72,8 @@ mqtt_publisher:
   enabled: false
   # Minimum interval for measurements to publish per tag. Accepts values in go duration format ( https://pkg.go.dev/time#ParseDuration ), for example 1m30s
   minimum_interval: 30s
-  broker_address: ip.or.hostname
-  broker_port: 1883
+  # MQTT broker url, including scheme (tcp, ssl or ws), hostname or IP address, and port
+  broker_url: tcp://ip.or.hostname:1883
   # Client ID, required for persistent sessions and has to be unique on the MQTT server
   client_id: RuuviBridgePublisher
   username: ruuvibridge

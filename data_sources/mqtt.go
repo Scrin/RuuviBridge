@@ -32,7 +32,10 @@ func StartMQTTListener(conf config.MQTTListener, measurements chan<- parser.Meas
 	if port == 0 {
 		port = 1883
 	}
-	server := fmt.Sprintf("tcp://%s:%d", address, port)
+	server := conf.BrokerUrl
+	if server == "" {
+		server = fmt.Sprintf("tcp://%s:%d", address, port)
+	}
 	subscription := conf.TopicPrefix + "/+"
 	log := log.WithFields(log.Fields{
 		"target":            server,
