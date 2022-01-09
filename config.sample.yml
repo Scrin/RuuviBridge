@@ -58,6 +58,10 @@ influxdb_publisher:
   bucket: ruuvi
   # Measurement name to use
   measurement: ruuvi_measurements
+  # Uncomment to add additional tags to a series
+  #additional_tags:
+  #  mytag: myvalue
+  #  myothertag: myothervalue
 
 # Prometheus exporter for data
 prometheus:

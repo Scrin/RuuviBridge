@@ -51,6 +51,9 @@ func InfluxDB(conf config.InfluxDBPublisher) chan<- parser.Measurement {
 			if measurement.Name != nil {
 				p.AddTag("name", *measurement.Name)
 			}
+			for tag, value := range conf.AdditionalTags {
+				p.AddTag(tag, value)
+			}
 			addFloat(p, "temperature", measurement.Temperature)
 			addFloat(p, "humidity", measurement.Humidity)
 			addFloat(p, "pressure", measurement.Pressure)
