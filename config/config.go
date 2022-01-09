@@ -38,13 +38,14 @@ type Processing struct {
 }
 
 type InfluxDBPublisher struct {
-	Enabled         *bool         `yaml:"enabled,omitempty"`
-	MinimumInterval time.Duration `yaml:"minimum_interval,omitempty"`
-	Url             string        `yaml:"url"`
-	AuthToken       string        `yaml:"auth_token"`
-	Org             string        `yaml:"org"`
-	Bucket          string        `yaml:"bucket"`
-	Measurement     string        `yaml:"measurement"`
+	Enabled         *bool             `yaml:"enabled,omitempty"`
+	MinimumInterval time.Duration     `yaml:"minimum_interval,omitempty"`
+	Url             string            `yaml:"url"`
+	AuthToken       string            `yaml:"auth_token"`
+	Org             string            `yaml:"org"`
+	Bucket          string            `yaml:"bucket"`
+	Measurement     string            `yaml:"measurement"`
+	AdditionalTags  map[string]string `yaml:"additional_tags,omitempty"`
 }
 
 type Prometheus struct {
