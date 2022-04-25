@@ -100,6 +100,12 @@ func publishHomeAssistantDiscoveries(client mqtt.Client, conf config.MQTTPublish
 		JsonAttribute:     "batteryVoltage",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
+		Available:         measurement.MovementCounter != nil,
+		NamePostfix:       "movement counter",
+		UnitOfMeasurement: "x",
+		JsonAttribute:     "movementCounter",
+	})
+	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.AccelerationTotal != nil,
 		NamePostfix:       "total acceleration",
 		UnitOfMeasurement: "G",
