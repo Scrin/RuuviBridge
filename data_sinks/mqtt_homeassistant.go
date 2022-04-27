@@ -53,7 +53,7 @@ func publishHomeAssistantDiscoveries(client mqtt.Client, conf config.MQTTPublish
 		Available:         measurement.Temperature != nil,
 		DeviceClass:       "temperature",
 		NamePostfix:       "temperature",
-		UnitOfMeasurement: "ºC",
+		UnitOfMeasurement: "°C",
 		JsonAttribute:     "temperature",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
@@ -123,7 +123,7 @@ func publishHomeAssistantDiscoveries(client mqtt.Client, conf config.MQTTPublish
 		Available:         measurement.DewPoint != nil,
 		DeviceClass:       "temperature",
 		NamePostfix:       "dew point",
-		UnitOfMeasurement: "ºC",
+		UnitOfMeasurement: "°C",
 		JsonAttribute:     "dewPoint",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
