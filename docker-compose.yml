@@ -4,8 +4,9 @@ services:
     image: ghcr.io/scrin/ruuvibridge
     container_name: ruuvibridge
     restart: unless-stopped
-    #Uncomment if you intend to use Prometheus
-    # ports:
-      # - 8080:8080
+    # Uncomment/change if you intend to use the http listener and/or Prometheus (in the sample config they're on ports 8080 and 8081, respectively)
+    #ports:
+      #- 8080:8080
+      #- 8081:8081
     volumes:
       - ./config.yml:/config.yml:ro
