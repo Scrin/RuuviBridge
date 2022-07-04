@@ -18,7 +18,7 @@ mqtt_listener:
   # Topic prefix to subscribe to, expecting RuuviTag measurements to be published as <topic_prefix>/<mac>
   # You can use + character as a single-level wildcard, for example if you have the gateway mac address in the topic
   # for example: ruuvi/+ as the topic prefix would match the topic ruuvi/<gateway_mac>/<tag_mac>
-  topic_prefix: ruuvi
+  topic_prefix: ruuvi/+
 
 # Third option: Configure Ruuvi Gateway to send measurements here via the custom http server setting
 http_listener:
