@@ -20,6 +20,13 @@ mqtt_listener:
   # topic by checking the "Use Ruuvi Gateway's MAC address on the topic preﬁx" option in the Ruuvi Gateway config
   # for example: ruuvi/+ as the topic prefix would match the topic ruuvi/<gateway_mac>/<tag_mac>
   topic_prefix: ruuvi
+  # Topic where to publish LWT "status messages" on connect/disconnect. Empty means disabled.
+  # Note that the mqtt_listener and mqtt_publisher have their own distinct connections and you should not use the same lwt topic for both.
+  lwt_topic: ""
+  # Payload that will be published to lwt_topic when RuuviBridge connects
+  lwt_online_payload: '{"state":"online"}'
+  # Payload that will be published to lwt_topic when RuuviBridge disconnects
+  lwt_offline_payload: '{"state":"offline"}'
 
 # Third option: Configure Ruuvi Gateway to send measurements here via the custom http server setting
 http_listener:
@@ -86,6 +93,13 @@ mqtt_publisher:
   # Topic prefix where to publish, in format <topic_prefix>/<mac>
   # If you use the same server for a source, be sure to use a differnet topic prefix to avoid conflicts!
   topic_prefix: ruuvitag
+  # Topic where to publish LWT "status messages" on connect/disconnect. Empty means disabled.
+  # Note that the mqtt_listener and mqtt_publisher have their own distinct connections and you should not use the same lwt topic for both.
+  lwt_topic: ""
+  # Payload that will be published to lwt_topic when RuuviBridge connects
+  lwt_online_payload: '{"state":"online"}'
+  # Payload that will be published to lwt_topic when RuuviBridge disconnects
+  lwt_offline_payload: '{"state":"offline"}'
   # Uncomment to enable creating Home Assistant MQTT discovery topics
   #homeassistant_discovery_prefix: homeassistant
 

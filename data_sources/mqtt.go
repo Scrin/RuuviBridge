@@ -78,12 +78,26 @@ func StartMQTTListener(conf config.MQTTListener, measurements chan<- parser.Meas
 	opts.SetKeepAlive(10 * time.Second)
 	opts.SetAutoReconnect(true)
 	opts.SetMaxReconnectInterval(10 * time.Second)
+	if conf.LWTTopic != "" {
+		payload := conf.LWTOfflinePayload
+		if payload == "" {
+			payload = "{\"state\":\"offline\"}"
+		}
+		opts.SetWill(conf.LWTTopic, payload, 0, true)
+	}
 	client := mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
 		log.WithError(token.Error()).Fatal("Failed to connect to MQTT")
 	}
 	if token := client.Subscribe(subscription, 0, messagePubHandler); token.Wait() && token.Error() != nil {
 		log.WithError(token.Error()).Fatal("Failed to subscribe to MQTT topic")
+	}
+	if conf.LWTTopic != "" {
+		payload := conf.LWTOnlinePayload
+		if payload == "" {
+			payload = "{\"state\":\"online\"}"
+		}
+		client.Publish(conf.LWTTopic, 0, true, payload)
 	}
 	stop := make(chan bool)
 	go func() {

@@ -44,6 +44,13 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 	opts.SetKeepAlive(10 * time.Second)
 	opts.SetAutoReconnect(true)
 	opts.SetMaxReconnectInterval(10 * time.Second)
+	if conf.LWTTopic != "" {
+		payload := conf.LWTOfflinePayload
+		if payload == "" {
+			payload = "{\"state\":\"offline\"}"
+		}
+		opts.SetWill(conf.LWTTopic, payload, 0, true)
+	}
 	client := mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
 		log.WithFields(log.Fields{
@@ -51,6 +58,13 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 			"topic_prefix":     conf.TopicPrefix,
 			"minimum_interval": conf.MinimumInterval,
 		}).WithError(token.Error()).Error("Failed to connect to MQTT")
+	}
+	if conf.LWTTopic != "" {
+		payload := conf.LWTOnlinePayload
+		if payload == "" {
+			payload = "{\"state\":\"online\"}"
+		}
+		client.Publish(conf.LWTTopic, 0, true, payload)
 	}
 
 	limiter := limiter.New(conf.MinimumInterval)

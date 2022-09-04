@@ -16,14 +16,17 @@ type GatewayPolling struct {
 }
 
 type MQTTListener struct {
-	Enabled       *bool  `yaml:"enabled,omitempty"`
-	BrokerUrl     string `yaml:"broker_url"`
-	BrokerAddress string `yaml:"broker_address"`
-	BrokerPort    int    `yaml:"broker_port"`
-	ClientID      string `yaml:"client_id"`
-	Username      string `yaml:"username"`
-	Password      string `yaml:"password"`
-	TopicPrefix   string `yaml:"topic_prefix"`
+	Enabled           *bool  `yaml:"enabled,omitempty"`
+	BrokerUrl         string `yaml:"broker_url"`
+	BrokerAddress     string `yaml:"broker_address"`
+	BrokerPort        int    `yaml:"broker_port"`
+	ClientID          string `yaml:"client_id"`
+	Username          string `yaml:"username"`
+	Password          string `yaml:"password"`
+	TopicPrefix       string `yaml:"topic_prefix"`
+	LWTTopic          string `yaml:"lwt_topic"`
+	LWTOnlinePayload  string `yaml:"lwt_online_payload"`
+	LWTOfflinePayload string `yaml:"lwt_offline_payload"`
 }
 
 type HTTPListener struct {
@@ -64,6 +67,9 @@ type MQTTPublisher struct {
 	Password                     string        `yaml:"password"`
 	TopicPrefix                  string        `yaml:"topic_prefix"`
 	HomeassistantDiscoveryPrefix string        `yaml:"homeassistant_discovery_prefix,omitempty"`
+	LWTTopic                     string        `yaml:"lwt_topic"`
+	LWTOnlinePayload             string        `yaml:"lwt_online_payload"`
+	LWTOfflinePayload            string        `yaml:"lwt_offline_payload"`
 }
 
 type Logging struct {
