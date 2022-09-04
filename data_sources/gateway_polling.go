@@ -19,6 +19,12 @@ type gatewayHistoryTag struct {
 	Data      string `json:"data"`
 }
 
+// seems to be emitted only if the authentication fails
+type gatewayInfo struct {
+	Success     bool   `json:"success"`
+	GatewayName string `json:"gateway_name"`
+}
+
 type gatewayHistory struct {
 	Data struct {
 		Coordinates string                       `json:"coordinates"`
@@ -39,25 +45,36 @@ func StartGatewayPolling(conf config.GatewayPolling, measurements chan<- parser.
 	})
 	log.Info("Starting gateway polling")
 	stop := make(chan bool)
-	go gatewayPoller(conf.GatewayUrl, interval, measurements, stop, log)
+	go gatewayPoller(conf.GatewayUrl, conf.BearerToken, interval, measurements, stop, log)
 	return stop
 }
 
-func gatewayPoller(url string, interval time.Duration, measurements chan<- parser.Measurement, stop <-chan bool, log *log.Entry) {
+func gatewayPoller(url string, bearer_token string, interval time.Duration, measurements chan<- parser.Measurement, stop <-chan bool, log *log.Entry) {
 	seenTags := make(map[string]int64)
-	poll(url, measurements, seenTags, log)
+	poll(url, bearer_token, measurements, seenTags, log)
 	for {
 		select {
 		case <-stop:
 			return
 		case <-time.After(interval):
-			poll(url, measurements, seenTags, log)
+			poll(url, bearer_token, measurements, seenTags, log)
 		}
 	}
 }
 
-func poll(url string, measurements chan<- parser.Measurement, seenTags map[string]int64, log *log.Entry) {
-	resp, err := http.Get(url + "/history")
+func poll(url string, bearer_token string, measurements chan<- parser.Measurement, seenTags map[string]int64, log *log.Entry) {
+	req, err := http.NewRequest("GET", url+"/history", nil)
+	if err != nil {
+		log.WithError(err).Error("Failed to construct GET request")
+		return
+	}
+
+	if bearer_token != "" {
+		req.Header.Add("Authorization", "Bearer "+bearer_token)
+	}
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
 	if err != nil {
 		log.WithError(err).Error("Failed to get history from gateway")
 		return
@@ -68,6 +85,19 @@ func poll(url string, measurements chan<- parser.Measurement, seenTags map[strin
 		log.WithError(err).Error("Failed to read data from gateway")
 		return
 	}
+
+	// initialize Success so we can detect if the field was populated
+	gatewayInfo := gatewayInfo{Success: true, GatewayName: ""}
+	err = json.Unmarshal(body, &gatewayInfo)
+	if err != nil {
+		log.WithError(err).Error("Failed to deserialize gateway data")
+		return
+	}
+	if !gatewayInfo.Success {
+		log.Error("Failed to authenticate")
+		return
+	}
+
 	var gatewayHistory gatewayHistory
 	err = json.Unmarshal(body, &gatewayHistory)
 	if err != nil {
