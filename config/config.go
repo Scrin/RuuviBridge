@@ -10,9 +10,10 @@ import (
 )
 
 type GatewayPolling struct {
-	Enabled    *bool         `yaml:"enabled,omitempty"`
-	GatewayUrl string        `yaml:"gateway_url"`
-	Interval   time.Duration `yaml:"interval"`
+	Enabled     *bool         `yaml:"enabled,omitempty"`
+	GatewayUrl  string        `yaml:"gateway_url"`
+	BearerToken string        `yaml:"bearer_token"`
+	Interval    time.Duration `yaml:"interval"`
 }
 
 type MQTTListener struct {

@@ -3,6 +3,8 @@ gateway_polling:
   # Flag to enable or disable gateway polling
   enabled: false
   gateway_url: http://ip.or.hostname.of.the.gateway
+  # If you have enabled authentication on the gateway, specify the API key (bearer token) from the gateway Access Settings configuration page
+  bearer_token: ""
   interval: 10s
 
 # Recommended option: Have the gateway send the measurements to a MQTT server and let RuuviBridge subscribe to updates in real time
