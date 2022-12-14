@@ -22,6 +22,7 @@ type homeassistantDiscovery struct {
 	UniqueID            string                       `json:"unique_id"`
 	DeviceClass         string                       `json:"device_class,omitempty"`
 	StateTopic          string                       `json:"state_topic"`
+	StateClass          string                       `json:"state_class"`
 	JsonAttributesTopic string                       `json:"json_attributes_topic"`
 	Name                string                       `json:"name,omitempty"`
 	UnitOfMeasurement   string                       `json:"unit_of_measurement"`
@@ -182,6 +183,7 @@ func publishHomeAssistantDiscovery(client mqtt.Client, conf config.MQTTPublisher
 		UniqueID:            id,
 		DeviceClass:         disco.DeviceClass,
 		StateTopic:          conf.TopicPrefix + "/" + measurement.Mac,
+		StateClass:          "measurement",
 		JsonAttributesTopic: confTopicPrefix + "/attributes",
 		Name:                fmt.Sprintf("%s %s", name, disco.NamePostfix),
 		UnitOfMeasurement:   disco.UnitOfMeasurement,
