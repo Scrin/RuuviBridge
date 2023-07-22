@@ -6,12 +6,8 @@ import (
 	"github.com/Scrin/RuuviBridge/parser"
 )
 
-func f64(value float64) *float64 {
-	return &value
-}
-
-// from https://github.com/Scrin/RuuviCollector/blob/master/src/main/java/fi/tkgwf/ruuvi/utils/MeasurementValueCalculator.java
 func CalcExtendedValues(m *parser.Measurement) {
+	// from https://github.com/Scrin/RuuviCollector/blob/master/src/main/java/fi/tkgwf/ruuvi/utils/MeasurementValueCalculator.java
 	f64 := func(value float64) *float64 { return &value }
 	if m.AccelerationX != nil && m.AccelerationY != nil && m.AccelerationZ != nil {
 		m.AccelerationTotal = f64(math.Sqrt((*m.AccelerationX)*(*m.AccelerationX) + (*m.AccelerationY)*(*m.AccelerationY) + (*m.AccelerationZ)*(*m.AccelerationZ)))
@@ -28,7 +24,7 @@ func CalcExtendedValues(m *parser.Measurement) {
 	if m.Temperature != nil {
 		m.EquilibriumVaporPressure = f64(611.2 * math.Exp(17.67*(*m.Temperature)/(243.5+(*m.Temperature))))
 	}
-	if m.Temperature != nil {
+	if m.Temperature != nil && m.Humidity != nil {
 		m.AbsoluteHumidity = f64((*m.EquilibriumVaporPressure) * (*m.Humidity) * 0.021674 / (273.15 + (*m.Temperature)))
 	}
 	if m.EquilibriumVaporPressure != nil && m.Humidity != nil && *m.Humidity != 0 {
