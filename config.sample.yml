@@ -95,6 +95,10 @@ mqtt_publisher:
   # Topic prefix where to publish, in format <topic_prefix>/<mac>
   # If you use the same server for a source, be sure to use a differnet topic prefix to avoid conflicts!
   topic_prefix: ruuvitag
+  # Publish each measurement to its own topic so no JSON parsing is needed on the consumer side. This will publish
+  # to <topic_prefix>/<mac>/temperature, <topic_prefix>/<mac>/humidity, and so forth. When enabled, these are
+  # published in addition to the JSON string which is published to <topic_prefix>/<mac>, not in place of them.
+  publish_raw: false
   # Topic where to publish LWT "status messages" on connect/disconnect. Empty means disabled.
   # Note that the mqtt_listener and mqtt_publisher have their own distinct connections and you should not use the same lwt topic for both.
   lwt_topic: ""

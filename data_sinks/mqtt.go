@@ -10,6 +10,7 @@ import (
 	"github.com/Scrin/RuuviBridge/parser"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	log "github.com/sirupsen/logrus"
+	"strconv"
 )
 
 func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
@@ -82,6 +83,37 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 				client.Publish(conf.TopicPrefix+"/"+measurement.Mac, 0, false, string(data))
 				if conf.HomeassistantDiscoveryPrefix != "" {
 					publishHomeAssistantDiscoveries(client, conf, measurement)
+				}
+				if conf.PublishRaw {
+					safePublishF := func(label string, v *float64) {
+						if v != nil {
+							client.Publish(conf.TopicPrefix+"/"+measurement.Mac+"/"+label, 0, false, strconv.FormatFloat(*v, 'f', -1, 64))
+						}
+					}
+					safePublishI := func(label string, v *int64) {
+						if v != nil {
+							client.Publish(conf.TopicPrefix+"/"+measurement.Mac+"/"+label, 0, false, strconv.FormatInt(*v, 10))
+						}
+					}
+					safePublishF("temperature", measurement.Temperature)
+					safePublishF("humidity", measurement.Humidity)
+					safePublishF("pressure", measurement.Pressure)
+					safePublishF("accelerationX", measurement.AccelerationX)
+					safePublishF("accelerationY", measurement.AccelerationY)
+					safePublishF("accelerationZ", measurement.AccelerationZ)
+					safePublishF("batteryVoltage", measurement.BatteryVoltage)
+					safePublishI("txPower", measurement.TxPower)
+					safePublishI("rssi", measurement.Rssi)
+					safePublishI("movementCounter", measurement.MovementCounter)
+					safePublishI("measurementSequenceNumber", measurement.MeasurementSequenceNumber)
+					safePublishF("accelerationTotal", measurement.AccelerationTotal)
+					safePublishF("absoluteHumidity", measurement.AbsoluteHumidity)
+					safePublishF("dewPoint", measurement.DewPoint)
+					safePublishF("equilibriumVaporPressure", measurement.EquilibriumVaporPressure)
+					safePublishF("airDensity", measurement.AirDensity)
+					safePublishF("accelerationAngleFromX", measurement.AccelerationAngleFromX)
+					safePublishF("accelerationAngleFromY", measurement.AccelerationAngleFromY)
+					safePublishF("accelerationAngleFromZ", measurement.AccelerationAngleFromZ)
 				}
 			}
 		}
