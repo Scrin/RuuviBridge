@@ -3,9 +3,8 @@ package data_sources
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
-	"strconv"
 	"strings"
 
 	"github.com/Scrin/RuuviBridge/config"
@@ -23,7 +22,7 @@ func StartHTTPListener(conf config.HTTPListener, measurements chan<- parser.Meas
 	seenTags := make(map[string]int64)
 
 	handlerFunc := func(w http.ResponseWriter, req *http.Request) {
-		body, err := ioutil.ReadAll(req.Body)
+		body, err := io.ReadAll(req.Body)
 		if err != nil {
 			log.WithFields(log.Fields{
 				"path": req.URL.Path,
@@ -46,7 +45,7 @@ func StartHTTPListener(conf config.HTTPListener, measurements chan<- parser.Meas
 
 		for mac, data := range gatewayHistory.Data.Tags {
 			mac = strings.ToUpper(mac)
-			timestamp, _ := strconv.ParseInt(data.Timestamp, 10, 64)
+			timestamp := data.Timestamp
 			if seenTags[mac] == timestamp {
 				continue
 			}

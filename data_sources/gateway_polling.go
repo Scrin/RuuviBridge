@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
-	"strconv"
 	"strings"
 	"time"
 
@@ -15,22 +14,19 @@ import (
 
 type gatewayHistoryTag struct {
 	Rssi      int64  `json:"rssi"`
-	Timestamp string `json:"timestamp"`
+	Timestamp int64  `json:"timestamp"`
 	Data      string `json:"data"`
 }
 
 // seems to be emitted only if the authentication fails
 type gatewayInfo struct {
-	Success     bool   `json:"success"`
 	GatewayName string `json:"gateway_name"`
 }
 
 type gatewayHistory struct {
 	Data struct {
-		Coordinates string                       `json:"coordinates"`
-		Timestamp   string                       `json:"timestamp"`
-		GwMac       string                       `json:"gw_mac"`
-		Tags        map[string]gatewayHistoryTag `json:"tags"`
+		GwMac string                       `json:"gw_mac"`
+		Tags  map[string]gatewayHistoryTag `json:"tags"`
 	} `json:"data"`
 }
 
@@ -86,14 +82,13 @@ func poll(url string, bearer_token string, measurements chan<- parser.Measuremen
 		return
 	}
 
-	// initialize Success so we can detect if the field was populated
-	gatewayInfo := gatewayInfo{Success: true, GatewayName: ""}
+	var gatewayInfo gatewayInfo
 	err = json.Unmarshal(body, &gatewayInfo)
 	if err != nil {
 		log.WithError(err).Error("Failed to deserialize gateway data")
 		return
 	}
-	if !gatewayInfo.Success {
+	if len(gatewayInfo.GatewayName) > 0 {
 		log.Error("Failed to authenticate")
 		return
 	}
@@ -107,7 +102,7 @@ func poll(url string, bearer_token string, measurements chan<- parser.Measuremen
 
 	for mac, data := range gatewayHistory.Data.Tags {
 		mac = strings.ToUpper(mac)
-		timestamp, _ := strconv.ParseInt(data.Timestamp, 10, 64)
+		timestamp := data.Timestamp
 		if seenTags[mac] == timestamp {
 			continue
 		}
