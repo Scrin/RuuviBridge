@@ -13,6 +13,7 @@ Supports following sources (sources of RuuviTag data):
 Supports following sinks (things that use the data):
 
 - InfluxDB 1.8 and 2.x
+- InfluxDB v3
 - Prometheus
 - MQTT (including Home Assistant MQTT discovery for automatic configuration)
 

@@ -52,6 +52,16 @@ type InfluxDBPublisher struct {
 	AdditionalTags  map[string]string `yaml:"additional_tags,omitempty"`
 }
 
+type InfluxDB3Publisher struct {
+	Enabled         *bool             `yaml:"enabled,omitempty"`
+	MinimumInterval time.Duration     `yaml:"minimum_interval,omitempty"`
+	Url             string            `yaml:"url"`
+	AuthToken       string            `yaml:"auth_token"`
+	Database        string            `yaml:"database"`
+	Measurement     string            `yaml:"measurement"`
+	AdditionalTags  map[string]string `yaml:"additional_tags,omitempty"`
+}
+
 type Prometheus struct {
 	Enabled *bool `yaml:"enabled,omitempty"`
 	Port    int   `yaml:"port"`
@@ -82,21 +92,22 @@ type Logging struct {
 }
 
 type Config struct {
-	GatewayPolling    *GatewayPolling    `yaml:"gateway_polling,omitempty"`
-	MQTTListener      *MQTTListener      `yaml:"mqtt_listener,omitempty"`
-	HTTPListener      *HTTPListener      `yaml:"http_listener,omitempty"`
-	Processing        *Processing        `yaml:"processing,omitempty"`
-	InfluxDBPublisher *InfluxDBPublisher `yaml:"influxdb_publisher,omitempty"`
-	Prometheus        *Prometheus        `yaml:"prometheus,omitempty"`
-	MQTTPublisher     *MQTTPublisher     `yaml:"mqtt_publisher,omitempty"`
-	TagNames          map[string]string  `yaml:"tag_names,omitempty"`
-	Logging           Logging            `yaml:"logging"`
-	Debug             bool               `yaml:"debug"`
+	GatewayPolling     *GatewayPolling     `yaml:"gateway_polling,omitempty"`
+	MQTTListener       *MQTTListener       `yaml:"mqtt_listener,omitempty"`
+	HTTPListener       *HTTPListener       `yaml:"http_listener,omitempty"`
+	Processing         *Processing         `yaml:"processing,omitempty"`
+	InfluxDBPublisher  *InfluxDBPublisher  `yaml:"influxdb_publisher,omitempty"`
+	InfluxDB3Publisher *InfluxDB3Publisher `yaml:"influxdb3_publisher,omitempty"`
+	Prometheus         *Prometheus         `yaml:"prometheus,omitempty"`
+	MQTTPublisher      *MQTTPublisher      `yaml:"mqtt_publisher,omitempty"`
+	TagNames           map[string]string   `yaml:"tag_names,omitempty"`
+	Logging            Logging             `yaml:"logging"`
+	Debug              bool                `yaml:"debug"`
 }
 
 func ReadConfig(configFile string, strict bool) (Config, error) {
 	if _, err := os.Stat(configFile); errors.Is(err, os.ErrNotExist) {
-		return Config{}, errors.New(fmt.Sprintf("No config found! Tried to open \"%s\"", configFile))
+		return Config{}, fmt.Errorf(fmt.Sprintf("No config found! Tried to open \"%s\"", configFile))
 	}
 
 	f, err := os.Open(configFile)

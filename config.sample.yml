@@ -68,7 +68,26 @@ influxdb_publisher:
   bucket: ruuvi
   # Measurement name to use
   measurement: ruuvi_measurements
-  # Uncomment to add additional tags to a series
+  # Uncomment to add additional influxdb tags to the measurements
+  #additional_tags:
+  #  mytag: myvalue
+  #  myothertag: myothervalue
+
+# Supports InfluxDB 3.x
+influxdb3_publisher:
+  # Flag to enable or disable publishing the processed data to InfluxDB
+  enabled: false
+  # Minimum interval for measurements to publish per tag. InfluxDB handles frequent updates very efficiently due to delta compression so the default is no limit
+  minimum_interval: 0s
+  # URL for InfluxDB3, including scheme, hostname and port
+  url: https://eu-central-1-1.aws.cloud2.influxdata.com
+  # Also referred to as "auth token"
+  auth_token: changethis
+  # Database to use
+  database: ruuvi
+  # Measurement name to use
+  measurement: ruuvi_measurements
+  # Uncomment to add additional influxdb tags to the measurements
   #additional_tags:
   #  mytag: myvalue
   #  myothertag: myothervalue

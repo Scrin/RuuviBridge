@@ -1,4 +1,4 @@
-FROM golang:1.17-alpine as build
+FROM golang:1.20-alpine as build
 
 ARG VERSION="unknown-docker"
 
