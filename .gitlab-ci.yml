@@ -1,0 +1,20 @@
+# This defines all the CI jobs in this repo.  Stages are: build, test, deploy
+# Documentation can be found here: https://docs.gitlab.com/ee/ci/yaml/#stages
+
+default:
+  image: debian:bullseye
+
+compile:
+  # This job verifies that every terraform module is valid syntax
+  # Terraform modules are defined as any directory with a file ending in .tf
+  stage: build
+  tags: [ docker ]
+  script:
+    - apt-get update && apt-get install -y ansible
+    - ansible-galaxy install gantsign.golang
+    - ansible-playbook golang.yml
+    - . /etc/profile.d/golang.sh  # make sure golang is in the PATH
+    - go build -o ruuvibridge cmd/ruuvibridge/main.go
+  artifacts:
+    paths:
+      - ruuvibridge

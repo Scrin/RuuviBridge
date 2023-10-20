@@ -1,0 +1,10 @@
+# This is an ansible playbook that will install golang. To run it:
+#
+# sudo apt install -y ansible
+# ansible-galaxy install gantsign.golang
+# ansible-playbook golang.yml
+#
+- name: Install and configure Golang
+  hosts: localhost
+  roles:
+    - role: gantsign.golang
