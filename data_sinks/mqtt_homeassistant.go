@@ -42,7 +42,7 @@ type homeassistantAttributes struct {
 type homeassistantDiscoveryConfig struct {
 	Available            bool
 	DeviceClass          string
-	NamePostfix          string
+	EntityName           string
 	UnitOfMeasurement    string
 	JsonAttribute        string
 	JsonAttributeMutator string
@@ -53,42 +53,42 @@ func publishHomeAssistantDiscoveries(client mqtt.Client, conf config.MQTTPublish
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.Temperature != nil,
 		DeviceClass:       "temperature",
-		NamePostfix:       "temperature",
+		EntityName:        "Temperature",
 		UnitOfMeasurement: "°C",
 		JsonAttribute:     "temperature",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.Humidity != nil,
 		DeviceClass:       "humidity",
-		NamePostfix:       "humidity",
+		EntityName:        "Humidity",
 		UnitOfMeasurement: "%",
 		JsonAttribute:     "humidity",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:            measurement.Pressure != nil,
 		DeviceClass:          "pressure",
-		NamePostfix:          "pressure",
+		EntityName:           "Pressure",
 		UnitOfMeasurement:    "hPa",
 		JsonAttribute:        "pressure",
 		JsonAttributeMutator: " / 100.0",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.AccelerationX != nil,
-		NamePostfix:       "X acceleration",
+		EntityName:        "X acceleration",
 		UnitOfMeasurement: "G",
 		JsonAttribute:     "accelerationX",
 		Icon:              "mdi:axis-x-arrow",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.AccelerationY != nil,
-		NamePostfix:       "Y acceleration",
+		EntityName:        "Y acceleration",
 		UnitOfMeasurement: "G",
 		JsonAttribute:     "accelerationY",
 		Icon:              "mdi:axis-y-arrow",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.AccelerationZ != nil,
-		NamePostfix:       "Z acceleration",
+		EntityName:        "Z acceleration",
 		UnitOfMeasurement: "G",
 		JsonAttribute:     "accelerationZ",
 		Icon:              "mdi:axis-z-arrow",
@@ -96,26 +96,26 @@ func publishHomeAssistantDiscoveries(client mqtt.Client, conf config.MQTTPublish
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.BatteryVoltage != nil,
 		DeviceClass:       "voltage",
-		NamePostfix:       "tag battery voltage",
+		EntityName:        "Tag battery voltage",
 		UnitOfMeasurement: "V",
 		JsonAttribute:     "batteryVoltage",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.MovementCounter != nil,
-		NamePostfix:       "movement counter",
+		EntityName:        "Movement counter",
 		UnitOfMeasurement: "x",
 		JsonAttribute:     "movementCounter",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.AccelerationTotal != nil,
-		NamePostfix:       "total acceleration",
+		EntityName:        "Total acceleration",
 		UnitOfMeasurement: "G",
 		JsonAttribute:     "accelerationTotal",
 		Icon:              "mdi:axis-arrow",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.AbsoluteHumidity != nil,
-		NamePostfix:       "absolute humidity",
+		EntityName:        "Absolute humidity",
 		UnitOfMeasurement: "g/m³",
 		JsonAttribute:     "absoluteHumidity",
 		Icon:              "mdi:water",
@@ -123,45 +123,66 @@ func publishHomeAssistantDiscoveries(client mqtt.Client, conf config.MQTTPublish
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.DewPoint != nil,
 		DeviceClass:       "temperature",
-		NamePostfix:       "dew point",
+		EntityName:        "Dew point",
 		UnitOfMeasurement: "°C",
 		JsonAttribute:     "dewPoint",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:            measurement.EquilibriumVaporPressure != nil,
 		DeviceClass:          "pressure",
-		NamePostfix:          "equilibrium vapor pressure",
+		EntityName:           "Equilibrium vapor pressure",
 		UnitOfMeasurement:    "hPa",
 		JsonAttribute:        "equilibriumVaporPressure",
 		JsonAttributeMutator: " / 100.0",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.AirDensity != nil,
-		NamePostfix:       "air density",
+		EntityName:        "Air density",
 		UnitOfMeasurement: "kg/m³",
 		JsonAttribute:     "airDensity",
 		Icon:              "mdi:gauge",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.AccelerationAngleFromX != nil,
-		NamePostfix:       "acceleration angle from X axis",
+		EntityName:        "Acceleration angle from X axis",
 		UnitOfMeasurement: "º",
 		JsonAttribute:     "accelerationAngleFromX",
 		Icon:              "mdi:angle-acute",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.AccelerationAngleFromY != nil,
-		NamePostfix:       "acceleration angle from Y axis",
+		EntityName:        "Acceleration angle from Y axis",
 		UnitOfMeasurement: "º",
 		JsonAttribute:     "accelerationAngleFromY",
 		Icon:              "mdi:angle-acute",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.AccelerationAngleFromZ != nil,
-		NamePostfix:       "acceleration angle from Z axis",
+		EntityName:        "Acceleration angle from Z axis",
 		UnitOfMeasurement: "º",
 		JsonAttribute:     "accelerationAngleFromZ",
 		Icon:              "mdi:angle-acute",
+	})
+	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
+		Available:         measurement.Rssi != nil,
+		EntityName:        "RSSI",
+		UnitOfMeasurement: "dBm",
+		JsonAttribute:     "rssi",
+		Icon:              "mdi:signal-variant",
+	})
+	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
+		Available:         measurement.TxPower != nil,
+		EntityName:        "TX power",
+		UnitOfMeasurement: "dBm",
+		JsonAttribute:     "txPower",
+		Icon:              "mdi:signal-variant",
+	})
+	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
+		Available:         measurement.MeasurementSequenceNumber != nil,
+		EntityName:        "Measurement sequence number",
+		UnitOfMeasurement: "x",
+		JsonAttribute:     "measurementSequenceNumber",
+		Icon:              "mdi:counter",
 	})
 }
 
@@ -185,7 +206,7 @@ func publishHomeAssistantDiscovery(client mqtt.Client, conf config.MQTTPublisher
 		StateTopic:          conf.TopicPrefix + "/" + measurement.Mac,
 		StateClass:          "measurement",
 		JsonAttributesTopic: confTopicPrefix + "/attributes",
-		Name:                fmt.Sprintf("%s %s", name, disco.NamePostfix),
+		Name:                disco.EntityName,
 		UnitOfMeasurement:   disco.UnitOfMeasurement,
 		ValueTemplate:       fmt.Sprintf("{{ (value_json.%s%s) | round(2) }}", disco.JsonAttribute, disco.JsonAttributeMutator),
 		Icon:                disco.Icon,
@@ -201,11 +222,8 @@ func publishHomeAssistantDiscovery(client mqtt.Client, conf config.MQTTPublisher
 		return
 	}
 	attributesJson, err := json.Marshal(homeassistantAttributes{
-		Mac:                       measurement.Mac,
-		DataFormat:                measurement.DataFormat,
-		Rssi:                      measurement.Rssi,
-		TxPower:                   measurement.TxPower,
-		MeasurementSequenceNumber: measurement.MeasurementSequenceNumber,
+		Mac:        measurement.Mac,
+		DataFormat: measurement.DataFormat,
 	})
 	if err != nil {
 		log.WithError(err).Error("Failed to serialize Home Assistant attribute data")
