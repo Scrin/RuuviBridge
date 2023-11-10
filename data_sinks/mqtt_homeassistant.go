@@ -53,21 +53,21 @@ func publishHomeAssistantDiscoveries(client mqtt.Client, conf config.MQTTPublish
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.Temperature != nil,
 		DeviceClass:       "temperature",
-		EntityName:        "Temperature",
+		EntityName:        "temperature",
 		UnitOfMeasurement: "°C",
 		JsonAttribute:     "temperature",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.Humidity != nil,
 		DeviceClass:       "humidity",
-		EntityName:        "Humidity",
+		EntityName:        "humidity",
 		UnitOfMeasurement: "%",
 		JsonAttribute:     "humidity",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:            measurement.Pressure != nil,
 		DeviceClass:          "pressure",
-		EntityName:           "Pressure",
+		EntityName:           "pressure",
 		UnitOfMeasurement:    "hPa",
 		JsonAttribute:        "pressure",
 		JsonAttributeMutator: " / 100.0",
@@ -96,26 +96,26 @@ func publishHomeAssistantDiscoveries(client mqtt.Client, conf config.MQTTPublish
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.BatteryVoltage != nil,
 		DeviceClass:       "voltage",
-		EntityName:        "Tag battery voltage",
+		EntityName:        "tag battery voltage",
 		UnitOfMeasurement: "V",
 		JsonAttribute:     "batteryVoltage",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.MovementCounter != nil,
-		EntityName:        "Movement counter",
+		EntityName:        "movement counter",
 		UnitOfMeasurement: "x",
 		JsonAttribute:     "movementCounter",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.AccelerationTotal != nil,
-		EntityName:        "Total acceleration",
+		EntityName:        "total acceleration",
 		UnitOfMeasurement: "G",
 		JsonAttribute:     "accelerationTotal",
 		Icon:              "mdi:axis-arrow",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.AbsoluteHumidity != nil,
-		EntityName:        "Absolute humidity",
+		EntityName:        "absolute humidity",
 		UnitOfMeasurement: "g/m³",
 		JsonAttribute:     "absoluteHumidity",
 		Icon:              "mdi:water",
@@ -123,42 +123,42 @@ func publishHomeAssistantDiscoveries(client mqtt.Client, conf config.MQTTPublish
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.DewPoint != nil,
 		DeviceClass:       "temperature",
-		EntityName:        "Dew point",
+		EntityName:        "dew point",
 		UnitOfMeasurement: "°C",
 		JsonAttribute:     "dewPoint",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:            measurement.EquilibriumVaporPressure != nil,
 		DeviceClass:          "pressure",
-		EntityName:           "Equilibrium vapor pressure",
+		EntityName:           "equilibrium vapor pressure",
 		UnitOfMeasurement:    "hPa",
 		JsonAttribute:        "equilibriumVaporPressure",
 		JsonAttributeMutator: " / 100.0",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.AirDensity != nil,
-		EntityName:        "Air density",
+		EntityName:        "air density",
 		UnitOfMeasurement: "kg/m³",
 		JsonAttribute:     "airDensity",
 		Icon:              "mdi:gauge",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.AccelerationAngleFromX != nil,
-		EntityName:        "Acceleration angle from X axis",
+		EntityName:        "acceleration angle from X axis",
 		UnitOfMeasurement: "º",
 		JsonAttribute:     "accelerationAngleFromX",
 		Icon:              "mdi:angle-acute",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.AccelerationAngleFromY != nil,
-		EntityName:        "Acceleration angle from Y axis",
+		EntityName:        "acceleration angle from Y axis",
 		UnitOfMeasurement: "º",
 		JsonAttribute:     "accelerationAngleFromY",
 		Icon:              "mdi:angle-acute",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.AccelerationAngleFromZ != nil,
-		EntityName:        "Acceleration angle from Z axis",
+		EntityName:        "acceleration angle from Z axis",
 		UnitOfMeasurement: "º",
 		JsonAttribute:     "accelerationAngleFromZ",
 		Icon:              "mdi:angle-acute",
@@ -179,7 +179,7 @@ func publishHomeAssistantDiscoveries(client mqtt.Client, conf config.MQTTPublish
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.MeasurementSequenceNumber != nil,
-		EntityName:        "Measurement sequence number",
+		EntityName:        "measurement sequence number",
 		UnitOfMeasurement: "x",
 		JsonAttribute:     "measurementSequenceNumber",
 		Icon:              "mdi:counter",
