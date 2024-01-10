@@ -45,39 +45,41 @@ func InfluxDB(conf config.InfluxDBPublisher) chan<- parser.Measurement {
 				log.WithFields(log.Fields{"mac": measurement.Mac}).Trace("Skipping InfluxDB publish due to interval limit")
 				continue
 			}
-			p := influxdb.NewPointWithMeasurement(measurementName).
-				AddTag("dataFormat", fmt.Sprintf("%d", measurement.DataFormat)).
-				AddTag("mac", strings.ReplaceAll(measurement.Mac, ":", ""))
-			if measurement.Name != nil {
-				p.AddTag("name", *measurement.Name)
-			}
-			for tag, value := range conf.AdditionalTags {
-				p.AddTag(tag, value)
-			}
-			addFloat(p, "temperature", measurement.Temperature)
-			addFloat(p, "humidity", measurement.Humidity)
-			addFloat(p, "pressure", measurement.Pressure)
-			addFloat(p, "accelerationX", measurement.AccelerationX)
-			addFloat(p, "accelerationY", measurement.AccelerationY)
-			addFloat(p, "accelerationZ", measurement.AccelerationZ)
-			addFloat(p, "batteryVoltage", measurement.BatteryVoltage)
-			addInt(p, "txPower", measurement.TxPower)
-			addInt(p, "rssi", measurement.Rssi)
-			addInt(p, "movementCounter", measurement.MovementCounter)
-			addInt(p, "measurementSequenceNumber", measurement.MeasurementSequenceNumber)
-			addFloat(p, "accelerationTotal", measurement.AccelerationTotal)
-			addFloat(p, "absoluteHumidity", measurement.AbsoluteHumidity)
-			addFloat(p, "dewPoint", measurement.DewPoint)
-			addFloat(p, "equilibriumVaporPressure", measurement.EquilibriumVaporPressure)
-			addFloat(p, "airDensity", measurement.AirDensity)
-			addFloat(p, "accelerationAngleFromX", measurement.AccelerationAngleFromX)
-			addFloat(p, "accelerationAngleFromY", measurement.AccelerationAngleFromY)
-			addFloat(p, "accelerationAngleFromZ", measurement.AccelerationAngleFromZ)
-			p.SetTime(time.Now())
-			err := writeAPI.WritePoint(context.Background(), p)
-			if err != nil {
-				log.WithError(err).Error("Failed to send data to InfluxDB")
-			}
+			go func(measurement parser.Measurement) {
+				p := influxdb.NewPointWithMeasurement(measurementName).
+					AddTag("dataFormat", fmt.Sprintf("%d", measurement.DataFormat)).
+					AddTag("mac", strings.ReplaceAll(measurement.Mac, ":", ""))
+				if measurement.Name != nil {
+					p.AddTag("name", *measurement.Name)
+				}
+				for tag, value := range conf.AdditionalTags {
+					p.AddTag(tag, value)
+				}
+				addFloat(p, "temperature", measurement.Temperature)
+				addFloat(p, "humidity", measurement.Humidity)
+				addFloat(p, "pressure", measurement.Pressure)
+				addFloat(p, "accelerationX", measurement.AccelerationX)
+				addFloat(p, "accelerationY", measurement.AccelerationY)
+				addFloat(p, "accelerationZ", measurement.AccelerationZ)
+				addFloat(p, "batteryVoltage", measurement.BatteryVoltage)
+				addInt(p, "txPower", measurement.TxPower)
+				addInt(p, "rssi", measurement.Rssi)
+				addInt(p, "movementCounter", measurement.MovementCounter)
+				addInt(p, "measurementSequenceNumber", measurement.MeasurementSequenceNumber)
+				addFloat(p, "accelerationTotal", measurement.AccelerationTotal)
+				addFloat(p, "absoluteHumidity", measurement.AbsoluteHumidity)
+				addFloat(p, "dewPoint", measurement.DewPoint)
+				addFloat(p, "equilibriumVaporPressure", measurement.EquilibriumVaporPressure)
+				addFloat(p, "airDensity", measurement.AirDensity)
+				addFloat(p, "accelerationAngleFromX", measurement.AccelerationAngleFromX)
+				addFloat(p, "accelerationAngleFromY", measurement.AccelerationAngleFromY)
+				addFloat(p, "accelerationAngleFromZ", measurement.AccelerationAngleFromZ)
+				p.SetTime(time.Now())
+				err := writeAPI.WritePoint(context.Background(), p)
+				if err != nil {
+					log.WithError(err).Error("Failed to send data to InfluxDB")
+				}
+			}(measurement)
 		}
 		client.Close()
 	}()

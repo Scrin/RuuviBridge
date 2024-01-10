@@ -46,39 +46,41 @@ func InfluxDB3(conf config.InfluxDB3Publisher) chan<- parser.Measurement {
 				log.WithFields(log.Fields{"mac": measurement.Mac}).Trace("Skipping InfluxDB3 publish due to interval limit")
 				continue
 			}
-			p := influxdb3.NewPointWithMeasurement(measurementName).
-				AddTag("dataFormat", fmt.Sprintf("%d", measurement.DataFormat)).
-				AddTag("mac", strings.ReplaceAll(measurement.Mac, ":", ""))
-			if measurement.Name != nil {
-				p.AddTag("name", *measurement.Name)
-			}
-			for tag, value := range conf.AdditionalTags {
-				p.AddTag(tag, value)
-			}
-			influx3AddFloat(p, "temperature", measurement.Temperature)
-			influx3AddFloat(p, "humidity", measurement.Humidity)
-			influx3AddFloat(p, "pressure", measurement.Pressure)
-			influx3AddFloat(p, "accelerationX", measurement.AccelerationX)
-			influx3AddFloat(p, "accelerationY", measurement.AccelerationY)
-			influx3AddFloat(p, "accelerationZ", measurement.AccelerationZ)
-			influx3AddFloat(p, "batteryVoltage", measurement.BatteryVoltage)
-			influx3AddInt(p, "txPower", measurement.TxPower)
-			influx3AddInt(p, "rssi", measurement.Rssi)
-			influx3AddInt(p, "movementCounter", measurement.MovementCounter)
-			influx3AddInt(p, "measurementSequenceNumber", measurement.MeasurementSequenceNumber)
-			influx3AddFloat(p, "accelerationTotal", measurement.AccelerationTotal)
-			influx3AddFloat(p, "absoluteHumidity", measurement.AbsoluteHumidity)
-			influx3AddFloat(p, "dewPoint", measurement.DewPoint)
-			influx3AddFloat(p, "equilibriumVaporPressure", measurement.EquilibriumVaporPressure)
-			influx3AddFloat(p, "airDensity", measurement.AirDensity)
-			influx3AddFloat(p, "accelerationAngleFromX", measurement.AccelerationAngleFromX)
-			influx3AddFloat(p, "accelerationAngleFromY", measurement.AccelerationAngleFromY)
-			influx3AddFloat(p, "accelerationAngleFromZ", measurement.AccelerationAngleFromZ)
-			p.SetTimestamp(time.Now())
-			err := client.WritePoints(context.Background(), p)
-			if err != nil {
-				log.WithError(err).Error("Failed to send data to InfluxDB3")
-			}
+			go func(measurement parser.Measurement) {
+				p := influxdb3.NewPointWithMeasurement(measurementName).
+					AddTag("dataFormat", fmt.Sprintf("%d", measurement.DataFormat)).
+					AddTag("mac", strings.ReplaceAll(measurement.Mac, ":", ""))
+				if measurement.Name != nil {
+					p.AddTag("name", *measurement.Name)
+				}
+				for tag, value := range conf.AdditionalTags {
+					p.AddTag(tag, value)
+				}
+				influx3AddFloat(p, "temperature", measurement.Temperature)
+				influx3AddFloat(p, "humidity", measurement.Humidity)
+				influx3AddFloat(p, "pressure", measurement.Pressure)
+				influx3AddFloat(p, "accelerationX", measurement.AccelerationX)
+				influx3AddFloat(p, "accelerationY", measurement.AccelerationY)
+				influx3AddFloat(p, "accelerationZ", measurement.AccelerationZ)
+				influx3AddFloat(p, "batteryVoltage", measurement.BatteryVoltage)
+				influx3AddInt(p, "txPower", measurement.TxPower)
+				influx3AddInt(p, "rssi", measurement.Rssi)
+				influx3AddInt(p, "movementCounter", measurement.MovementCounter)
+				influx3AddInt(p, "measurementSequenceNumber", measurement.MeasurementSequenceNumber)
+				influx3AddFloat(p, "accelerationTotal", measurement.AccelerationTotal)
+				influx3AddFloat(p, "absoluteHumidity", measurement.AbsoluteHumidity)
+				influx3AddFloat(p, "dewPoint", measurement.DewPoint)
+				influx3AddFloat(p, "equilibriumVaporPressure", measurement.EquilibriumVaporPressure)
+				influx3AddFloat(p, "airDensity", measurement.AirDensity)
+				influx3AddFloat(p, "accelerationAngleFromX", measurement.AccelerationAngleFromX)
+				influx3AddFloat(p, "accelerationAngleFromY", measurement.AccelerationAngleFromY)
+				influx3AddFloat(p, "accelerationAngleFromZ", measurement.AccelerationAngleFromZ)
+				p.SetTimestamp(time.Now())
+				err := client.WritePoints(context.Background(), p)
+				if err != nil {
+					log.WithError(err).Error("Failed to send data to InfluxDB3")
+				}
+			}(measurement)
 		}
 		client.Close()
 	}()
