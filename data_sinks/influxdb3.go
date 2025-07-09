@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/InfluxCommunity/influxdb3-go/influxdb3"
+	"github.com/InfluxCommunity/influxdb3-go/v2/influxdb3"
 	"github.com/Scrin/RuuviBridge/common/limiter"
 	"github.com/Scrin/RuuviBridge/config"
 	"github.com/Scrin/RuuviBridge/parser"
@@ -48,13 +48,13 @@ func InfluxDB3(conf config.InfluxDB3Publisher) chan<- parser.Measurement {
 			}
 			go func(measurement parser.Measurement) {
 				p := influxdb3.NewPointWithMeasurement(measurementName).
-					AddTag("dataFormat", fmt.Sprintf("%d", measurement.DataFormat)).
-					AddTag("mac", strings.ReplaceAll(measurement.Mac, ":", ""))
+					SetTag("dataFormat", fmt.Sprintf("%d", measurement.DataFormat)).
+					SetTag("mac", strings.ReplaceAll(measurement.Mac, ":", ""))
 				if measurement.Name != nil {
-					p.AddTag("name", *measurement.Name)
+					p.SetTag("name", *measurement.Name)
 				}
 				for tag, value := range conf.AdditionalTags {
-					p.AddTag(tag, value)
+					p.SetTag(tag, value)
 				}
 				influx3AddFloat(p, "temperature", measurement.Temperature)
 				influx3AddFloat(p, "humidity", measurement.Humidity)
@@ -76,7 +76,7 @@ func InfluxDB3(conf config.InfluxDB3Publisher) chan<- parser.Measurement {
 				influx3AddFloat(p, "accelerationAngleFromY", measurement.AccelerationAngleFromY)
 				influx3AddFloat(p, "accelerationAngleFromZ", measurement.AccelerationAngleFromZ)
 				p.SetTimestamp(time.Now())
-				err := client.WritePoints(context.Background(), p)
+				err := client.WritePoints(context.Background(), []*influxdb3.Point{p})
 				if err != nil {
 					log.WithError(err).Error("Failed to send data to InfluxDB3")
 				}
@@ -89,12 +89,12 @@ func InfluxDB3(conf config.InfluxDB3Publisher) chan<- parser.Measurement {
 
 func influx3AddFloat(p *influxdb3.Point, name string, value *float64) {
 	if value != nil {
-		p.AddField(name, *value)
+		p.SetField(name, *value)
 	}
 }
 
 func influx3AddInt(p *influxdb3.Point, name string, value *int64) {
 	if value != nil {
-		p.AddField(name, *value)
+		p.SetField(name, *value)
 	}
 }
