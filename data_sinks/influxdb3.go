@@ -83,7 +83,7 @@ func InfluxDB3(conf config.InfluxDB3Publisher) chan<- parser.Measurement {
 				influx3AddFloat(p, "co2", measurement.CO2)
 				influx3AddFloat(p, "voc", measurement.VOC)
 				influx3AddFloat(p, "nox", measurement.NOX)
-				influx3AddFloat(p, "luminosity", measurement.Luminosity)
+				influx3AddFloat(p, "illuminance", measurement.Illuminance)
 				influx3AddFloat(p, "soundInstant", measurement.SoundInstant)
 				influx3AddFloat(p, "soundAverage", measurement.SoundAverage)
 				influx3AddFloat(p, "soundPeak", measurement.SoundPeak)

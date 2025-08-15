@@ -98,8 +98,8 @@ func TestParseFormatE1_OK(t *testing.T) {
 	if m.NOX == nil || int(math.Round(*m.NOX)) != int(math.Round(expectNOX)) {
 		t.Errorf("NOX: got %v want %v", m.NOX, expectNOX)
 	}
-	if m.Luminosity == nil || int(math.Round(*m.Luminosity)) != int(math.Round(expectLux)) {
-		t.Errorf("Luminosity: got %v want %v", m.Luminosity, expectLux)
+	if m.Illuminance == nil || int(math.Round(*m.Illuminance)) != int(math.Round(expectLux)) {
+		t.Errorf("Illuminance: got %v want %v", m.Illuminance, expectLux)
 	}
 	if m.SoundInstant == nil || roundInt10(*m.SoundInstant) != roundInt10(expectSoundInst) {
 		t.Errorf("SoundInstant: got %v want %v", m.SoundInstant, expectSoundInst)
@@ -203,8 +203,8 @@ func TestParseFormatE1_Zeroes(t *testing.T) {
 	if m.NOX == nil || int(math.Round(*m.NOX)) != int(math.Round(expectNOX)) {
 		t.Errorf("NOX: got %v want %v", m.NOX, expectNOX)
 	}
-	if m.Luminosity == nil || int(math.Round(*m.Luminosity)) != int(math.Round(expectLux)) {
-		t.Errorf("Luminosity: got %v want %v", m.Luminosity, expectLux)
+	if m.Illuminance == nil || int(math.Round(*m.Illuminance)) != int(math.Round(expectLux)) {
+		t.Errorf("Illuminance: got %v want %v", m.Illuminance, expectLux)
 	}
 	if m.SoundInstant == nil || roundInt10(*m.SoundInstant) != roundInt10(expectSoundInst) {
 		t.Errorf("SoundInstant: got %v want %v", m.SoundInstant, expectSoundInst)
@@ -308,8 +308,8 @@ func TestParseFormatE1_Temperature(t *testing.T) {
 	if m.NOX == nil || int(math.Round(*m.NOX)) != int(math.Round(expectNOX)) {
 		t.Errorf("NOX: got %v want %v", m.NOX, expectNOX)
 	}
-	if m.Luminosity == nil || int(math.Round(*m.Luminosity)) != int(math.Round(expectLux)) {
-		t.Errorf("Luminosity: got %v want %v", m.Luminosity, expectLux)
+	if m.Illuminance == nil || int(math.Round(*m.Illuminance)) != int(math.Round(expectLux)) {
+		t.Errorf("Illuminance: got %v want %v", m.Illuminance, expectLux)
 	}
 	if m.SoundInstant == nil || roundInt10(*m.SoundInstant) != roundInt10(expectSoundInst) {
 		t.Errorf("SoundInstant: got %v want %v", m.SoundInstant, expectSoundInst)
@@ -413,8 +413,8 @@ func TestParseFormatE1_Humidity(t *testing.T) {
 	if m.NOX == nil || int(math.Round(*m.NOX)) != int(math.Round(expectNOX)) {
 		t.Errorf("NOX: got %v want %v", m.NOX, expectNOX)
 	}
-	if m.Luminosity == nil || int(math.Round(*m.Luminosity)) != int(math.Round(expectLux)) {
-		t.Errorf("Luminosity: got %v want %v", m.Luminosity, expectLux)
+	if m.Illuminance == nil || int(math.Round(*m.Illuminance)) != int(math.Round(expectLux)) {
+		t.Errorf("Illuminance: got %v want %v", m.Illuminance, expectLux)
 	}
 	if m.SoundInstant == nil || roundInt10(*m.SoundInstant) != roundInt10(expectSoundInst) {
 		t.Errorf("SoundInstant: got %v want %v", m.SoundInstant, expectSoundInst)
@@ -518,8 +518,8 @@ func TestParseFormatE1_Pressure(t *testing.T) {
 	if m.NOX == nil || int(math.Round(*m.NOX)) != int(math.Round(expectNOX)) {
 		t.Errorf("NOX: got %v want %v", m.NOX, expectNOX)
 	}
-	if m.Luminosity == nil || int(math.Round(*m.Luminosity)) != int(math.Round(expectLux)) {
-		t.Errorf("Luminosity: got %v want %v", m.Luminosity, expectLux)
+	if m.Illuminance == nil || int(math.Round(*m.Illuminance)) != int(math.Round(expectLux)) {
+		t.Errorf("Illuminance: got %v want %v", m.Illuminance, expectLux)
 	}
 	if m.SoundInstant == nil || roundInt10(*m.SoundInstant) != roundInt10(expectSoundInst) {
 		t.Errorf("SoundInstant: got %v want %v", m.SoundInstant, expectSoundInst)
@@ -623,8 +623,8 @@ func TestParseFormatE1_PM1p0(t *testing.T) {
 	if m.NOX == nil || int(math.Round(*m.NOX)) != int(math.Round(expectNOX)) {
 		t.Errorf("NOX: got %v want %v", m.NOX, expectNOX)
 	}
-	if m.Luminosity == nil || int(math.Round(*m.Luminosity)) != int(math.Round(expectLux)) {
-		t.Errorf("Luminosity: got %v want %v", m.Luminosity, expectLux)
+	if m.Illuminance == nil || int(math.Round(*m.Illuminance)) != int(math.Round(expectLux)) {
+		t.Errorf("Illuminance: got %v want %v", m.Illuminance, expectLux)
 	}
 	if m.SoundInstant == nil || roundInt10(*m.SoundInstant) != roundInt10(expectSoundInst) {
 		t.Errorf("SoundInstant: got %v want %v", m.SoundInstant, expectSoundInst)
@@ -728,8 +728,8 @@ func TestParseFormatE1_PM2p5(t *testing.T) {
 	if m.NOX == nil || int(math.Round(*m.NOX)) != int(math.Round(expectNOX)) {
 		t.Errorf("NOX: got %v want %v", m.NOX, expectNOX)
 	}
-	if m.Luminosity == nil || int(math.Round(*m.Luminosity)) != int(math.Round(expectLux)) {
-		t.Errorf("Luminosity: got %v want %v", m.Luminosity, expectLux)
+	if m.Illuminance == nil || int(math.Round(*m.Illuminance)) != int(math.Round(expectLux)) {
+		t.Errorf("Illuminance: got %v want %v", m.Illuminance, expectLux)
 	}
 	if m.SoundInstant == nil || roundInt10(*m.SoundInstant) != roundInt10(expectSoundInst) {
 		t.Errorf("SoundInstant: got %v want %v", m.SoundInstant, expectSoundInst)
@@ -833,8 +833,8 @@ func TestParseFormatE1_PM4p0(t *testing.T) {
 	if m.NOX == nil || int(math.Round(*m.NOX)) != int(math.Round(expectNOX)) {
 		t.Errorf("NOX: got %v want %v", m.NOX, expectNOX)
 	}
-	if m.Luminosity == nil || int(math.Round(*m.Luminosity)) != int(math.Round(expectLux)) {
-		t.Errorf("Luminosity: got %v want %v", m.Luminosity, expectLux)
+	if m.Illuminance == nil || int(math.Round(*m.Illuminance)) != int(math.Round(expectLux)) {
+		t.Errorf("Illuminance: got %v want %v", m.Illuminance, expectLux)
 	}
 	if m.SoundInstant == nil || roundInt10(*m.SoundInstant) != roundInt10(expectSoundInst) {
 		t.Errorf("SoundInstant: got %v want %v", m.SoundInstant, expectSoundInst)
@@ -938,8 +938,8 @@ func TestParseFormatE1_PM10p0(t *testing.T) {
 	if m.NOX == nil || int(math.Round(*m.NOX)) != int(math.Round(expectNOX)) {
 		t.Errorf("NOX: got %v want %v", m.NOX, expectNOX)
 	}
-	if m.Luminosity == nil || int(math.Round(*m.Luminosity)) != int(math.Round(expectLux)) {
-		t.Errorf("Luminosity: got %v want %v", m.Luminosity, expectLux)
+	if m.Illuminance == nil || int(math.Round(*m.Illuminance)) != int(math.Round(expectLux)) {
+		t.Errorf("Illuminance: got %v want %v", m.Illuminance, expectLux)
 	}
 	if m.SoundInstant == nil || roundInt10(*m.SoundInstant) != roundInt10(expectSoundInst) {
 		t.Errorf("SoundInstant: got %v want %v", m.SoundInstant, expectSoundInst)
@@ -1043,8 +1043,8 @@ func TestParseFormatE1_CO2(t *testing.T) {
 	if m.NOX == nil || int(math.Round(*m.NOX)) != int(math.Round(expectNOX)) {
 		t.Errorf("NOX: got %v want %v", m.NOX, expectNOX)
 	}
-	if m.Luminosity == nil || int(math.Round(*m.Luminosity)) != int(math.Round(expectLux)) {
-		t.Errorf("Luminosity: got %v want %v", m.Luminosity, expectLux)
+	if m.Illuminance == nil || int(math.Round(*m.Illuminance)) != int(math.Round(expectLux)) {
+		t.Errorf("Illuminance: got %v want %v", m.Illuminance, expectLux)
 	}
 	if m.SoundInstant == nil || roundInt10(*m.SoundInstant) != roundInt10(expectSoundInst) {
 		t.Errorf("SoundInstant: got %v want %v", m.SoundInstant, expectSoundInst)
@@ -1148,8 +1148,8 @@ func TestParseFormatE1_VOC(t *testing.T) {
 	if m.NOX == nil || int(math.Round(*m.NOX)) != int(math.Round(expectNOX)) {
 		t.Errorf("NOX: got %v want %v", m.NOX, expectNOX)
 	}
-	if m.Luminosity == nil || int(math.Round(*m.Luminosity)) != int(math.Round(expectLux)) {
-		t.Errorf("Luminosity: got %v want %v", m.Luminosity, expectLux)
+	if m.Illuminance == nil || int(math.Round(*m.Illuminance)) != int(math.Round(expectLux)) {
+		t.Errorf("Illuminance: got %v want %v", m.Illuminance, expectLux)
 	}
 	if m.SoundInstant == nil || roundInt10(*m.SoundInstant) != roundInt10(expectSoundInst) {
 		t.Errorf("SoundInstant: got %v want %v", m.SoundInstant, expectSoundInst)
@@ -1253,8 +1253,8 @@ func TestParseFormatE1_NOX(t *testing.T) {
 	if m.NOX == nil || int(math.Round(*m.NOX)) != int(math.Round(expectNOX)) {
 		t.Errorf("NOX: got %v want %v", m.NOX, expectNOX)
 	}
-	if m.Luminosity == nil || int(math.Round(*m.Luminosity)) != int(math.Round(expectLux)) {
-		t.Errorf("Luminosity: got %v want %v", m.Luminosity, expectLux)
+	if m.Illuminance == nil || int(math.Round(*m.Illuminance)) != int(math.Round(expectLux)) {
+		t.Errorf("Illuminance: got %v want %v", m.Illuminance, expectLux)
 	}
 	if m.SoundInstant == nil || roundInt10(*m.SoundInstant) != roundInt10(expectSoundInst) {
 		t.Errorf("SoundInstant: got %v want %v", m.SoundInstant, expectSoundInst)
@@ -1358,8 +1358,8 @@ func TestParseFormatE1_Luminosity(t *testing.T) {
 	if m.NOX == nil || int(math.Round(*m.NOX)) != int(math.Round(expectNOX)) {
 		t.Errorf("NOX: got %v want %v", m.NOX, expectNOX)
 	}
-	if m.Luminosity == nil || int(math.Round(*m.Luminosity)) != int(math.Round(expectLux)) {
-		t.Errorf("Luminosity: got %v want %v", m.Luminosity, expectLux)
+	if m.Illuminance == nil || int(math.Round(*m.Illuminance)) != int(math.Round(expectLux)) {
+		t.Errorf("Illuminance: got %v want %v", m.Illuminance, expectLux)
 	}
 	if m.SoundInstant == nil || roundInt10(*m.SoundInstant) != roundInt10(expectSoundInst) {
 		t.Errorf("SoundInstant: got %v want %v", m.SoundInstant, expectSoundInst)
@@ -1463,8 +1463,8 @@ func TestParseFormatE1_SoundInstant(t *testing.T) {
 	if m.NOX == nil || int(math.Round(*m.NOX)) != int(math.Round(expectNOX)) {
 		t.Errorf("NOX: got %v want %v", m.NOX, expectNOX)
 	}
-	if m.Luminosity == nil || int(math.Round(*m.Luminosity)) != int(math.Round(expectLux)) {
-		t.Errorf("Luminosity: got %v want %v", m.Luminosity, expectLux)
+	if m.Illuminance == nil || int(math.Round(*m.Illuminance)) != int(math.Round(expectLux)) {
+		t.Errorf("Illuminance: got %v want %v", m.Illuminance, expectLux)
 	}
 	if m.SoundInstant == nil || roundInt10(*m.SoundInstant) != roundInt10(expectSoundInst) {
 		t.Errorf("SoundInstant: got %v want %v", m.SoundInstant, expectSoundInst)
@@ -1568,8 +1568,8 @@ func TestParseFormatE1_SoundAverage(t *testing.T) {
 	if m.NOX == nil || int(math.Round(*m.NOX)) != int(math.Round(expectNOX)) {
 		t.Errorf("NOX: got %v want %v", m.NOX, expectNOX)
 	}
-	if m.Luminosity == nil || int(math.Round(*m.Luminosity)) != int(math.Round(expectLux)) {
-		t.Errorf("Luminosity: got %v want %v", m.Luminosity, expectLux)
+	if m.Illuminance == nil || int(math.Round(*m.Illuminance)) != int(math.Round(expectLux)) {
+		t.Errorf("Illuminance: got %v want %v", m.Illuminance, expectLux)
 	}
 	if m.SoundInstant == nil || roundInt10(*m.SoundInstant) != roundInt10(expectSoundInst) {
 		t.Errorf("SoundInstant: got %v want %v", m.SoundInstant, expectSoundInst)
@@ -1673,8 +1673,8 @@ func TestParseFormatE1_SoundPeak(t *testing.T) {
 	if m.NOX == nil || int(math.Round(*m.NOX)) != int(math.Round(expectNOX)) {
 		t.Errorf("NOX: got %v want %v", m.NOX, expectNOX)
 	}
-	if m.Luminosity == nil || int(math.Round(*m.Luminosity)) != int(math.Round(expectLux)) {
-		t.Errorf("Luminosity: got %v want %v", m.Luminosity, expectLux)
+	if m.Illuminance == nil || int(math.Round(*m.Illuminance)) != int(math.Round(expectLux)) {
+		t.Errorf("Illuminance: got %v want %v", m.Illuminance, expectLux)
 	}
 	if m.SoundInstant == nil || roundInt10(*m.SoundInstant) != roundInt10(expectSoundInst) {
 		t.Errorf("SoundInstant: got %v want %v", m.SoundInstant, expectSoundInst)
@@ -1778,8 +1778,8 @@ func TestParseFormatE1_SeqCnt(t *testing.T) {
 	if m.NOX == nil || int(math.Round(*m.NOX)) != int(math.Round(expectNOX)) {
 		t.Errorf("NOX: got %v want %v", m.NOX, expectNOX)
 	}
-	if m.Luminosity == nil || int(math.Round(*m.Luminosity)) != int(math.Round(expectLux)) {
-		t.Errorf("Luminosity: got %v want %v", m.Luminosity, expectLux)
+	if m.Illuminance == nil || int(math.Round(*m.Illuminance)) != int(math.Round(expectLux)) {
+		t.Errorf("Illuminance: got %v want %v", m.Illuminance, expectLux)
 	}
 	if m.SoundInstant == nil || roundInt10(*m.SoundInstant) != roundInt10(expectSoundInst) {
 		t.Errorf("SoundInstant: got %v want %v", m.SoundInstant, expectSoundInst)
@@ -2018,8 +2018,8 @@ func TestParseFormatE1_Max(t *testing.T) {
 	if m.NOX == nil || int(math.Round(*m.NOX)) != int(math.Round(expectNOX)) {
 		t.Errorf("NOX: got %v want %v", m.NOX, expectNOX)
 	}
-	if m.Luminosity == nil || int(math.Round(*m.Luminosity)) != int(math.Round(expectLux)) {
-		t.Errorf("Luminosity: got %v want %v", m.Luminosity, expectLux)
+	if m.Illuminance == nil || int(math.Round(*m.Illuminance)) != int(math.Round(expectLux)) {
+		t.Errorf("Illuminance: got %v want %v", m.Illuminance, expectLux)
 	}
 	if m.SoundInstant == nil || roundInt10(*m.SoundInstant) != roundInt10(expectSoundInst) {
 		t.Errorf("SoundInstant: got %v want %v", m.SoundInstant, expectSoundInst)
@@ -2123,8 +2123,8 @@ func TestParseFormatE1_Min(t *testing.T) {
 	if m.NOX == nil || int(math.Round(*m.NOX)) != int(math.Round(expectNOX)) {
 		t.Errorf("NOX: got %v want %v", m.NOX, expectNOX)
 	}
-	if m.Luminosity == nil || int(math.Round(*m.Luminosity)) != int(math.Round(expectLux)) {
-		t.Errorf("Luminosity: got %v want %v", m.Luminosity, expectLux)
+	if m.Illuminance == nil || int(math.Round(*m.Illuminance)) != int(math.Round(expectLux)) {
+		t.Errorf("Illuminance: got %v want %v", m.Illuminance, expectLux)
 	}
 	if m.SoundInstant == nil || roundInt10(*m.SoundInstant) != roundInt10(expectSoundInst) {
 		t.Errorf("SoundInstant: got %v want %v", m.SoundInstant, expectSoundInst)
@@ -2201,8 +2201,8 @@ func TestParseFormatE1_InvalidData(t *testing.T) {
 	if m.NOX != nil {
 		t.Errorf("NOX: expected nil, got %v", m.NOX)
 	}
-	if m.Luminosity != nil {
-		t.Errorf("Luminosity: expected nil, got %v", m.Luminosity)
+	if m.Illuminance != nil {
+		t.Errorf("Illuminance: expected nil, got %v", m.Illuminance)
 	}
 	if m.MeasurementSequenceNumber != nil {
 		t.Errorf("MeasurementSequenceNumber: expected nil, got %v", m.MeasurementSequenceNumber)

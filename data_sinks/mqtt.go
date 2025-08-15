@@ -127,7 +127,7 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 					safePublishF("co2", measurement.CO2)
 					safePublishF("voc", measurement.VOC)
 					safePublishF("nox", measurement.NOX)
-					safePublishF("luminosity", measurement.Luminosity)
+					safePublishF("illuminance", measurement.Illuminance)
 					safePublishF("soundInstant", measurement.SoundInstant)
 					safePublishF("soundAverage", measurement.SoundAverage)
 					safePublishF("soundPeak", measurement.SoundPeak)

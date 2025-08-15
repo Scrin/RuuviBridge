@@ -69,7 +69,7 @@ func ParseFormatE1(input string) (Measurement, error) {
 	// Luminosity (uint24, 0.01 resolution)
 	if !bytes.Equal(data[19:22], []byte{0xff, 0xff, 0xff}) {
 		lux := (uint32(data[19]) << 16) | (uint32(data[20]) << 8) | uint32(data[21])
-		m.Luminosity = f64(float64(lux) / 100)
+		m.Illuminance = f64(float64(lux) / 100)
 	}
 
 	// Sound levels (now 9-bit unsigned using special flags for MSB), 0.2 resolution with +18 offset

@@ -234,11 +234,10 @@ func publishHomeAssistantDiscoveries(client mqtt.Client, conf config.MQTTPublish
 		Icon:              "mdi:chemical-weapon",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
-		Available:         measurement.Luminosity != nil,
-		DeviceClass:       "illuminosity",
-		EntityName:        "luminosity",
+		Available:         measurement.Illuminance != nil,
+		EntityName:        "illuminance",
 		UnitOfMeasurement: "lx",
-		JsonAttribute:     "luminosity",
+		JsonAttribute:     "illuminance",
 		Icon:              "mdi:brightness-5",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{

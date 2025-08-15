@@ -27,7 +27,7 @@ type Measurement struct {
 	CO2          *float64 `json:"co2,omitempty"`
 	VOC          *float64 `json:"voc,omitempty"`
 	NOX          *float64 `json:"nox,omitempty"`
-	Luminosity   *float64 `json:"luminosity,omitempty"`
+	Illuminance  *float64 `json:"illuminance,omitempty"`
 	SoundInstant *float64 `json:"soundInstant,omitempty"`
 	SoundAverage *float64 `json:"soundAverage,omitempty"`
 	SoundPeak    *float64 `json:"soundPeak,omitempty"`

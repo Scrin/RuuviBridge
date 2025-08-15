@@ -317,7 +317,7 @@ func recordMetrics(m parser.Measurement) {
 	safeSetF(metrics.co2, m.CO2)
 	safeSetF(metrics.voc, m.VOC)
 	safeSetF(metrics.nox, m.NOX)
-	safeSetF(metrics.luminosity, m.Luminosity)
+	safeSetF(metrics.luminosity, m.Illuminance)
 	safeSetF(metrics.soundInstant, m.SoundInstant)
 	safeSetF(metrics.soundAverage, m.SoundAverage)
 	safeSetF(metrics.soundPeak, m.SoundPeak)
