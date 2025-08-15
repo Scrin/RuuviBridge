@@ -33,10 +33,13 @@ type homeassistantDiscovery struct {
 
 type homeassistantAttributes struct {
 	Mac                       string `json:"mac"`
-	DataFormat                int64  `json:"data_format"`
+	DataFormat                string `json:"data_format"`
 	Rssi                      *int64 `json:"rssi,omitempty"`
 	TxPower                   *int64 `json:"tx_power,omitempty"`
 	MeasurementSequenceNumber *int64 `json:"measurement_sequence_number,omitempty"`
+	CalibrationInProgress     *bool  `json:"calibration_in_progress,omitempty"`
+	ButtonPressedOnBoot       *bool  `json:"button_pressed_on_boot,omitempty"`
+	RtcOnBoot                 *bool  `json:"rtc_on_boot,omitempty"`
 }
 
 type homeassistantDiscoveryConfig struct {
@@ -184,6 +187,81 @@ func publishHomeAssistantDiscoveries(client mqtt.Client, conf config.MQTTPublish
 		JsonAttribute:     "measurementSequenceNumber",
 		Icon:              "mdi:counter",
 	})
+	// New E1 fields
+	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
+		Available:         measurement.Pm10 != nil,
+		EntityName:        "PM1.0",
+		UnitOfMeasurement: "µg/m³",
+		JsonAttribute:     "pm10",
+	})
+	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
+		Available:         measurement.Pm25 != nil,
+		EntityName:        "PM2.5",
+		UnitOfMeasurement: "µg/m³",
+		JsonAttribute:     "pm25",
+	})
+	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
+		Available:         measurement.Pm40 != nil,
+		EntityName:        "PM4.0",
+		UnitOfMeasurement: "µg/m³",
+		JsonAttribute:     "pm40",
+	})
+	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
+		Available:         measurement.Pm100 != nil,
+		EntityName:        "PM10.0",
+		UnitOfMeasurement: "µg/m³",
+		JsonAttribute:     "pm100",
+	})
+	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
+		Available:         measurement.CO2 != nil,
+		DeviceClass:       "carbon_dioxide",
+		EntityName:        "CO₂",
+		UnitOfMeasurement: "ppm",
+		JsonAttribute:     "co2",
+	})
+	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
+		Available:         measurement.VOC != nil,
+		EntityName:        "VOC index",
+		UnitOfMeasurement: "x",
+		JsonAttribute:     "voc",
+		Icon:              "mdi:chemical-weapon",
+	})
+	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
+		Available:         measurement.NOX != nil,
+		EntityName:        "NOx index",
+		UnitOfMeasurement: "x",
+		JsonAttribute:     "nox",
+		Icon:              "mdi:chemical-weapon",
+	})
+	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
+		Available:         measurement.Luminosity != nil,
+		DeviceClass:       "illuminosity",
+		EntityName:        "luminosity",
+		UnitOfMeasurement: "lx",
+		JsonAttribute:     "luminosity",
+		Icon:              "mdi:brightness-5",
+	})
+	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
+		Available:         measurement.SoundInstant != nil,
+		EntityName:        "dBA instant",
+		UnitOfMeasurement: "dBA",
+		JsonAttribute:     "soundInstant",
+		Icon:              "mdi:volume-high",
+	})
+	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
+		Available:         measurement.SoundAverage != nil,
+		EntityName:        "dBA average",
+		UnitOfMeasurement: "dBA",
+		JsonAttribute:     "soundAverage",
+		Icon:              "mdi:volume-medium",
+	})
+	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
+		Available:         measurement.SoundPeak != nil,
+		EntityName:        "dBA peak",
+		UnitOfMeasurement: "dBA",
+		JsonAttribute:     "soundPeak",
+		Icon:              "mdi:volume-high",
+	})
 }
 
 func publishHomeAssistantDiscovery(client mqtt.Client, conf config.MQTTPublisher, measurement parser.Measurement, disco homeassistantDiscoveryConfig) {
@@ -222,8 +300,11 @@ func publishHomeAssistantDiscovery(client mqtt.Client, conf config.MQTTPublisher
 		return
 	}
 	attributesJson, err := json.Marshal(homeassistantAttributes{
-		Mac:        measurement.Mac,
-		DataFormat: measurement.DataFormat,
+		Mac:                   measurement.Mac,
+		DataFormat:            fmt.Sprintf("%X", measurement.DataFormat),
+		CalibrationInProgress: measurement.CalibrationInProgress,
+		ButtonPressedOnBoot:   measurement.ButtonPressedOnBoot,
+		RtcOnBoot:             measurement.RtcOnBoot,
 	})
 	if err != nil {
 		log.WithError(err).Error("Failed to serialize Home Assistant attribute data")

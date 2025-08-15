@@ -48,7 +48,7 @@ func InfluxDB3(conf config.InfluxDB3Publisher) chan<- parser.Measurement {
 			}
 			go func(measurement parser.Measurement) {
 				p := influxdb3.NewPointWithMeasurement(measurementName).
-					SetTag("dataFormat", fmt.Sprintf("%d", measurement.DataFormat)).
+					SetTag("dataFormat", fmt.Sprintf("%X", measurement.DataFormat)).
 					SetTag("mac", strings.ReplaceAll(measurement.Mac, ":", ""))
 				if measurement.Name != nil {
 					p.SetTag("name", *measurement.Name)
@@ -75,6 +75,22 @@ func InfluxDB3(conf config.InfluxDB3Publisher) chan<- parser.Measurement {
 				influx3AddFloat(p, "accelerationAngleFromX", measurement.AccelerationAngleFromX)
 				influx3AddFloat(p, "accelerationAngleFromY", measurement.AccelerationAngleFromY)
 				influx3AddFloat(p, "accelerationAngleFromZ", measurement.AccelerationAngleFromZ)
+				// New E1 fields
+				influx3AddFloat(p, "pm10", measurement.Pm10)
+				influx3AddFloat(p, "pm25", measurement.Pm25)
+				influx3AddFloat(p, "pm40", measurement.Pm40)
+				influx3AddFloat(p, "pm100", measurement.Pm100)
+				influx3AddFloat(p, "co2", measurement.CO2)
+				influx3AddFloat(p, "voc", measurement.VOC)
+				influx3AddFloat(p, "nox", measurement.NOX)
+				influx3AddFloat(p, "luminosity", measurement.Luminosity)
+				influx3AddFloat(p, "soundInstant", measurement.SoundInstant)
+				influx3AddFloat(p, "soundAverage", measurement.SoundAverage)
+				influx3AddFloat(p, "soundPeak", measurement.SoundPeak)
+				// Diagnostics
+				influx3AddBool(p, "calibrationInProgress", measurement.CalibrationInProgress)
+				influx3AddBool(p, "buttonPressedOnBoot", measurement.ButtonPressedOnBoot)
+				influx3AddBool(p, "rtcOnBoot", measurement.RtcOnBoot)
 				p.SetTimestamp(time.Now())
 				err := client.WritePoints(context.Background(), []*influxdb3.Point{p})
 				if err != nil {
@@ -94,6 +110,12 @@ func influx3AddFloat(p *influxdb3.Point, name string, value *float64) {
 }
 
 func influx3AddInt(p *influxdb3.Point, name string, value *int64) {
+	if value != nil {
+		p.SetField(name, *value)
+	}
+}
+
+func influx3AddBool(p *influxdb3.Point, name string, value *bool) {
 	if value != nil {
 		p.SetField(name, *value)
 	}

@@ -47,7 +47,7 @@ func InfluxDB(conf config.InfluxDBPublisher) chan<- parser.Measurement {
 			}
 			go func(measurement parser.Measurement) {
 				p := influxdb.NewPointWithMeasurement(measurementName).
-					AddTag("dataFormat", fmt.Sprintf("%d", measurement.DataFormat)).
+					AddTag("dataFormat", fmt.Sprintf("%X", measurement.DataFormat)).
 					AddTag("mac", strings.ReplaceAll(measurement.Mac, ":", ""))
 				if measurement.Name != nil {
 					p.AddTag("name", *measurement.Name)
@@ -74,6 +74,22 @@ func InfluxDB(conf config.InfluxDBPublisher) chan<- parser.Measurement {
 				addFloat(p, "accelerationAngleFromX", measurement.AccelerationAngleFromX)
 				addFloat(p, "accelerationAngleFromY", measurement.AccelerationAngleFromY)
 				addFloat(p, "accelerationAngleFromZ", measurement.AccelerationAngleFromZ)
+				// New E1 fields
+				addFloat(p, "pm10", measurement.Pm10)
+				addFloat(p, "pm25", measurement.Pm25)
+				addFloat(p, "pm40", measurement.Pm40)
+				addFloat(p, "pm100", measurement.Pm100)
+				addFloat(p, "co2", measurement.CO2)
+				addFloat(p, "voc", measurement.VOC)
+				addFloat(p, "nox", measurement.NOX)
+				addFloat(p, "luminosity", measurement.Luminosity)
+				addFloat(p, "soundInstant", measurement.SoundInstant)
+				addFloat(p, "soundAverage", measurement.SoundAverage)
+				addFloat(p, "soundPeak", measurement.SoundPeak)
+				// Diagnostics
+				addBool(p, "calibrationInProgress", measurement.CalibrationInProgress)
+				addBool(p, "buttonPressedOnBoot", measurement.ButtonPressedOnBoot)
+				addBool(p, "rtcOnBoot", measurement.RtcOnBoot)
 				p.SetTime(time.Now())
 				err := writeAPI.WritePoint(context.Background(), p)
 				if err != nil {
@@ -93,6 +109,12 @@ func addFloat(p *write.Point, name string, value *float64) {
 }
 
 func addInt(p *write.Point, name string, value *int64) {
+	if value != nil {
+		p.AddField(name, *value)
+	}
+}
+
+func addBool(p *write.Point, name string, value *bool) {
 	if value != nil {
 		p.AddField(name, *value)
 	}

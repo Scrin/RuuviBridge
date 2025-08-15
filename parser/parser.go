@@ -20,6 +20,22 @@ type Measurement struct {
 	MovementCounter           *int64   `json:"movementCounter,omitempty"`
 	MeasurementSequenceNumber *int64   `json:"measurementSequenceNumber,omitempty"`
 
+	Pm10         *float64 `json:"pm10,omitempty"`
+	Pm25         *float64 `json:"pm25,omitempty"`
+	Pm40         *float64 `json:"pm40,omitempty"`
+	Pm100        *float64 `json:"pm100,omitempty"`
+	CO2          *float64 `json:"co2,omitempty"`
+	VOC          *float64 `json:"voc,omitempty"`
+	NOX          *float64 `json:"nox,omitempty"`
+	Luminosity   *float64 `json:"luminosity,omitempty"`
+	SoundInstant *float64 `json:"soundInstant,omitempty"`
+	SoundAverage *float64 `json:"soundAverage,omitempty"`
+	SoundPeak    *float64 `json:"soundPeak,omitempty"`
+
+	CalibrationInProgress *bool `json:"calibrationInProgress,omitempty"`
+	ButtonPressedOnBoot   *bool `json:"buttonPressedOnBoot,omitempty"`
+	RtcOnBoot             *bool `json:"rtcOnBoot,omitempty"`
+
 	AccelerationTotal        *float64 `json:"accelerationTotal,omitempty"`
 	AbsoluteHumidity         *float64 `json:"absoluteHumidity,omitempty"`
 	DewPoint                 *float64 `json:"dewPoint,omitempty"`
@@ -41,7 +57,10 @@ func i64(value int64) *int64 {
 
 func Parse(input string) (Measurement, bool) {
 	var measurement Measurement
-	var err_format5, err_format3 error
+	var err_formate1, err_format5, err_format3 error
+	if measurement, err_formate1 = ParseFormatE1(input); err_formate1 == nil {
+		return measurement, true
+	}
 	if measurement, err_format5 = ParseFormat5(input); err_format5 == nil {
 		return measurement, true
 	}
@@ -49,9 +68,10 @@ func Parse(input string) (Measurement, bool) {
 		return measurement, true
 	}
 	log.WithFields(log.Fields{
-		"raw_data":      input,
-		"format5_error": err_format5,
-		"format3_error": err_format3,
+		"raw_data":        input,
+		"format_e1_error": err_formate1,
+		"format_5_error":  err_format5,
+		"format_3_error":  err_format3,
 	}).Trace("Failed to parse data")
 	return Measurement{}, false
 }

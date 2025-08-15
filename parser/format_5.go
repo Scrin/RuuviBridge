@@ -16,21 +16,21 @@ func ParseFormat5(input string) (Measurement, error) {
 		return m, err
 	}
 	if len(data) < 31 {
-		return m, errors.New("Data is too short")
+		return m, errors.New("data is too short")
 	}
 
 	if data[4] != 0xff { // manufacturer specific data
-		return m, errors.New("Data is not manufacturer specific data")
+		return m, errors.New("data is not manufacturer specific data")
 	}
 
 	if data[5] != ruuviCompanyIdentifier[0] || data[6] != ruuviCompanyIdentifier[1] {
-		return m, errors.New("Data has wrong company identifier")
+		return m, errors.New("data has wrong company identifier")
 	}
 
 	data = data[7:]
 
-	if data[0] != 5 { // data format
-		return m, errors.New("Data is not in data format 5")
+	if data[0] != 0x05 { // data format
+		return m, errors.New("data is not in data format 5")
 	}
 
 	m.DataFormat = int64(data[0])

@@ -3,6 +3,7 @@ package data_sinks
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/Scrin/RuuviBridge/common/limiter"
@@ -10,7 +11,6 @@ import (
 	"github.com/Scrin/RuuviBridge/parser"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	log "github.com/sirupsen/logrus"
-	"strconv"
 )
 
 func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
@@ -95,6 +95,11 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 							client.Publish(conf.TopicPrefix+"/"+measurement.Mac+"/"+label, 0, false, strconv.FormatInt(*v, 10))
 						}
 					}
+					safePublishB := func(label string, v *bool) {
+						if v != nil {
+							client.Publish(conf.TopicPrefix+"/"+measurement.Mac+"/"+label, 0, false, strconv.FormatBool(*v))
+						}
+					}
 					safePublishF("temperature", measurement.Temperature)
 					safePublishF("humidity", measurement.Humidity)
 					safePublishF("pressure", measurement.Pressure)
@@ -114,6 +119,22 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 					safePublishF("accelerationAngleFromX", measurement.AccelerationAngleFromX)
 					safePublishF("accelerationAngleFromY", measurement.AccelerationAngleFromY)
 					safePublishF("accelerationAngleFromZ", measurement.AccelerationAngleFromZ)
+					// New E1 fields
+					safePublishF("pm10", measurement.Pm10)
+					safePublishF("pm25", measurement.Pm25)
+					safePublishF("pm40", measurement.Pm40)
+					safePublishF("pm100", measurement.Pm100)
+					safePublishF("co2", measurement.CO2)
+					safePublishF("voc", measurement.VOC)
+					safePublishF("nox", measurement.NOX)
+					safePublishF("luminosity", measurement.Luminosity)
+					safePublishF("soundInstant", measurement.SoundInstant)
+					safePublishF("soundAverage", measurement.SoundAverage)
+					safePublishF("soundPeak", measurement.SoundPeak)
+					// Diagnostics
+					safePublishB("calibrationInProgress", measurement.CalibrationInProgress)
+					safePublishB("buttonPressedOnBoot", measurement.ButtonPressedOnBoot)
+					safePublishB("rtcOnBoot", measurement.RtcOnBoot)
 				}
 			}
 		}
