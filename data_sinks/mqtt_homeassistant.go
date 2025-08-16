@@ -8,7 +8,7 @@ import (
 	"github.com/Scrin/RuuviBridge/config"
 	"github.com/Scrin/RuuviBridge/parser"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 )
 
 type homeassistantDiscoveryDevice struct {
@@ -295,7 +295,7 @@ func publishHomeAssistantDiscovery(client mqtt.Client, conf config.MQTTPublisher
 		},
 	})
 	if err != nil {
-		log.WithError(err).Error("Failed to serialize Home Assistant discovery data")
+		log.Error().Err(err).Msg("Failed to serialize Home Assistant discovery data")
 		return
 	}
 	attributesJson, err := json.Marshal(homeassistantAttributes{
@@ -306,7 +306,7 @@ func publishHomeAssistantDiscovery(client mqtt.Client, conf config.MQTTPublisher
 		RtcOnBoot:             measurement.RtcOnBoot,
 	})
 	if err != nil {
-		log.WithError(err).Error("Failed to serialize Home Assistant attribute data")
+		log.Error().Err(err).Msg("Failed to serialize Home Assistant attribute data")
 		return
 	}
 	client.Publish(confTopicPrefix+"/attributes", 0, false, string(attributesJson))

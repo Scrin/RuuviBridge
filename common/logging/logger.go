@@ -1,102 +1,63 @@
 package logging
 
 import (
-	"sort"
+	"os"
+	"time"
 
 	"github.com/Scrin/RuuviBridge/config"
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 )
 
 func Setup(conf config.Logging) {
+	var logger zerolog.Logger
+
+	zerolog.LevelFieldName = "severity"
+	zerolog.TimestampFieldName = "timestamp"
+	zerolog.TimeFieldFormat = time.RFC3339Nano
+
+	switch conf.Level {
+	case "trace":
+		zerolog.SetGlobalLevel(zerolog.TraceLevel)
+	case "debug":
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
+	case "info":
+		zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	case "warn":
+		zerolog.SetGlobalLevel(zerolog.WarnLevel)
+	case "error":
+		zerolog.SetGlobalLevel(zerolog.ErrorLevel)
+	case "fatal":
+		zerolog.SetGlobalLevel(zerolog.FatalLevel)
+	case "panic":
+		zerolog.SetGlobalLevel(zerolog.PanicLevel)
+	case "":
+		zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	default:
+		log.Fatal().Str("configured_level", conf.Level).Msg("Invalid logging level")
+	}
+
+	switch conf.Type {
+	case "json":
+		logger = zerolog.New(os.Stdout)
+	case "structured", "simple", "": // simple is not actually supported anymore, but lets keep it for backwards compatibility
+		cw := zerolog.NewConsoleWriter(func(w *zerolog.ConsoleWriter) { w.Out = os.Stdout })
+		logger = zerolog.New(cw)
+	default:
+		log.Fatal().Str("configured_type", conf.Type).Msg("Invalid logging type")
+	}
+
+	ctx := logger.With()
 	timestamps := true
 	if conf.Timestamps != nil {
 		timestamps = *conf.Timestamps
 	}
-
-	log.SetReportCaller(conf.WithCaller)
-
+	if timestamps {
+		ctx = ctx.Timestamp()
+	}
 	if conf.WithCaller {
-		if timestamps {
-			log.SetFormatter(new(PlainFormatterWithTsWithCaller))
-		} else {
-			log.SetFormatter(new(PlainFormatterWithoutTsWithCaller))
-		}
-	} else {
-		if timestamps {
-			log.SetFormatter(new(PlainFormatterWithTsWithoutCaller))
-		} else {
-			log.SetFormatter(new(PlainFormatterWithoutTsWithoutCaller))
-		}
+		ctx = ctx.Caller()
 	}
 
-	switch conf.Type {
-	case "structured":
-		log.SetFormatter(&log.TextFormatter{
-			DisableTimestamp: !timestamps,
-			SortingFunc:      sortFN,
-		})
-	case "json":
-		log.SetFormatter(&log.JSONFormatter{
-			DisableTimestamp: !timestamps,
-		})
-	case "simple":
-	case "":
-	default:
-		log.Fatal("Invalid logging type: ", conf.Type)
-	}
-
-	switch conf.Level {
-	case "trace":
-		log.SetLevel(log.TraceLevel)
-	case "debug":
-		log.SetLevel(log.DebugLevel)
-	case "info":
-		log.SetLevel(log.InfoLevel)
-	case "warn":
-		log.SetLevel(log.WarnLevel)
-	case "error":
-		log.SetLevel(log.ErrorLevel)
-	case "fatal":
-		log.SetLevel(log.FatalLevel)
-	case "panic":
-		log.SetLevel(log.PanicLevel)
-	case "":
-		log.SetLevel(log.InfoLevel)
-	default:
-		log.Fatal("Invalid logging level: ", conf.Level)
-	}
-}
-
-func sortFN(keys []string) {
-	sort.Slice(keys, func(i, j int) bool {
-		switch keys[i] {
-		case "time":
-			return true
-		case "level":
-			return keys[j] != "time"
-		case "msg":
-			return keys[j] != "time" && keys[j] != "level"
-		case "error":
-			return keys[j] == "file" || keys[j] == "func"
-		case "func":
-			return keys[j] == "file"
-		case "file":
-			return false
-		}
-		switch keys[j] {
-		case "time":
-			return false
-		case "level":
-			return keys[j] == "time"
-		case "msg":
-			return keys[i] == "level"
-		case "error":
-			return keys[i] != "file" && keys[i] != "func"
-		case "func":
-			return keys[i] != "file"
-		case "file":
-			return true
-		}
-		return keys[i] < keys[j]
-	})
+	log.Logger = ctx.Logger()
 }

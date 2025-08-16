@@ -10,7 +10,7 @@ import (
 	"github.com/Scrin/RuuviBridge/config"
 	"github.com/Scrin/RuuviBridge/parser"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 )
 
 func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
@@ -26,11 +26,11 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 	if server == "" {
 		server = fmt.Sprintf("tcp://%s:%d", address, port)
 	}
-	log.WithFields(log.Fields{
-		"target":           server,
-		"topic_prefix":     conf.TopicPrefix,
-		"minimum_interval": conf.MinimumInterval,
-	}).Info("Starting MQTT sink")
+	log.Info().
+		Str("target", server).
+		Str("topic_prefix", conf.TopicPrefix).
+		Dur("minimum_interval", conf.MinimumInterval).
+		Msg("Starting MQTT sink")
 
 	clientID := conf.ClientID
 	if clientID == "" {
@@ -54,11 +54,12 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 	}
 	client := mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
-		log.WithFields(log.Fields{
-			"target":           server,
-			"topic_prefix":     conf.TopicPrefix,
-			"minimum_interval": conf.MinimumInterval,
-		}).WithError(token.Error()).Error("Failed to connect to MQTT")
+		log.Error().
+			Str("target", server).
+			Str("topic_prefix", conf.TopicPrefix).
+			Dur("minimum_interval", conf.MinimumInterval).
+			Err(token.Error()).
+			Msg("Failed to connect to MQTT")
 	}
 	if conf.LWTTopic != "" {
 		payload := conf.LWTOnlinePayload
@@ -73,12 +74,12 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 	go func() {
 		for measurement := range measurements {
 			if !limiter.Check(measurement) {
-				log.WithFields(log.Fields{"mac": measurement.Mac}).Trace("Skipping MQTT publish due to interval limit")
+				log.Trace().Str("mac", measurement.Mac).Msg("Skipping MQTT publish due to interval limit")
 				continue
 			}
 			data, err := json.Marshal(measurement)
 			if err != nil {
-				log.WithError(err).Error("Failed to serialize measurement")
+				log.Error().Err(err).Msg("Failed to serialize measurement")
 			} else {
 				client.Publish(conf.TopicPrefix+"/"+measurement.Mac, 0, false, string(data))
 				if conf.HomeassistantDiscoveryPrefix != "" {

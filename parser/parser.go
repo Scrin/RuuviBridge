@@ -1,6 +1,6 @@
 package parser
 
-import log "github.com/sirupsen/logrus"
+import "github.com/rs/zerolog/log"
 
 type Measurement struct {
 	Name       *string `json:"name,omitempty"`
@@ -67,11 +67,11 @@ func Parse(input string) (Measurement, bool) {
 	if measurement, err_format3 = ParseFormat3(input); err_format3 == nil {
 		return measurement, true
 	}
-	log.WithFields(log.Fields{
-		"raw_data":        input,
-		"format_e1_error": err_formate1,
-		"format_5_error":  err_format5,
-		"format_3_error":  err_format3,
-	}).Trace("Failed to parse data")
+	log.Trace().
+		Str("raw_data", input).
+		Str("format_e1_error", err_formate1.Error()).
+		Str("format_5_error", err_format5.Error()).
+		Str("format_3_error", err_format3.Error()).
+		Msg("Failed to parse data")
 	return Measurement{}, false
 }

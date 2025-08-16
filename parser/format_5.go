@@ -6,7 +6,7 @@ import (
 	"encoding/hex"
 	"errors"
 
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 )
 
 func ParseFormat5(input string) (Measurement, error) {
@@ -64,9 +64,9 @@ func ParseFormat5(input string) (Measurement, error) {
 		m.MeasurementSequenceNumber = i64(int64(binary.BigEndian.Uint16(data[16:18])))
 	}
 
-	log.WithFields(log.Fields{
-		"raw_data":    input,
-		"data_format": m.DataFormat,
-	}).Trace("Successfully parsed data")
+	log.Trace().
+		Str("raw_data", input).
+		Int64("data_format", m.DataFormat).
+		Msg("Successfully parsed data")
 	return m, nil
 }

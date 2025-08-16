@@ -10,7 +10,7 @@ import (
 	"github.com/Scrin/RuuviBridge/config"
 	"github.com/Scrin/RuuviBridge/parser"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 )
 
 type message struct {
@@ -37,20 +37,20 @@ func StartMQTTListener(conf config.MQTTListener, measurements chan<- parser.Meas
 		server = fmt.Sprintf("tcp://%s:%d", address, port)
 	}
 	subscription := conf.TopicPrefix + "/+"
-	log := log.WithFields(log.Fields{
-		"target":            server,
-		"topic_prefix":      conf.TopicPrefix,
-		"mqtt_subscription": subscription,
-	})
+	log := log.With().
+		Str("target", server).
+		Str("topic_prefix", conf.TopicPrefix).
+		Str("mqtt_subscription", subscription).
+		Logger()
 
-	log.Info("Starting MQTT subscriber")
+	log.Info().Msg("Starting MQTT subscriber")
 
 	messagePubHandler := func(client mqtt.Client, msg mqtt.Message) {
 		topic := msg.Topic()
 		var message message
 		err := json.Unmarshal(msg.Payload(), &message)
 		if err != nil {
-			log.WithError(err).Error("Failed to deserialize MQTT message")
+			log.Error().Err(err).Msg("Failed to deserialize MQTT message")
 			return
 		}
 
@@ -87,10 +87,10 @@ func StartMQTTListener(conf config.MQTTListener, measurements chan<- parser.Meas
 	}
 	client := mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
-		log.WithError(token.Error()).Fatal("Failed to connect to MQTT")
+		log.Fatal().Err(token.Error()).Msg("Failed to connect to MQTT")
 	}
 	if token := client.Subscribe(subscription, 0, messagePubHandler); token.Wait() && token.Error() != nil {
-		log.WithError(token.Error()).Fatal("Failed to subscribe to MQTT topic")
+		log.Fatal().Err(token.Error()).Msg("Failed to subscribe to MQTT topic")
 	}
 	if conf.LWTTopic != "" {
 		payload := conf.LWTOnlinePayload

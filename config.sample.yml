@@ -135,8 +135,8 @@ tag_names:
 
 # Logging options for RuuviBridge itself
 logging:
-  # Type can be either "structured", "json" or "simple"
-  type: simple
+  # Type can be either "structured" or "json"
+  type: structured
   # Valid logging levels from most verbose to least verbose: trace, debug, info, warn, error, fatal, panic
   level: info
   # Include timestamp in the log line. Can be useful to turn off with certain logging systems which add their own timestamps

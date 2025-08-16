@@ -11,7 +11,7 @@ import (
 	"github.com/Scrin/RuuviBridge/parser"
 	influxdb "github.com/influxdata/influxdb-client-go/v2"
 	"github.com/influxdata/influxdb-client-go/v2/api/write"
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 )
 
 func InfluxDB(conf config.InfluxDBPublisher) chan<- parser.Measurement {
@@ -27,12 +27,12 @@ func InfluxDB(conf config.InfluxDBPublisher) chan<- parser.Measurement {
 	if measurementName == "" {
 		measurementName = "ruuvi_measurements"
 	}
-	log.WithFields(log.Fields{
-		"target":           url,
-		"bucket":           bucket,
-		"measurement_name": measurementName,
-		"minimum_interval": conf.MinimumInterval,
-	}).Info("Starting InfluxDB sink")
+	log.Info().
+		Str("target", url).
+		Str("bucket", bucket).
+		Str("measurement_name", measurementName).
+		Dur("minimum_interval", conf.MinimumInterval).
+		Msg("Starting InfluxDB sink")
 
 	client := influxdb.NewClient(url, conf.AuthToken)
 	writeAPI := client.WriteAPIBlocking(conf.Org, bucket)
@@ -42,7 +42,7 @@ func InfluxDB(conf config.InfluxDBPublisher) chan<- parser.Measurement {
 	go func() {
 		for measurement := range measurements {
 			if !limiter.Check(measurement) {
-				log.WithFields(log.Fields{"mac": measurement.Mac}).Trace("Skipping InfluxDB publish due to interval limit")
+				log.Trace().Str("mac", measurement.Mac).Msg("Skipping InfluxDB publish due to interval limit")
 				continue
 			}
 			go func(measurement parser.Measurement) {
@@ -93,7 +93,7 @@ func InfluxDB(conf config.InfluxDBPublisher) chan<- parser.Measurement {
 				p.SetTime(time.Now())
 				err := writeAPI.WritePoint(context.Background(), p)
 				if err != nil {
-					log.WithError(err).Error("Failed to send data to InfluxDB")
+					log.Error().Err(err).Msg("Failed to send data to InfluxDB")
 				}
 			}(measurement)
 		}

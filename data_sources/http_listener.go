@@ -9,7 +9,7 @@ import (
 
 	"github.com/Scrin/RuuviBridge/config"
 	"github.com/Scrin/RuuviBridge/parser"
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 )
 
 func StartHTTPListener(conf config.HTTPListener, measurements chan<- parser.Measurement) chan<- bool {
@@ -17,29 +17,27 @@ func StartHTTPListener(conf config.HTTPListener, measurements chan<- parser.Meas
 	if port == 0 {
 		port = 8080
 	}
-	log.WithFields(log.Fields{"port": port}).Info("Starting http listener")
+	log.Info().Int("port", port).Msg("Starting http listener")
 
 	seenTags := make(map[string]int64)
 
 	handlerFunc := func(w http.ResponseWriter, req *http.Request) {
 		body, err := io.ReadAll(req.Body)
 		if err != nil {
-			log.WithFields(log.Fields{
-				"path": req.URL.Path,
-			}).WithError(err).Error("Failed to read request body")
+			log.Error().Str("path", req.URL.Path).Err(err).Msg("Failed to read request body")
 			return
 		}
 		req.Body.Close()
-		log := log.WithFields(log.Fields{
-			"path": req.URL.Path,
-			"body": string(body),
-		})
-		log.Trace("Received a http call")
+		logger := log.With().
+			Str("path", req.URL.Path).
+			Str("body", string(body)).
+			Logger()
+		logger.Trace().Msg("Received a http call")
 
 		var gatewayHistory gatewayHistory
 		err = json.Unmarshal(body, &gatewayHistory)
 		if err != nil {
-			log.WithError(err).Error("Failed to deserialize http listener data")
+			logger.Error().Err(err).Msg("Failed to deserialize http listener data")
 			return
 		}
 

@@ -5,7 +5,7 @@ import (
 	"encoding/hex"
 	"errors"
 
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 )
 
 func ParseFormat3(input string) (Measurement, error) {
@@ -48,9 +48,9 @@ func ParseFormat3(input string) (Measurement, error) {
 	m.AccelerationZ = f64(float64(int16(binary.BigEndian.Uint16(data[10:]))) / 1000)
 	m.BatteryVoltage = f64(float64(binary.BigEndian.Uint16(data[12:])) / 1000)
 
-	log.WithFields(log.Fields{
-		"raw_data":    input,
-		"data_format": m.DataFormat,
-	}).Trace("Successfully parsed data")
+	log.Trace().
+		Str("raw_data", input).
+		Int64("data_format", m.DataFormat).
+		Msg("Successfully parsed data")
 	return m, nil
 }

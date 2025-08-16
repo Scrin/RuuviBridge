@@ -9,11 +9,11 @@ import (
 	"github.com/Scrin/RuuviBridge/data_sources"
 	"github.com/Scrin/RuuviBridge/parser"
 	"github.com/Scrin/RuuviBridge/value_calculator"
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 )
 
 func Run(config config.Config) {
-	log.WithFields(log.Fields{"version": version.Version}).Info("RuuviBridge starting up")
+	log.Info().Str("version", version.Version).Msg("RuuviBridge starting up")
 	measurements := make(chan parser.Measurement, 1024)
 	var sinks []chan<- parser.Measurement
 
@@ -31,21 +31,21 @@ func Run(config config.Config) {
 		case "allowlist":
 			allowlist = true
 			if len(config.Processing.FilterList) == 0 {
-				log.Fatal("filter_mode configured as allowlist but no allowed tags configured!")
+				log.Fatal().Msg("filter_mode configured as allowlist but no allowed tags configured!")
 			}
 		case "denylist":
 			denylist = true
 			if len(config.Processing.FilterList) == 0 {
-				log.Fatal("filter_mode configured as denylist but no denied tags configured!")
+				log.Fatal().Msg("filter_mode configured as denylist but no denied tags configured!")
 			}
 		case "named":
 			namedOnly = true
 			if len(config.TagNames) == 0 {
-				log.Fatal("filter_mode configured as named but no tag names configured!")
+				log.Fatal().Msg("filter_mode configured as named but no tag names configured!")
 			}
 		case "none":
 		default:
-			log.Fatal("Unrecognized filter_mode: ", processing.FilterMode)
+			log.Fatal().Str("filter_mode", processing.FilterMode).Msg("Unrecognized filter_mode")
 		}
 		for _, mac := range config.Processing.FilterList {
 			formattedMac := strings.ToUpper(strings.ReplaceAll(mac, ":", ""))
@@ -53,7 +53,7 @@ func Run(config config.Config) {
 		}
 	}
 
-	log.Info("Starting data sources")
+	log.Info().Msg("Starting data sources")
 	datasourcesStarted := false
 	if config.GatewayPolling != nil && (config.GatewayPolling.Enabled == nil || *config.GatewayPolling.Enabled) {
 		stop := data_sources.StartGatewayPolling(*config.GatewayPolling, measurements)
@@ -71,10 +71,10 @@ func Run(config config.Config) {
 		datasourcesStarted = true
 	}
 	if !datasourcesStarted {
-		log.Fatal("No datasources configured! Please check the config.")
+		log.Fatal().Msg("No datasources configured! Please check the config.")
 	}
 
-	log.Info("Starting data sinks")
+	log.Info().Msg("Starting data sinks")
 	datasinksStarted := false
 	if config.Debug {
 		sinks = append(sinks, data_sinks.Debug())
@@ -97,24 +97,18 @@ func Run(config config.Config) {
 		datasinksStarted = true
 	}
 	if !datasinksStarted {
-		log.Fatal("No data consumers/sinks configured! Please check the config.")
+		log.Fatal().Msg("No data consumers/sinks configured! Please check the config.")
 	}
 
-	log.Info("Starting processing")
+	log.Info().Msg("Starting processing")
 	for measurement := range measurements {
 		_, isOnList := filterMap[strings.ReplaceAll(measurement.Mac, ":", "")]
 		if denylist && isOnList {
-			log.WithFields(log.Fields{
-				"mac":         measurement.Mac,
-				"filter_mode": "denylist",
-			}).Trace("Measurement dropped")
+			log.Trace().Str("mac", measurement.Mac).Str("filter_mode", "denylist").Msg("Measurement dropped")
 			continue
 		}
 		if allowlist && !isOnList {
-			log.WithFields(log.Fields{
-				"mac":         measurement.Mac,
-				"filter_mode": "allowlist",
-			}).Trace("Measurement dropped")
+			log.Trace().Str("mac", measurement.Mac).Str("filter_mode", "allowlist").Msg("Measurement dropped")
 			continue
 		}
 
@@ -122,10 +116,7 @@ func Run(config config.Config) {
 		if name != "" {
 			measurement.Name = &name
 		} else if namedOnly {
-			log.WithFields(log.Fields{
-				"mac":         measurement.Mac,
-				"filter_mode": "named",
-			}).Trace("Measurement dropped")
+			log.Trace().Str("mac", measurement.Mac).Str("filter_mode", "named").Msg("Measurement dropped")
 			continue
 		}
 
@@ -136,6 +127,6 @@ func Run(config config.Config) {
 		for _, sink := range sinks {
 			sink <- measurement
 		}
-		log.WithFields(log.Fields{"mac": measurement.Mac}).Trace("Measurement processed")
+		log.Trace().Str("mac", measurement.Mac).Msg("Measurement processed")
 	}
 }

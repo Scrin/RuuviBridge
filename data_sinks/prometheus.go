@@ -10,7 +10,7 @@ import (
 	"github.com/Scrin/RuuviBridge/parser"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 )
 
 var metrics struct {
@@ -333,7 +333,7 @@ func Prometheus(conf config.Prometheus) chan<- parser.Measurement {
 	if port == 0 {
 		port = 8081
 	}
-	log.WithFields(log.Fields{"port": port}).Info("Starting prometheus sink")
+	log.Info().Int("port", port).Msg("Starting prometheus sink")
 	measurements := make(chan parser.Measurement, 1024)
 	initMetrics()
 	go func() {

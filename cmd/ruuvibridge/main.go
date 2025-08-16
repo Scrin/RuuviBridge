@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 
 	"github.com/Scrin/RuuviBridge/common/logging"
 	"github.com/Scrin/RuuviBridge/common/version"
@@ -25,10 +25,8 @@ func main() {
 	conf, err := config.ReadConfig(*configPath, *strictConfig)
 	logging.Setup(conf.Logging) // logging should be set up with logging config before logging a possible error in the config, weird, I know
 	if err != nil {
-		log.WithError(err).Fatal("Failed to load config")
+		log.Fatal().Err(err).Msg("Failed to load config")
 	}
-	log.WithFields(log.Fields{
-		"configfile": *configPath,
-	}).Debug("Config loaded")
+	log.Debug().Str("configfile", *configPath).Msg("Config loaded")
 	processor.Run(conf)
 }
