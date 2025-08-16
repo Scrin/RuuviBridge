@@ -34,4 +34,23 @@ func CalcExtendedValues(m *parser.Measurement) {
 	if m.Temperature != nil && m.Humidity != nil && m.Pressure != nil && m.EquilibriumVaporPressure != nil {
 		m.AirDensity = f64(1.2929 * 273.15 / (*m.Temperature + 273.15) * (float64(*m.Pressure) - 0.3783*(*m.Humidity)/100*(*m.EquilibriumVaporPressure)) / 101300)
 	}
+	if m.Pm2p5 != nil && m.CO2 != nil {
+		const aqiMax = 100.0
+		const pm25Min = 0.0
+		const pm25Max = 60.0
+		const co2Min = 420.0
+		const co2Max = 2300.0
+		const pm25Scale = aqiMax / (pm25Max - pm25Min)
+		const co2Scale = aqiMax / (co2Max - co2Min)
+
+		pm25 := math.Max(pm25Min, math.Min(pm25Max, *m.Pm2p5))
+		co2 := math.Max(co2Min, math.Min(co2Max, *m.CO2))
+
+		dx := (pm25 - pm25Min) * pm25Scale
+		dy := (co2 - co2Min) * co2Scale
+
+		r := math.Hypot(dx, dy)
+		aqi := math.Max(0, math.Min(aqiMax, aqiMax-r))
+		m.AirQualityIndex = f64(aqi)
+	}
 }

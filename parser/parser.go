@@ -44,6 +44,7 @@ type Measurement struct {
 	AccelerationAngleFromX   *float64 `json:"accelerationAngleFromX,omitempty"`
 	AccelerationAngleFromY   *float64 `json:"accelerationAngleFromY,omitempty"`
 	AccelerationAngleFromZ   *float64 `json:"accelerationAngleFromZ,omitempty"`
+	AirQualityIndex          *float64 `json:"airQualityIndex,omitempty"`
 }
 
 var ruuviCompanyIdentifier = []byte{0x99, 0x04} // 0x0499

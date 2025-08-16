@@ -132,6 +132,7 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 					safePublishF("soundInstant", measurement.SoundInstant)
 					safePublishF("soundAverage", measurement.SoundAverage)
 					safePublishF("soundPeak", measurement.SoundPeak)
+					safePublishF("airQualityIndex", measurement.AirQualityIndex)
 					// Diagnostics
 					safePublishB("calibrationInProgress", measurement.CalibrationInProgress)
 					safePublishB("buttonPressedOnBoot", measurement.ButtonPressedOnBoot)

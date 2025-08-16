@@ -39,17 +39,18 @@ var metrics struct {
 	accelerationAngleFromZ   *prometheus.GaugeVec
 
 	// New E1 fields
-	pm1p0        *prometheus.GaugeVec
-	pm2p5        *prometheus.GaugeVec
-	pm4p0        *prometheus.GaugeVec
-	pm10p0       *prometheus.GaugeVec
-	co2          *prometheus.GaugeVec
-	voc          *prometheus.GaugeVec
-	nox          *prometheus.GaugeVec
-	luminosity   *prometheus.GaugeVec
-	soundInstant *prometheus.GaugeVec
-	soundAverage *prometheus.GaugeVec
-	soundPeak    *prometheus.GaugeVec
+	pm1p0           *prometheus.GaugeVec
+	pm2p5           *prometheus.GaugeVec
+	pm4p0           *prometheus.GaugeVec
+	pm10p0          *prometheus.GaugeVec
+	co2             *prometheus.GaugeVec
+	voc             *prometheus.GaugeVec
+	nox             *prometheus.GaugeVec
+	luminosity      *prometheus.GaugeVec
+	soundInstant    *prometheus.GaugeVec
+	soundAverage    *prometheus.GaugeVec
+	soundPeak       *prometheus.GaugeVec
+	airQualityIndex *prometheus.GaugeVec
 
 	// Diagnostics
 	calibrationInProgress *prometheus.GaugeVec
@@ -200,6 +201,10 @@ func initMetrics() {
 		Name: measurementMetricPrefix + "sound_peak",
 		Help: "Peak sound level (dBA)",
 	}, tagLabels)
+	metrics.airQualityIndex = prometheus.NewGaugeVec(prometheus.GaugeOpts{
+		Name: measurementMetricPrefix + "air_quality",
+		Help: "Air quality index",
+	}, tagLabels)
 
 	// Diagnostic metrics
 	metrics.calibrationInProgress = prometheus.NewGaugeVec(prometheus.GaugeOpts{
@@ -251,6 +256,7 @@ func initMetrics() {
 	prometheus.MustRegister(metrics.soundInstant)
 	prometheus.MustRegister(metrics.soundAverage)
 	prometheus.MustRegister(metrics.soundPeak)
+	prometheus.MustRegister(metrics.airQualityIndex)
 
 	// Register diagnostics
 	prometheus.MustRegister(metrics.calibrationInProgress)
@@ -321,6 +327,7 @@ func recordMetrics(m parser.Measurement) {
 	safeSetF(metrics.soundInstant, m.SoundInstant)
 	safeSetF(metrics.soundAverage, m.SoundAverage)
 	safeSetF(metrics.soundPeak, m.SoundPeak)
+	safeSetF(metrics.airQualityIndex, m.AirQualityIndex)
 
 	// Diagnostics
 	safeSetB(metrics.calibrationInProgress, m.CalibrationInProgress)

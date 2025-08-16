@@ -87,6 +87,7 @@ func InfluxDB3(conf config.InfluxDB3Publisher) chan<- parser.Measurement {
 				influx3AddFloat(p, "soundInstant", measurement.SoundInstant)
 				influx3AddFloat(p, "soundAverage", measurement.SoundAverage)
 				influx3AddFloat(p, "soundPeak", measurement.SoundPeak)
+				influx3AddFloat(p, "airQualityIndex", measurement.AirQualityIndex)
 				// Diagnostics
 				influx3AddBool(p, "calibrationInProgress", measurement.CalibrationInProgress)
 				influx3AddBool(p, "buttonPressedOnBoot", measurement.ButtonPressedOnBoot)
