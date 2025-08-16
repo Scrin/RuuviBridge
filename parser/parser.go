@@ -20,10 +20,10 @@ type Measurement struct {
 	MovementCounter           *int64   `json:"movementCounter,omitempty"`
 	MeasurementSequenceNumber *int64   `json:"measurementSequenceNumber,omitempty"`
 
-	Pm10         *float64 `json:"pm10,omitempty"`
-	Pm25         *float64 `json:"pm25,omitempty"`
-	Pm40         *float64 `json:"pm40,omitempty"`
-	Pm100        *float64 `json:"pm100,omitempty"`
+	Pm1p0        *float64 `json:"pm1p0,omitempty"`
+	Pm2p5        *float64 `json:"pm2p5,omitempty"`
+	Pm4p0        *float64 `json:"pm4p0,omitempty"`
+	Pm10p0       *float64 `json:"pm10p0,omitempty"`
 	CO2          *float64 `json:"co2,omitempty"`
 	VOC          *float64 `json:"voc,omitempty"`
 	NOX          *float64 `json:"nox,omitempty"`

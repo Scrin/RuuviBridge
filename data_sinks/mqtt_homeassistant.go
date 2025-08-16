@@ -202,31 +202,31 @@ func publishHomeAssistantDiscoveries(client mqtt.Client, conf config.MQTTPublish
 	})
 	// New E1 fields
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
-		Available:         measurement.Pm10 != nil,
+		Available:         measurement.Pm1p0 != nil,
 		DeviceClass:       "pm1",
 		EntityName:        "PM1.0",
 		UnitOfMeasurement: "µg/m³",
-		JsonAttribute:     "pm10",
+		JsonAttribute:     "pm1p0",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
-		Available:         measurement.Pm25 != nil,
+		Available:         measurement.Pm2p5 != nil,
 		DeviceClass:       "pm25",
 		EntityName:        "PM2.5",
 		UnitOfMeasurement: "µg/m³",
-		JsonAttribute:     "pm25",
+		JsonAttribute:     "pm2p5",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
-		Available:         measurement.Pm40 != nil,
+		Available:         measurement.Pm4p0 != nil,
 		EntityName:        "PM4.0",
 		UnitOfMeasurement: "µg/m³",
-		JsonAttribute:     "pm40",
+		JsonAttribute:     "pm4p0",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
-		Available:         measurement.Pm100 != nil,
+		Available:         measurement.Pm10p0 != nil,
 		DeviceClass:       "pm10",
 		EntityName:        "PM10",
 		UnitOfMeasurement: "µg/m³",
-		JsonAttribute:     "pm100",
+		JsonAttribute:     "pm10p0",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.CO2 != nil,

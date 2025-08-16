@@ -39,10 +39,10 @@ var metrics struct {
 	accelerationAngleFromZ   *prometheus.GaugeVec
 
 	// New E1 fields
-	pm10         *prometheus.GaugeVec
-	pm25         *prometheus.GaugeVec
-	pm40         *prometheus.GaugeVec
-	pm100        *prometheus.GaugeVec
+	pm1p0        *prometheus.GaugeVec
+	pm2p5        *prometheus.GaugeVec
+	pm4p0        *prometheus.GaugeVec
+	pm10p0       *prometheus.GaugeVec
 	co2          *prometheus.GaugeVec
 	voc          *prometheus.GaugeVec
 	nox          *prometheus.GaugeVec
@@ -156,20 +156,20 @@ func initMetrics() {
 	}, tagLabels)
 
 	// New E1 metrics
-	metrics.pm10 = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: measurementMetricPrefix + "pm10",
+	metrics.pm1p0 = prometheus.NewGaugeVec(prometheus.GaugeOpts{
+		Name: measurementMetricPrefix + "pm1p0",
 		Help: "PM1.0 mass concentration (µg/m³)",
 	}, tagLabels)
-	metrics.pm25 = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: measurementMetricPrefix + "pm25",
+	metrics.pm2p5 = prometheus.NewGaugeVec(prometheus.GaugeOpts{
+		Name: measurementMetricPrefix + "pm2p5",
 		Help: "PM2.5 mass concentration (µg/m³)",
 	}, tagLabels)
-	metrics.pm40 = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: measurementMetricPrefix + "pm40",
+	metrics.pm4p0 = prometheus.NewGaugeVec(prometheus.GaugeOpts{
+		Name: measurementMetricPrefix + "pm4p0",
 		Help: "PM4.0 mass concentration (µg/m³)",
 	}, tagLabels)
-	metrics.pm100 = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: measurementMetricPrefix + "pm100",
+	metrics.pm10p0 = prometheus.NewGaugeVec(prometheus.GaugeOpts{
+		Name: measurementMetricPrefix + "pm10p0",
 		Help: "PM10.0 mass concentration (µg/m³)",
 	}, tagLabels)
 	metrics.co2 = prometheus.NewGaugeVec(prometheus.GaugeOpts{
@@ -240,10 +240,10 @@ func initMetrics() {
 	prometheus.MustRegister(metrics.accelerationAngleFromZ)
 
 	// Register new E1 metrics
-	prometheus.MustRegister(metrics.pm10)
-	prometheus.MustRegister(metrics.pm25)
-	prometheus.MustRegister(metrics.pm40)
-	prometheus.MustRegister(metrics.pm100)
+	prometheus.MustRegister(metrics.pm1p0)
+	prometheus.MustRegister(metrics.pm2p5)
+	prometheus.MustRegister(metrics.pm4p0)
+	prometheus.MustRegister(metrics.pm10p0)
 	prometheus.MustRegister(metrics.co2)
 	prometheus.MustRegister(metrics.voc)
 	prometheus.MustRegister(metrics.nox)
@@ -310,10 +310,10 @@ func recordMetrics(m parser.Measurement) {
 	safeSetF(metrics.accelerationAngleFromZ, m.AccelerationAngleFromZ)
 
 	// New E1 fields
-	safeSetF(metrics.pm10, m.Pm10)
-	safeSetF(metrics.pm25, m.Pm25)
-	safeSetF(metrics.pm40, m.Pm40)
-	safeSetF(metrics.pm100, m.Pm100)
+	safeSetF(metrics.pm1p0, m.Pm1p0)
+	safeSetF(metrics.pm2p5, m.Pm2p5)
+	safeSetF(metrics.pm4p0, m.Pm4p0)
+	safeSetF(metrics.pm10p0, m.Pm10p0)
 	safeSetF(metrics.co2, m.CO2)
 	safeSetF(metrics.voc, m.VOC)
 	safeSetF(metrics.nox, m.NOX)

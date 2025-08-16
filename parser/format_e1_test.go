@@ -77,17 +77,17 @@ func TestParseFormatE1_OK(t *testing.T) {
 	if m.Pressure == nil || int(math.Round(*m.Pressure)) != int(math.Round(expectPress)) {
 		t.Errorf("Pressure: got %v want %v", m.Pressure, expectPress)
 	}
-	if m.Pm10 == nil || roundInt10(*m.Pm10) != roundInt10(expectPM10) {
-		t.Errorf("Pm10: got %v want %v", m.Pm10, expectPM10)
+	if m.Pm1p0 == nil || roundInt10(*m.Pm1p0) != roundInt10(expectPM10) {
+		t.Errorf("Pm10: got %v want %v", m.Pm1p0, expectPM10)
 	}
-	if m.Pm25 == nil || roundInt10(*m.Pm25) != roundInt10(expectPM25) {
-		t.Errorf("Pm25: got %v want %v", m.Pm25, expectPM25)
+	if m.Pm2p5 == nil || roundInt10(*m.Pm2p5) != roundInt10(expectPM25) {
+		t.Errorf("Pm25: got %v want %v", m.Pm2p5, expectPM25)
 	}
-	if m.Pm40 == nil || roundInt10(*m.Pm40) != roundInt10(expectPM40) {
-		t.Errorf("Pm40: got %v want %v", m.Pm40, expectPM40)
+	if m.Pm4p0 == nil || roundInt10(*m.Pm4p0) != roundInt10(expectPM40) {
+		t.Errorf("Pm40: got %v want %v", m.Pm4p0, expectPM40)
 	}
-	if m.Pm100 == nil || roundInt10(*m.Pm100) != roundInt10(expectPM100) {
-		t.Errorf("Pm100: got %v want %v", m.Pm100, expectPM100)
+	if m.Pm10p0 == nil || roundInt10(*m.Pm10p0) != roundInt10(expectPM100) {
+		t.Errorf("Pm100: got %v want %v", m.Pm10p0, expectPM100)
 	}
 	if m.CO2 == nil || int(math.Round(*m.CO2)) != int(math.Round(expectCO2)) {
 		t.Errorf("CO2: got %v want %v", m.CO2, expectCO2)
@@ -182,17 +182,17 @@ func TestParseFormatE1_Zeroes(t *testing.T) {
 	if m.Pressure == nil || int(math.Round(*m.Pressure)) != int(math.Round(expectPress)) {
 		t.Errorf("Pressure: got %v want %v", m.Pressure, expectPress)
 	}
-	if m.Pm10 == nil || roundInt10(*m.Pm10) != roundInt10(expectPM10) {
-		t.Errorf("Pm10: got %v want %v", m.Pm10, expectPM10)
+	if m.Pm1p0 == nil || roundInt10(*m.Pm1p0) != roundInt10(expectPM10) {
+		t.Errorf("Pm10: got %v want %v", m.Pm1p0, expectPM10)
 	}
-	if m.Pm25 == nil || roundInt10(*m.Pm25) != roundInt10(expectPM25) {
-		t.Errorf("Pm25: got %v want %v", m.Pm25, expectPM25)
+	if m.Pm2p5 == nil || roundInt10(*m.Pm2p5) != roundInt10(expectPM25) {
+		t.Errorf("Pm25: got %v want %v", m.Pm2p5, expectPM25)
 	}
-	if m.Pm40 == nil || roundInt10(*m.Pm40) != roundInt10(expectPM40) {
-		t.Errorf("Pm40: got %v want %v", m.Pm40, expectPM40)
+	if m.Pm4p0 == nil || roundInt10(*m.Pm4p0) != roundInt10(expectPM40) {
+		t.Errorf("Pm40: got %v want %v", m.Pm4p0, expectPM40)
 	}
-	if m.Pm100 == nil || roundInt10(*m.Pm100) != roundInt10(expectPM100) {
-		t.Errorf("Pm100: got %v want %v", m.Pm100, expectPM100)
+	if m.Pm10p0 == nil || roundInt10(*m.Pm10p0) != roundInt10(expectPM100) {
+		t.Errorf("Pm100: got %v want %v", m.Pm10p0, expectPM100)
 	}
 	if m.CO2 == nil || int(math.Round(*m.CO2)) != int(math.Round(expectCO2)) {
 		t.Errorf("CO2: got %v want %v", m.CO2, expectCO2)
@@ -287,17 +287,17 @@ func TestParseFormatE1_Temperature(t *testing.T) {
 	if m.Pressure == nil || int(math.Round(*m.Pressure)) != int(math.Round(expectPress)) {
 		t.Errorf("Pressure: got %v want %v", m.Pressure, expectPress)
 	}
-	if m.Pm10 == nil || roundInt10(*m.Pm10) != roundInt10(expectPM10) {
-		t.Errorf("Pm10: got %v want %v", m.Pm10, expectPM10)
+	if m.Pm1p0 == nil || roundInt10(*m.Pm1p0) != roundInt10(expectPM10) {
+		t.Errorf("Pm10: got %v want %v", m.Pm1p0, expectPM10)
 	}
-	if m.Pm25 == nil || roundInt10(*m.Pm25) != roundInt10(expectPM25) {
-		t.Errorf("Pm25: got %v want %v", m.Pm25, expectPM25)
+	if m.Pm2p5 == nil || roundInt10(*m.Pm2p5) != roundInt10(expectPM25) {
+		t.Errorf("Pm25: got %v want %v", m.Pm2p5, expectPM25)
 	}
-	if m.Pm40 == nil || roundInt10(*m.Pm40) != roundInt10(expectPM40) {
-		t.Errorf("Pm40: got %v want %v", m.Pm40, expectPM40)
+	if m.Pm4p0 == nil || roundInt10(*m.Pm4p0) != roundInt10(expectPM40) {
+		t.Errorf("Pm40: got %v want %v", m.Pm4p0, expectPM40)
 	}
-	if m.Pm100 == nil || roundInt10(*m.Pm100) != roundInt10(expectPM100) {
-		t.Errorf("Pm100: got %v want %v", m.Pm100, expectPM100)
+	if m.Pm10p0 == nil || roundInt10(*m.Pm10p0) != roundInt10(expectPM100) {
+		t.Errorf("Pm100: got %v want %v", m.Pm10p0, expectPM100)
 	}
 	if m.CO2 == nil || int(math.Round(*m.CO2)) != int(math.Round(expectCO2)) {
 		t.Errorf("CO2: got %v want %v", m.CO2, expectCO2)
@@ -392,17 +392,17 @@ func TestParseFormatE1_Humidity(t *testing.T) {
 	if m.Pressure == nil || int(math.Round(*m.Pressure)) != int(math.Round(expectPress)) {
 		t.Errorf("Pressure: got %v want %v", m.Pressure, expectPress)
 	}
-	if m.Pm10 == nil || roundInt10(*m.Pm10) != roundInt10(expectPM10) {
-		t.Errorf("Pm10: got %v want %v", m.Pm10, expectPM10)
+	if m.Pm1p0 == nil || roundInt10(*m.Pm1p0) != roundInt10(expectPM10) {
+		t.Errorf("Pm10: got %v want %v", m.Pm1p0, expectPM10)
 	}
-	if m.Pm25 == nil || roundInt10(*m.Pm25) != roundInt10(expectPM25) {
-		t.Errorf("Pm25: got %v want %v", m.Pm25, expectPM25)
+	if m.Pm2p5 == nil || roundInt10(*m.Pm2p5) != roundInt10(expectPM25) {
+		t.Errorf("Pm25: got %v want %v", m.Pm2p5, expectPM25)
 	}
-	if m.Pm40 == nil || roundInt10(*m.Pm40) != roundInt10(expectPM40) {
-		t.Errorf("Pm40: got %v want %v", m.Pm40, expectPM40)
+	if m.Pm4p0 == nil || roundInt10(*m.Pm4p0) != roundInt10(expectPM40) {
+		t.Errorf("Pm40: got %v want %v", m.Pm4p0, expectPM40)
 	}
-	if m.Pm100 == nil || roundInt10(*m.Pm100) != roundInt10(expectPM100) {
-		t.Errorf("Pm100: got %v want %v", m.Pm100, expectPM100)
+	if m.Pm10p0 == nil || roundInt10(*m.Pm10p0) != roundInt10(expectPM100) {
+		t.Errorf("Pm100: got %v want %v", m.Pm10p0, expectPM100)
 	}
 	if m.CO2 == nil || int(math.Round(*m.CO2)) != int(math.Round(expectCO2)) {
 		t.Errorf("CO2: got %v want %v", m.CO2, expectCO2)
@@ -497,17 +497,17 @@ func TestParseFormatE1_Pressure(t *testing.T) {
 	if m.Pressure == nil || int(math.Round(*m.Pressure)) != int(math.Round(expectPress)) {
 		t.Errorf("Pressure: got %v want %v", m.Pressure, expectPress)
 	}
-	if m.Pm10 == nil || roundInt10(*m.Pm10) != roundInt10(expectPM10) {
-		t.Errorf("Pm10: got %v want %v", m.Pm10, expectPM10)
+	if m.Pm1p0 == nil || roundInt10(*m.Pm1p0) != roundInt10(expectPM10) {
+		t.Errorf("Pm10: got %v want %v", m.Pm1p0, expectPM10)
 	}
-	if m.Pm25 == nil || roundInt10(*m.Pm25) != roundInt10(expectPM25) {
-		t.Errorf("Pm25: got %v want %v", m.Pm25, expectPM25)
+	if m.Pm2p5 == nil || roundInt10(*m.Pm2p5) != roundInt10(expectPM25) {
+		t.Errorf("Pm25: got %v want %v", m.Pm2p5, expectPM25)
 	}
-	if m.Pm40 == nil || roundInt10(*m.Pm40) != roundInt10(expectPM40) {
-		t.Errorf("Pm40: got %v want %v", m.Pm40, expectPM40)
+	if m.Pm4p0 == nil || roundInt10(*m.Pm4p0) != roundInt10(expectPM40) {
+		t.Errorf("Pm40: got %v want %v", m.Pm4p0, expectPM40)
 	}
-	if m.Pm100 == nil || roundInt10(*m.Pm100) != roundInt10(expectPM100) {
-		t.Errorf("Pm100: got %v want %v", m.Pm100, expectPM100)
+	if m.Pm10p0 == nil || roundInt10(*m.Pm10p0) != roundInt10(expectPM100) {
+		t.Errorf("Pm100: got %v want %v", m.Pm10p0, expectPM100)
 	}
 	if m.CO2 == nil || int(math.Round(*m.CO2)) != int(math.Round(expectCO2)) {
 		t.Errorf("CO2: got %v want %v", m.CO2, expectCO2)
@@ -602,17 +602,17 @@ func TestParseFormatE1_PM1p0(t *testing.T) {
 	if m.Pressure == nil || int(math.Round(*m.Pressure)) != int(math.Round(expectPress)) {
 		t.Errorf("Pressure: got %v want %v", m.Pressure, expectPress)
 	}
-	if m.Pm10 == nil || roundInt10(*m.Pm10) != roundInt10(expectPM10) {
-		t.Errorf("Pm10: got %v want %v", m.Pm10, expectPM10)
+	if m.Pm1p0 == nil || roundInt10(*m.Pm1p0) != roundInt10(expectPM10) {
+		t.Errorf("Pm10: got %v want %v", m.Pm1p0, expectPM10)
 	}
-	if m.Pm25 == nil || roundInt10(*m.Pm25) != roundInt10(expectPM25) {
-		t.Errorf("Pm25: got %v want %v", m.Pm25, expectPM25)
+	if m.Pm2p5 == nil || roundInt10(*m.Pm2p5) != roundInt10(expectPM25) {
+		t.Errorf("Pm25: got %v want %v", m.Pm2p5, expectPM25)
 	}
-	if m.Pm40 == nil || roundInt10(*m.Pm40) != roundInt10(expectPM40) {
-		t.Errorf("Pm40: got %v want %v", m.Pm40, expectPM40)
+	if m.Pm4p0 == nil || roundInt10(*m.Pm4p0) != roundInt10(expectPM40) {
+		t.Errorf("Pm40: got %v want %v", m.Pm4p0, expectPM40)
 	}
-	if m.Pm100 == nil || roundInt10(*m.Pm100) != roundInt10(expectPM100) {
-		t.Errorf("Pm100: got %v want %v", m.Pm100, expectPM100)
+	if m.Pm10p0 == nil || roundInt10(*m.Pm10p0) != roundInt10(expectPM100) {
+		t.Errorf("Pm100: got %v want %v", m.Pm10p0, expectPM100)
 	}
 	if m.CO2 == nil || int(math.Round(*m.CO2)) != int(math.Round(expectCO2)) {
 		t.Errorf("CO2: got %v want %v", m.CO2, expectCO2)
@@ -707,17 +707,17 @@ func TestParseFormatE1_PM2p5(t *testing.T) {
 	if m.Pressure == nil || int(math.Round(*m.Pressure)) != int(math.Round(expectPress)) {
 		t.Errorf("Pressure: got %v want %v", m.Pressure, expectPress)
 	}
-	if m.Pm10 == nil || roundInt10(*m.Pm10) != roundInt10(expectPM10) {
-		t.Errorf("Pm10: got %v want %v", m.Pm10, expectPM10)
+	if m.Pm1p0 == nil || roundInt10(*m.Pm1p0) != roundInt10(expectPM10) {
+		t.Errorf("Pm10: got %v want %v", m.Pm1p0, expectPM10)
 	}
-	if m.Pm25 == nil || roundInt10(*m.Pm25) != roundInt10(expectPM25) {
-		t.Errorf("Pm25: got %v want %v", m.Pm25, expectPM25)
+	if m.Pm2p5 == nil || roundInt10(*m.Pm2p5) != roundInt10(expectPM25) {
+		t.Errorf("Pm25: got %v want %v", m.Pm2p5, expectPM25)
 	}
-	if m.Pm40 == nil || roundInt10(*m.Pm40) != roundInt10(expectPM40) {
-		t.Errorf("Pm40: got %v want %v", m.Pm40, expectPM40)
+	if m.Pm4p0 == nil || roundInt10(*m.Pm4p0) != roundInt10(expectPM40) {
+		t.Errorf("Pm40: got %v want %v", m.Pm4p0, expectPM40)
 	}
-	if m.Pm100 == nil || roundInt10(*m.Pm100) != roundInt10(expectPM100) {
-		t.Errorf("Pm100: got %v want %v", m.Pm100, expectPM100)
+	if m.Pm10p0 == nil || roundInt10(*m.Pm10p0) != roundInt10(expectPM100) {
+		t.Errorf("Pm100: got %v want %v", m.Pm10p0, expectPM100)
 	}
 	if m.CO2 == nil || int(math.Round(*m.CO2)) != int(math.Round(expectCO2)) {
 		t.Errorf("CO2: got %v want %v", m.CO2, expectCO2)
@@ -812,17 +812,17 @@ func TestParseFormatE1_PM4p0(t *testing.T) {
 	if m.Pressure == nil || int(math.Round(*m.Pressure)) != int(math.Round(expectPress)) {
 		t.Errorf("Pressure: got %v want %v", m.Pressure, expectPress)
 	}
-	if m.Pm10 == nil || roundInt10(*m.Pm10) != roundInt10(expectPM10) {
-		t.Errorf("Pm10: got %v want %v", m.Pm10, expectPM10)
+	if m.Pm1p0 == nil || roundInt10(*m.Pm1p0) != roundInt10(expectPM10) {
+		t.Errorf("Pm10: got %v want %v", m.Pm1p0, expectPM10)
 	}
-	if m.Pm25 == nil || roundInt10(*m.Pm25) != roundInt10(expectPM25) {
-		t.Errorf("Pm25: got %v want %v", m.Pm25, expectPM25)
+	if m.Pm2p5 == nil || roundInt10(*m.Pm2p5) != roundInt10(expectPM25) {
+		t.Errorf("Pm25: got %v want %v", m.Pm2p5, expectPM25)
 	}
-	if m.Pm40 == nil || roundInt10(*m.Pm40) != roundInt10(expectPM40) {
-		t.Errorf("Pm40: got %v want %v", m.Pm40, expectPM40)
+	if m.Pm4p0 == nil || roundInt10(*m.Pm4p0) != roundInt10(expectPM40) {
+		t.Errorf("Pm40: got %v want %v", m.Pm4p0, expectPM40)
 	}
-	if m.Pm100 == nil || roundInt10(*m.Pm100) != roundInt10(expectPM100) {
-		t.Errorf("Pm100: got %v want %v", m.Pm100, expectPM100)
+	if m.Pm10p0 == nil || roundInt10(*m.Pm10p0) != roundInt10(expectPM100) {
+		t.Errorf("Pm100: got %v want %v", m.Pm10p0, expectPM100)
 	}
 	if m.CO2 == nil || int(math.Round(*m.CO2)) != int(math.Round(expectCO2)) {
 		t.Errorf("CO2: got %v want %v", m.CO2, expectCO2)
@@ -917,17 +917,17 @@ func TestParseFormatE1_PM10p0(t *testing.T) {
 	if m.Pressure == nil || int(math.Round(*m.Pressure)) != int(math.Round(expectPress)) {
 		t.Errorf("Pressure: got %v want %v", m.Pressure, expectPress)
 	}
-	if m.Pm10 == nil || roundInt10(*m.Pm10) != roundInt10(expectPM10) {
-		t.Errorf("Pm10: got %v want %v", m.Pm10, expectPM10)
+	if m.Pm1p0 == nil || roundInt10(*m.Pm1p0) != roundInt10(expectPM10) {
+		t.Errorf("Pm10: got %v want %v", m.Pm1p0, expectPM10)
 	}
-	if m.Pm25 == nil || roundInt10(*m.Pm25) != roundInt10(expectPM25) {
-		t.Errorf("Pm25: got %v want %v", m.Pm25, expectPM25)
+	if m.Pm2p5 == nil || roundInt10(*m.Pm2p5) != roundInt10(expectPM25) {
+		t.Errorf("Pm25: got %v want %v", m.Pm2p5, expectPM25)
 	}
-	if m.Pm40 == nil || roundInt10(*m.Pm40) != roundInt10(expectPM40) {
-		t.Errorf("Pm40: got %v want %v", m.Pm40, expectPM40)
+	if m.Pm4p0 == nil || roundInt10(*m.Pm4p0) != roundInt10(expectPM40) {
+		t.Errorf("Pm40: got %v want %v", m.Pm4p0, expectPM40)
 	}
-	if m.Pm100 == nil || roundInt10(*m.Pm100) != roundInt10(expectPM100) {
-		t.Errorf("Pm100: got %v want %v", m.Pm100, expectPM100)
+	if m.Pm10p0 == nil || roundInt10(*m.Pm10p0) != roundInt10(expectPM100) {
+		t.Errorf("Pm100: got %v want %v", m.Pm10p0, expectPM100)
 	}
 	if m.CO2 == nil || int(math.Round(*m.CO2)) != int(math.Round(expectCO2)) {
 		t.Errorf("CO2: got %v want %v", m.CO2, expectCO2)
@@ -1022,17 +1022,17 @@ func TestParseFormatE1_CO2(t *testing.T) {
 	if m.Pressure == nil || int(math.Round(*m.Pressure)) != int(math.Round(expectPress)) {
 		t.Errorf("Pressure: got %v want %v", m.Pressure, expectPress)
 	}
-	if m.Pm10 == nil || roundInt10(*m.Pm10) != roundInt10(expectPM10) {
-		t.Errorf("Pm10: got %v want %v", m.Pm10, expectPM10)
+	if m.Pm1p0 == nil || roundInt10(*m.Pm1p0) != roundInt10(expectPM10) {
+		t.Errorf("Pm10: got %v want %v", m.Pm1p0, expectPM10)
 	}
-	if m.Pm25 == nil || roundInt10(*m.Pm25) != roundInt10(expectPM25) {
-		t.Errorf("Pm25: got %v want %v", m.Pm25, expectPM25)
+	if m.Pm2p5 == nil || roundInt10(*m.Pm2p5) != roundInt10(expectPM25) {
+		t.Errorf("Pm25: got %v want %v", m.Pm2p5, expectPM25)
 	}
-	if m.Pm40 == nil || roundInt10(*m.Pm40) != roundInt10(expectPM40) {
-		t.Errorf("Pm40: got %v want %v", m.Pm40, expectPM40)
+	if m.Pm4p0 == nil || roundInt10(*m.Pm4p0) != roundInt10(expectPM40) {
+		t.Errorf("Pm40: got %v want %v", m.Pm4p0, expectPM40)
 	}
-	if m.Pm100 == nil || roundInt10(*m.Pm100) != roundInt10(expectPM100) {
-		t.Errorf("Pm100: got %v want %v", m.Pm100, expectPM100)
+	if m.Pm10p0 == nil || roundInt10(*m.Pm10p0) != roundInt10(expectPM100) {
+		t.Errorf("Pm100: got %v want %v", m.Pm10p0, expectPM100)
 	}
 	if m.CO2 == nil || int(math.Round(*m.CO2)) != int(math.Round(expectCO2)) {
 		t.Errorf("CO2: got %v want %v", m.CO2, expectCO2)
@@ -1127,17 +1127,17 @@ func TestParseFormatE1_VOC(t *testing.T) {
 	if m.Pressure == nil || int(math.Round(*m.Pressure)) != int(math.Round(expectPress)) {
 		t.Errorf("Pressure: got %v want %v", m.Pressure, expectPress)
 	}
-	if m.Pm10 == nil || roundInt10(*m.Pm10) != roundInt10(expectPM10) {
-		t.Errorf("Pm10: got %v want %v", m.Pm10, expectPM10)
+	if m.Pm1p0 == nil || roundInt10(*m.Pm1p0) != roundInt10(expectPM10) {
+		t.Errorf("Pm10: got %v want %v", m.Pm1p0, expectPM10)
 	}
-	if m.Pm25 == nil || roundInt10(*m.Pm25) != roundInt10(expectPM25) {
-		t.Errorf("Pm25: got %v want %v", m.Pm25, expectPM25)
+	if m.Pm2p5 == nil || roundInt10(*m.Pm2p5) != roundInt10(expectPM25) {
+		t.Errorf("Pm25: got %v want %v", m.Pm2p5, expectPM25)
 	}
-	if m.Pm40 == nil || roundInt10(*m.Pm40) != roundInt10(expectPM40) {
-		t.Errorf("Pm40: got %v want %v", m.Pm40, expectPM40)
+	if m.Pm4p0 == nil || roundInt10(*m.Pm4p0) != roundInt10(expectPM40) {
+		t.Errorf("Pm40: got %v want %v", m.Pm4p0, expectPM40)
 	}
-	if m.Pm100 == nil || roundInt10(*m.Pm100) != roundInt10(expectPM100) {
-		t.Errorf("Pm100: got %v want %v", m.Pm100, expectPM100)
+	if m.Pm10p0 == nil || roundInt10(*m.Pm10p0) != roundInt10(expectPM100) {
+		t.Errorf("Pm100: got %v want %v", m.Pm10p0, expectPM100)
 	}
 	if m.CO2 == nil || int(math.Round(*m.CO2)) != int(math.Round(expectCO2)) {
 		t.Errorf("CO2: got %v want %v", m.CO2, expectCO2)
@@ -1232,17 +1232,17 @@ func TestParseFormatE1_NOX(t *testing.T) {
 	if m.Pressure == nil || int(math.Round(*m.Pressure)) != int(math.Round(expectPress)) {
 		t.Errorf("Pressure: got %v want %v", m.Pressure, expectPress)
 	}
-	if m.Pm10 == nil || roundInt10(*m.Pm10) != roundInt10(expectPM10) {
-		t.Errorf("Pm10: got %v want %v", m.Pm10, expectPM10)
+	if m.Pm1p0 == nil || roundInt10(*m.Pm1p0) != roundInt10(expectPM10) {
+		t.Errorf("Pm10: got %v want %v", m.Pm1p0, expectPM10)
 	}
-	if m.Pm25 == nil || roundInt10(*m.Pm25) != roundInt10(expectPM25) {
-		t.Errorf("Pm25: got %v want %v", m.Pm25, expectPM25)
+	if m.Pm2p5 == nil || roundInt10(*m.Pm2p5) != roundInt10(expectPM25) {
+		t.Errorf("Pm25: got %v want %v", m.Pm2p5, expectPM25)
 	}
-	if m.Pm40 == nil || roundInt10(*m.Pm40) != roundInt10(expectPM40) {
-		t.Errorf("Pm40: got %v want %v", m.Pm40, expectPM40)
+	if m.Pm4p0 == nil || roundInt10(*m.Pm4p0) != roundInt10(expectPM40) {
+		t.Errorf("Pm40: got %v want %v", m.Pm4p0, expectPM40)
 	}
-	if m.Pm100 == nil || roundInt10(*m.Pm100) != roundInt10(expectPM100) {
-		t.Errorf("Pm100: got %v want %v", m.Pm100, expectPM100)
+	if m.Pm10p0 == nil || roundInt10(*m.Pm10p0) != roundInt10(expectPM100) {
+		t.Errorf("Pm100: got %v want %v", m.Pm10p0, expectPM100)
 	}
 	if m.CO2 == nil || int(math.Round(*m.CO2)) != int(math.Round(expectCO2)) {
 		t.Errorf("CO2: got %v want %v", m.CO2, expectCO2)
@@ -1337,17 +1337,17 @@ func TestParseFormatE1_Luminosity(t *testing.T) {
 	if m.Pressure == nil || int(math.Round(*m.Pressure)) != int(math.Round(expectPress)) {
 		t.Errorf("Pressure: got %v want %v", m.Pressure, expectPress)
 	}
-	if m.Pm10 == nil || roundInt10(*m.Pm10) != roundInt10(expectPM10) {
-		t.Errorf("Pm10: got %v want %v", m.Pm10, expectPM10)
+	if m.Pm1p0 == nil || roundInt10(*m.Pm1p0) != roundInt10(expectPM10) {
+		t.Errorf("Pm10: got %v want %v", m.Pm1p0, expectPM10)
 	}
-	if m.Pm25 == nil || roundInt10(*m.Pm25) != roundInt10(expectPM25) {
-		t.Errorf("Pm25: got %v want %v", m.Pm25, expectPM25)
+	if m.Pm2p5 == nil || roundInt10(*m.Pm2p5) != roundInt10(expectPM25) {
+		t.Errorf("Pm25: got %v want %v", m.Pm2p5, expectPM25)
 	}
-	if m.Pm40 == nil || roundInt10(*m.Pm40) != roundInt10(expectPM40) {
-		t.Errorf("Pm40: got %v want %v", m.Pm40, expectPM40)
+	if m.Pm4p0 == nil || roundInt10(*m.Pm4p0) != roundInt10(expectPM40) {
+		t.Errorf("Pm40: got %v want %v", m.Pm4p0, expectPM40)
 	}
-	if m.Pm100 == nil || roundInt10(*m.Pm100) != roundInt10(expectPM100) {
-		t.Errorf("Pm100: got %v want %v", m.Pm100, expectPM100)
+	if m.Pm10p0 == nil || roundInt10(*m.Pm10p0) != roundInt10(expectPM100) {
+		t.Errorf("Pm100: got %v want %v", m.Pm10p0, expectPM100)
 	}
 	if m.CO2 == nil || int(math.Round(*m.CO2)) != int(math.Round(expectCO2)) {
 		t.Errorf("CO2: got %v want %v", m.CO2, expectCO2)
@@ -1442,17 +1442,17 @@ func TestParseFormatE1_SoundInstant(t *testing.T) {
 	if m.Pressure == nil || int(math.Round(*m.Pressure)) != int(math.Round(expectPress)) {
 		t.Errorf("Pressure: got %v want %v", m.Pressure, expectPress)
 	}
-	if m.Pm10 == nil || roundInt10(*m.Pm10) != roundInt10(expectPM10) {
-		t.Errorf("Pm10: got %v want %v", m.Pm10, expectPM10)
+	if m.Pm1p0 == nil || roundInt10(*m.Pm1p0) != roundInt10(expectPM10) {
+		t.Errorf("Pm10: got %v want %v", m.Pm1p0, expectPM10)
 	}
-	if m.Pm25 == nil || roundInt10(*m.Pm25) != roundInt10(expectPM25) {
-		t.Errorf("Pm25: got %v want %v", m.Pm25, expectPM25)
+	if m.Pm2p5 == nil || roundInt10(*m.Pm2p5) != roundInt10(expectPM25) {
+		t.Errorf("Pm25: got %v want %v", m.Pm2p5, expectPM25)
 	}
-	if m.Pm40 == nil || roundInt10(*m.Pm40) != roundInt10(expectPM40) {
-		t.Errorf("Pm40: got %v want %v", m.Pm40, expectPM40)
+	if m.Pm4p0 == nil || roundInt10(*m.Pm4p0) != roundInt10(expectPM40) {
+		t.Errorf("Pm40: got %v want %v", m.Pm4p0, expectPM40)
 	}
-	if m.Pm100 == nil || roundInt10(*m.Pm100) != roundInt10(expectPM100) {
-		t.Errorf("Pm100: got %v want %v", m.Pm100, expectPM100)
+	if m.Pm10p0 == nil || roundInt10(*m.Pm10p0) != roundInt10(expectPM100) {
+		t.Errorf("Pm100: got %v want %v", m.Pm10p0, expectPM100)
 	}
 	if m.CO2 == nil || int(math.Round(*m.CO2)) != int(math.Round(expectCO2)) {
 		t.Errorf("CO2: got %v want %v", m.CO2, expectCO2)
@@ -1547,17 +1547,17 @@ func TestParseFormatE1_SoundAverage(t *testing.T) {
 	if m.Pressure == nil || int(math.Round(*m.Pressure)) != int(math.Round(expectPress)) {
 		t.Errorf("Pressure: got %v want %v", m.Pressure, expectPress)
 	}
-	if m.Pm10 == nil || roundInt10(*m.Pm10) != roundInt10(expectPM10) {
-		t.Errorf("Pm10: got %v want %v", m.Pm10, expectPM10)
+	if m.Pm1p0 == nil || roundInt10(*m.Pm1p0) != roundInt10(expectPM10) {
+		t.Errorf("Pm10: got %v want %v", m.Pm1p0, expectPM10)
 	}
-	if m.Pm25 == nil || roundInt10(*m.Pm25) != roundInt10(expectPM25) {
-		t.Errorf("Pm25: got %v want %v", m.Pm25, expectPM25)
+	if m.Pm2p5 == nil || roundInt10(*m.Pm2p5) != roundInt10(expectPM25) {
+		t.Errorf("Pm25: got %v want %v", m.Pm2p5, expectPM25)
 	}
-	if m.Pm40 == nil || roundInt10(*m.Pm40) != roundInt10(expectPM40) {
-		t.Errorf("Pm40: got %v want %v", m.Pm40, expectPM40)
+	if m.Pm4p0 == nil || roundInt10(*m.Pm4p0) != roundInt10(expectPM40) {
+		t.Errorf("Pm40: got %v want %v", m.Pm4p0, expectPM40)
 	}
-	if m.Pm100 == nil || roundInt10(*m.Pm100) != roundInt10(expectPM100) {
-		t.Errorf("Pm100: got %v want %v", m.Pm100, expectPM100)
+	if m.Pm10p0 == nil || roundInt10(*m.Pm10p0) != roundInt10(expectPM100) {
+		t.Errorf("Pm100: got %v want %v", m.Pm10p0, expectPM100)
 	}
 	if m.CO2 == nil || int(math.Round(*m.CO2)) != int(math.Round(expectCO2)) {
 		t.Errorf("CO2: got %v want %v", m.CO2, expectCO2)
@@ -1652,17 +1652,17 @@ func TestParseFormatE1_SoundPeak(t *testing.T) {
 	if m.Pressure == nil || int(math.Round(*m.Pressure)) != int(math.Round(expectPress)) {
 		t.Errorf("Pressure: got %v want %v", m.Pressure, expectPress)
 	}
-	if m.Pm10 == nil || roundInt10(*m.Pm10) != roundInt10(expectPM10) {
-		t.Errorf("Pm10: got %v want %v", m.Pm10, expectPM10)
+	if m.Pm1p0 == nil || roundInt10(*m.Pm1p0) != roundInt10(expectPM10) {
+		t.Errorf("Pm10: got %v want %v", m.Pm1p0, expectPM10)
 	}
-	if m.Pm25 == nil || roundInt10(*m.Pm25) != roundInt10(expectPM25) {
-		t.Errorf("Pm25: got %v want %v", m.Pm25, expectPM25)
+	if m.Pm2p5 == nil || roundInt10(*m.Pm2p5) != roundInt10(expectPM25) {
+		t.Errorf("Pm25: got %v want %v", m.Pm2p5, expectPM25)
 	}
-	if m.Pm40 == nil || roundInt10(*m.Pm40) != roundInt10(expectPM40) {
-		t.Errorf("Pm40: got %v want %v", m.Pm40, expectPM40)
+	if m.Pm4p0 == nil || roundInt10(*m.Pm4p0) != roundInt10(expectPM40) {
+		t.Errorf("Pm40: got %v want %v", m.Pm4p0, expectPM40)
 	}
-	if m.Pm100 == nil || roundInt10(*m.Pm100) != roundInt10(expectPM100) {
-		t.Errorf("Pm100: got %v want %v", m.Pm100, expectPM100)
+	if m.Pm10p0 == nil || roundInt10(*m.Pm10p0) != roundInt10(expectPM100) {
+		t.Errorf("Pm100: got %v want %v", m.Pm10p0, expectPM100)
 	}
 	if m.CO2 == nil || int(math.Round(*m.CO2)) != int(math.Round(expectCO2)) {
 		t.Errorf("CO2: got %v want %v", m.CO2, expectCO2)
@@ -1757,17 +1757,17 @@ func TestParseFormatE1_SeqCnt(t *testing.T) {
 	if m.Pressure == nil || int(math.Round(*m.Pressure)) != int(math.Round(expectPress)) {
 		t.Errorf("Pressure: got %v want %v", m.Pressure, expectPress)
 	}
-	if m.Pm10 == nil || roundInt10(*m.Pm10) != roundInt10(expectPM10) {
-		t.Errorf("Pm10: got %v want %v", m.Pm10, expectPM10)
+	if m.Pm1p0 == nil || roundInt10(*m.Pm1p0) != roundInt10(expectPM10) {
+		t.Errorf("Pm10: got %v want %v", m.Pm1p0, expectPM10)
 	}
-	if m.Pm25 == nil || roundInt10(*m.Pm25) != roundInt10(expectPM25) {
-		t.Errorf("Pm25: got %v want %v", m.Pm25, expectPM25)
+	if m.Pm2p5 == nil || roundInt10(*m.Pm2p5) != roundInt10(expectPM25) {
+		t.Errorf("Pm25: got %v want %v", m.Pm2p5, expectPM25)
 	}
-	if m.Pm40 == nil || roundInt10(*m.Pm40) != roundInt10(expectPM40) {
-		t.Errorf("Pm40: got %v want %v", m.Pm40, expectPM40)
+	if m.Pm4p0 == nil || roundInt10(*m.Pm4p0) != roundInt10(expectPM40) {
+		t.Errorf("Pm40: got %v want %v", m.Pm4p0, expectPM40)
 	}
-	if m.Pm100 == nil || roundInt10(*m.Pm100) != roundInt10(expectPM100) {
-		t.Errorf("Pm100: got %v want %v", m.Pm100, expectPM100)
+	if m.Pm10p0 == nil || roundInt10(*m.Pm10p0) != roundInt10(expectPM100) {
+		t.Errorf("Pm100: got %v want %v", m.Pm10p0, expectPM100)
 	}
 	if m.CO2 == nil || int(math.Round(*m.CO2)) != int(math.Round(expectCO2)) {
 		t.Errorf("CO2: got %v want %v", m.CO2, expectCO2)
@@ -1997,17 +1997,17 @@ func TestParseFormatE1_Max(t *testing.T) {
 	if m.Pressure == nil || int(math.Round(*m.Pressure)) != int(math.Round(expectPress)) {
 		t.Errorf("Pressure: got %v want %v", m.Pressure, expectPress)
 	}
-	if m.Pm10 == nil || roundInt10(*m.Pm10) != roundInt10(expectPM10) {
-		t.Errorf("Pm10: got %v want %v", m.Pm10, expectPM10)
+	if m.Pm1p0 == nil || roundInt10(*m.Pm1p0) != roundInt10(expectPM10) {
+		t.Errorf("Pm10: got %v want %v", m.Pm1p0, expectPM10)
 	}
-	if m.Pm25 == nil || roundInt10(*m.Pm25) != roundInt10(expectPM25) {
-		t.Errorf("Pm25: got %v want %v", m.Pm25, expectPM25)
+	if m.Pm2p5 == nil || roundInt10(*m.Pm2p5) != roundInt10(expectPM25) {
+		t.Errorf("Pm25: got %v want %v", m.Pm2p5, expectPM25)
 	}
-	if m.Pm40 == nil || roundInt10(*m.Pm40) != roundInt10(expectPM40) {
-		t.Errorf("Pm40: got %v want %v", m.Pm40, expectPM40)
+	if m.Pm4p0 == nil || roundInt10(*m.Pm4p0) != roundInt10(expectPM40) {
+		t.Errorf("Pm40: got %v want %v", m.Pm4p0, expectPM40)
 	}
-	if m.Pm100 == nil || roundInt10(*m.Pm100) != roundInt10(expectPM100) {
-		t.Errorf("Pm100: got %v want %v", m.Pm100, expectPM100)
+	if m.Pm10p0 == nil || roundInt10(*m.Pm10p0) != roundInt10(expectPM100) {
+		t.Errorf("Pm100: got %v want %v", m.Pm10p0, expectPM100)
 	}
 	if m.CO2 == nil || int(math.Round(*m.CO2)) != int(math.Round(expectCO2)) {
 		t.Errorf("CO2: got %v want %v", m.CO2, expectCO2)
@@ -2102,17 +2102,17 @@ func TestParseFormatE1_Min(t *testing.T) {
 	if m.Pressure == nil || int(math.Round(*m.Pressure)) != int(math.Round(expectPress)) {
 		t.Errorf("Pressure: got %v want %v", m.Pressure, expectPress)
 	}
-	if m.Pm10 == nil || roundInt10(*m.Pm10) != roundInt10(expectPM10) {
-		t.Errorf("Pm10: got %v want %v", m.Pm10, expectPM10)
+	if m.Pm1p0 == nil || roundInt10(*m.Pm1p0) != roundInt10(expectPM10) {
+		t.Errorf("Pm10: got %v want %v", m.Pm1p0, expectPM10)
 	}
-	if m.Pm25 == nil || roundInt10(*m.Pm25) != roundInt10(expectPM25) {
-		t.Errorf("Pm25: got %v want %v", m.Pm25, expectPM25)
+	if m.Pm2p5 == nil || roundInt10(*m.Pm2p5) != roundInt10(expectPM25) {
+		t.Errorf("Pm25: got %v want %v", m.Pm2p5, expectPM25)
 	}
-	if m.Pm40 == nil || roundInt10(*m.Pm40) != roundInt10(expectPM40) {
-		t.Errorf("Pm40: got %v want %v", m.Pm40, expectPM40)
+	if m.Pm4p0 == nil || roundInt10(*m.Pm4p0) != roundInt10(expectPM40) {
+		t.Errorf("Pm40: got %v want %v", m.Pm4p0, expectPM40)
 	}
-	if m.Pm100 == nil || roundInt10(*m.Pm100) != roundInt10(expectPM100) {
-		t.Errorf("Pm100: got %v want %v", m.Pm100, expectPM100)
+	if m.Pm10p0 == nil || roundInt10(*m.Pm10p0) != roundInt10(expectPM100) {
+		t.Errorf("Pm100: got %v want %v", m.Pm10p0, expectPM100)
 	}
 	if m.CO2 == nil || int(math.Round(*m.CO2)) != int(math.Round(expectCO2)) {
 		t.Errorf("CO2: got %v want %v", m.CO2, expectCO2)
@@ -2180,17 +2180,17 @@ func TestParseFormatE1_InvalidData(t *testing.T) {
 	if m.Pressure != nil {
 		t.Errorf("Pressure: expected nil, got %v", m.Pressure)
 	}
-	if m.Pm10 != nil {
-		t.Errorf("Pm10: expected nil, got %v", m.Pm10)
+	if m.Pm1p0 != nil {
+		t.Errorf("Pm10: expected nil, got %v", m.Pm1p0)
 	}
-	if m.Pm25 != nil {
-		t.Errorf("Pm25: expected nil, got %v", m.Pm25)
+	if m.Pm2p5 != nil {
+		t.Errorf("Pm25: expected nil, got %v", m.Pm2p5)
 	}
-	if m.Pm40 != nil {
-		t.Errorf("Pm40: expected nil, got %v", m.Pm40)
+	if m.Pm4p0 != nil {
+		t.Errorf("Pm40: expected nil, got %v", m.Pm4p0)
 	}
-	if m.Pm100 != nil {
-		t.Errorf("Pm100: expected nil, got %v", m.Pm100)
+	if m.Pm10p0 != nil {
+		t.Errorf("Pm100: expected nil, got %v", m.Pm10p0)
 	}
 	if m.CO2 != nil {
 		t.Errorf("CO2: expected nil, got %v", m.CO2)

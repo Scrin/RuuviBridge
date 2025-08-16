@@ -46,16 +46,16 @@ func ParseFormatE1(input string) (Measurement, error) {
 
 	// Particulate matter (0.1 resolution)
 	if !bytes.Equal(data[7:9], []byte{0xff, 0xff}) {
-		m.Pm10 = f64(float64(binary.BigEndian.Uint16(data[7:9])) / 10)
+		m.Pm1p0 = f64(float64(binary.BigEndian.Uint16(data[7:9])) / 10)
 	}
 	if !bytes.Equal(data[9:11], []byte{0xff, 0xff}) {
-		m.Pm25 = f64(float64(binary.BigEndian.Uint16(data[9:11])) / 10)
+		m.Pm2p5 = f64(float64(binary.BigEndian.Uint16(data[9:11])) / 10)
 	}
 	if !bytes.Equal(data[11:13], []byte{0xff, 0xff}) {
-		m.Pm40 = f64(float64(binary.BigEndian.Uint16(data[11:13])) / 10)
+		m.Pm4p0 = f64(float64(binary.BigEndian.Uint16(data[11:13])) / 10)
 	}
 	if !bytes.Equal(data[13:15], []byte{0xff, 0xff}) {
-		m.Pm100 = f64(float64(binary.BigEndian.Uint16(data[13:15])) / 10)
+		m.Pm10p0 = f64(float64(binary.BigEndian.Uint16(data[13:15])) / 10)
 	}
 
 	// CO2 (1 resolution)
