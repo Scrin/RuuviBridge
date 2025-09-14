@@ -58,9 +58,8 @@ var metrics struct {
 	rtcOnBoot             *prometheus.GaugeVec
 }
 
-func initMetrics() {
+func initMetrics(measurementMetricPrefix string) {
 	bridgeMetricPrefix := "ruuvibridge_"
-	measurementMetricPrefix := "ruuvi_"
 	tagLabels := []string{"name", "mac", "data_format"}
 
 	metrics.info = prometheus.NewGauge(prometheus.GaugeOpts{
@@ -342,7 +341,11 @@ func Prometheus(conf config.Prometheus) chan<- parser.Measurement {
 	}
 	log.Info().Int("port", port).Msg("Starting prometheus sink")
 	measurements := make(chan parser.Measurement, 1024)
-	initMetrics()
+	measurementMetricPrefix := "ruuvi_"
+	if conf.MeasurementMetricPrefix != "" {
+		measurementMetricPrefix = fmt.Sprintf("%s_", conf.MeasurementMetricPrefix)
+	}
+	initMetrics(measurementMetricPrefix)
 	go func() {
 		for measurement := range measurements {
 			recordMetrics(measurement)

@@ -263,7 +263,7 @@ func publishHomeAssistantDiscoveries(client mqtt.Client, conf config.MQTTPublish
 		EntityName:        "Sound level (instant, A-weighted)",
 		UnitOfMeasurement: "dB",
 		JsonAttribute:     "soundInstant",
-		Icon:              "mdi:volume-high",
+		Icon:              "mdi:volume-medium",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.SoundAverage != nil,
@@ -283,6 +283,7 @@ func publishHomeAssistantDiscoveries(client mqtt.Client, conf config.MQTTPublish
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.AirQualityIndex != nil,
+		DeviceClass:       "aqi",
 		EntityName:        "Air quality index",
 		UnitOfMeasurement: "x",
 		JsonAttribute:     "airQualityIndex",

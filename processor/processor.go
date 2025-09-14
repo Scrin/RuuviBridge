@@ -1,6 +1,8 @@
 package processor
 
 import (
+	"fmt"
+	"slices"
 	"strings"
 
 	"github.com/Scrin/RuuviBridge/common/version"
@@ -17,8 +19,9 @@ func Run(config config.Config) {
 	measurements := make(chan parser.Measurement, 1024)
 	var sinks []chan<- parser.Measurement
 
-	extendedValues := true // default
-	filterMap := make(map[string]interface{})
+	extendedValues := true     // default
+	includeUnofficial := false // default
+	filterMap := make(map[string]any)
 	allowlist := false
 	denylist := false
 	namedOnly := false
@@ -27,6 +30,7 @@ func Run(config config.Config) {
 		if processing.ExtendedValues != nil {
 			extendedValues = *processing.ExtendedValues
 		}
+		includeUnofficial = processing.IncludeUnofficial
 		switch processing.FilterMode {
 		case "allowlist":
 			allowlist = true
@@ -112,6 +116,11 @@ func Run(config config.Config) {
 			continue
 		}
 
+		if slices.Contains(config.Processing.DisableFormats, fmt.Sprintf("%X", measurement.DataFormat)) {
+			log.Trace().Str("mac", measurement.Mac).Str("data_format", fmt.Sprintf("%X", measurement.DataFormat)).Msg("Measurement dropped")
+			continue
+		}
+
 		name := config.TagNames[strings.ReplaceAll(measurement.Mac, ":", "")]
 		if name != "" {
 			measurement.Name = &name
@@ -122,6 +131,10 @@ func Run(config config.Config) {
 
 		if extendedValues {
 			value_calculator.CalcExtendedValues(&measurement)
+		}
+
+		if !includeUnofficial {
+			measurement.UnofficialData = parser.UnofficialData{}
 		}
 
 		for _, sink := range sinks {

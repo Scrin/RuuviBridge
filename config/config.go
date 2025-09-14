@@ -36,9 +36,11 @@ type HTTPListener struct {
 }
 
 type Processing struct {
-	ExtendedValues *bool    `yaml:"extended_values,omitempty"`
-	FilterMode     string   `yaml:"filter_mode"`
-	FilterList     []string `yaml:"filter_list"`
+	ExtendedValues    *bool    `yaml:"extended_values,omitempty"`
+	FilterMode        string   `yaml:"filter_mode"`
+	FilterList        []string `yaml:"filter_list"`
+	DisableFormats    []string `yaml:"disable_formats"`
+	IncludeUnofficial bool     `yaml:"include_unofficial"`
 }
 
 type InfluxDBPublisher struct {
@@ -63,8 +65,9 @@ type InfluxDB3Publisher struct {
 }
 
 type Prometheus struct {
-	Enabled *bool `yaml:"enabled,omitempty"`
-	Port    int   `yaml:"port"`
+	Enabled                 *bool  `yaml:"enabled,omitempty"`
+	Port                    int    `yaml:"port"`
+	MeasurementMetricPrefix string `yaml:"measurement_metric_prefix"`
 }
 
 type MQTTPublisher struct {

@@ -4,7 +4,7 @@ RuuviBridge is designed to act as a "data bridge" between various sources and co
 
 ### Features
 
-Supports following sources (sources of RuuviTag data):
+Supports following sources (sources of Ruuvi data):
 
 - MQTT (in Ruuvi Gateway format)
 - Ruuvi Gateway by polling the /history http-api endpoint
@@ -17,12 +17,14 @@ Supports following sinks (things that use the data):
 - Prometheus
 - MQTT (including Home Assistant MQTT discovery for automatic configuration)
 
-Supports following RuuviTag [Data Formats](https://github.com/ruuvi/ruuvi-sensor-protocols):
+Supports following Ruuvi [Data Formats](https://github.com/ruuvi/ruuvi-sensor-protocols):
 
-- Data Format 3: "RAW v1" BLE Manufacturer specific data, all current sensor readings
-- Data Format 5: "RAW v2" BLE Manufacturer specific data, all current sensor readings + extra
+- Data Format 3: "RAW v1" (eg. older RuuviTag firmware)
+- Data Format 5: "RAW v2" (eg. current RuuviTag firmware)
+- Data Format 6: Bluetooth 4 compatible version of format E1
+- Data Format E1: "Extended v1" (eg. <redacted>)
 
-Supports following data from the tag (depending on tag firmware):
+Supports following data from the device (depending on hardware revision and firmware):
 
 - Temperature (Celsius)
 - Relative humidity (0-100%)
@@ -32,7 +34,13 @@ Supports following data from the tag (depending on tag firmware):
 - TX power (dBm)
 - RSSI (Signal strength _at the receiver_, dBm)
 - Movement counter (Running counter incremented each time a motion detection interrupt is received)
-- Measurement sequence number (Running counter incremented each time a new measurement is taken on the tag)
+- Measurement sequence number (Running counter incremented each time a new measurement is taken on the device)
+- PM 1.0/2.5/4.0/10.0 (µg/m³)
+- Carbon dioxide (ppm)
+- VOX index (unitless)
+- NOX index (unitless)
+- Illuminance (lux)
+- Sound levels (undocumented and currently not available on commercially available hardware revisions)
 
 Ability to calculate following values in addition to the raw data (the accuracy of these values are approximations):
 
@@ -42,6 +50,7 @@ Ability to calculate following values in addition to the raw data (the accuracy 
 - Equilibrium vapor pressure (Pascal)
 - Air density (Accounts for humidity in the air, kg/m³)
 - Acceleration angle from X, Y and Z axes (Degrees)
+- Air quality index (0-100)
 
 ### Configuration
 
@@ -57,6 +66,6 @@ Without docker you can download prebuilt binaries from the [releases](https://gi
 
 ### Home Assistant MQTT discovery
 
-Home Assistant allows automatic configuration of MQTT entities using [MQTT Discovery](https://www.home-assistant.io/docs/mqtt/discovery/). To enable RuuviBridge to automatically configure all of your RuuviTags to Home Assistant for you, all you need to do (assuming default configuration) is to set `homeassistant_discovery_prefix` in the config under `mqtt_publisher`. In default Home Assistant configuration this should be simply `homeassistant`.
+Home Assistant allows automatic configuration of MQTT entities using [MQTT Discovery](https://www.home-assistant.io/docs/mqtt/discovery/). To enable RuuviBridge to automatically configure all of your Ruuvi devices to Home Assistant for you, all you need to do (assuming default configuration) is to set `homeassistant_discovery_prefix` in the config under `mqtt_publisher`. In default Home Assistant configuration this should be simply `homeassistant`.
 
-After setting this configuration, it should be a matter of seconds before your RuuviTags should appear as devices in Home Assistant for reporting all available measurements, with properly set names, units, icons and other attributes.
+After setting this configuration, it should be a matter of seconds before your Ruuvi devices should appear as devices in Home Assistant for reporting all available measurements, with properly set names, units, icons and other attributes.
