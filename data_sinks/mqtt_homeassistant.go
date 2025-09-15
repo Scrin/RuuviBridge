@@ -220,6 +220,7 @@ func publishHomeAssistantDiscoveries(client mqtt.Client, conf config.MQTTPublish
 		EntityName:        "PM4.0",
 		UnitOfMeasurement: "µg/m³",
 		JsonAttribute:     "pm4p0",
+		Icon:              "mdi:molecule",
 	})
 	publishHomeAssistantDiscovery(client, conf, measurement, homeassistantDiscoveryConfig{
 		Available:         measurement.Pm10p0 != nil,
