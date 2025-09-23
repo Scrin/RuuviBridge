@@ -56,7 +56,7 @@ processing:
   # example the official Ruuvi Gateway).
   disable_formats:
     #- "6"
-  # Flag to include unofficial data in the measurements. This is undocumented data that is included in some measurements sent by certain revisions of <redacted>
+  # Flag to include unofficial data in the measurements. This is undocumented data that is included in some measurements sent by certain revisions of Ruuvi Air
   include_unofficial: false
 
 # Supports both InfluxDB 1.8 and 2.x
@@ -106,7 +106,7 @@ prometheus:
   # Port to listen on. Cannot be the same as http listener port if enabled
   port: 8081
   # Prefix to add to the measurement metrics. Versions prior to v1.0.0 used a hardcoded "ruuvitag" as the prefix
-  # v1.0.0 changed the default to "ruuvi" when support for <redacted> was added. Change this to "ruuvitag" if you want to retain the old prefix
+  # v1.0.0 changed the default to "ruuvi" when support for Ruuvi Air was added. Change this to "ruuvitag" if you want to retain the old prefix
   measurement_metric_prefix: ruuvi
 
 # Publish the parsed and processed data back to MQTT. Can be the same server or a different one.

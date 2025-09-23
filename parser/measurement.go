@@ -31,7 +31,7 @@ type BasicEnvironmentalData struct {
 	MovementCounter *int64   `json:"movementCounter,omitempty"`
 }
 
-// Air quality data, typically on <redacted>
+// Air quality data, typically on Ruuvi Air
 type AirQualityData struct {
 	Pm1p0       *float64 `json:"pm1p0,omitempty"`
 	Pm2p5       *float64 `json:"pm2p5,omitempty"`
@@ -49,7 +49,7 @@ type DiagnosticsData struct {
 	CalibrationInProgress     *bool  `json:"calibrationInProgress,omitempty"`
 }
 
-// Data not officially documented (eg. on format E1, transmitted by certain revisions of <redacted>)
+// Data not officially documented (eg. on format E1, transmitted by certain revisions of Ruuvi Air)
 type UnofficialData struct {
 	SoundInstant        *float64 `json:"soundInstant,omitempty"`
 	SoundAverage        *float64 `json:"soundAverage,omitempty"`

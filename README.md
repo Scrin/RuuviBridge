@@ -22,7 +22,7 @@ Supports following Ruuvi [Data Formats](https://github.com/ruuvi/ruuvi-sensor-pr
 - Data Format 3: "RAW v1" (eg. older RuuviTag firmware)
 - Data Format 5: "RAW v2" (eg. current RuuviTag firmware)
 - Data Format 6: Bluetooth 4 compatible version of format E1
-- Data Format E1: "Extended v1" (eg. <redacted>)
+- Data Format E1: "Extended v1" (eg. Ruuvi Air)
 
 Supports following data from the device (depending on hardware revision and firmware):
 
@@ -37,8 +37,8 @@ Supports following data from the device (depending on hardware revision and firm
 - Measurement sequence number (Running counter incremented each time a new measurement is taken on the device)
 - PM 1.0/2.5/4.0/10.0 (µg/m³)
 - Carbon dioxide (ppm)
-- VOX index (unitless)
-- NOX index (unitless)
+- VOC index (unitless)
+- NOx index (unitless)
 - Illuminance (lux)
 - Sound levels (undocumented and currently not available on commercially available hardware revisions)
 
