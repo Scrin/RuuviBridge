@@ -3,7 +3,7 @@ gateway_polling:
   # Flag to enable or disable gateway polling
   enabled: false
   gateway_url: http://ip.or.hostname.of.the.gateway
-  # If you have enabled authentication on the gateway, specify the API key (bearer token) from the gateway Access Settings configuration page
+  # If you have enabled authentication on the gateway (recommended), specify the API key (bearer token) from the gateway Remote Access Settings configuration page
   bearer_token: ""
   interval: 10s
 
