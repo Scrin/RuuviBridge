@@ -15,16 +15,12 @@ func buildFullAdvertisementFormat6(payload []byte) []byte {
 	adv[1] = 0x01 // AD Type
 	adv[2] = 0x06 // Flags
 	adv[3] = 0x00 // Padding
-	adv[4] = 0x00 // Padding
-	adv[5] = 0x00 // Padding
-	adv[6] = 0x00 // Padding
-	adv[7] = 0x00 // Padding
 	// Manufacturer specific data
-	adv[8] = 0xFF  // Manufacturer specific data flag
-	adv[9] = 0x99  // Company identifier (Ruuvi)
-	adv[10] = 0x04 // Company identifier (Ruuvi)
+	adv[4] = 0xFF // Manufacturer specific data flag
+	adv[5] = 0x99 // Company identifier (Ruuvi)
+	adv[6] = 0x04 // Company identifier (Ruuvi)
 	// Copy payload
-	copy(adv[11:], payload)
+	copy(adv[7:], payload)
 	return adv
 }
 

@@ -16,19 +16,19 @@ func ParseFormat6(input string) (Measurement, error) {
 	if err != nil {
 		return m, err
 	}
-	if len(data) < 27 {
+	if len(data) < 23 {
 		return m, errors.New("data is too short")
 	}
 
-	if data[8] != 0xff { // manufacturer specific data
+	if data[4] != 0xff { // manufacturer specific data
 		return m, errors.New("data is not manufacturer specific data")
 	}
 
-	if data[9] != ruuviCompanyIdentifier[0] || data[10] != ruuviCompanyIdentifier[1] {
+	if data[5] != ruuviCompanyIdentifier[0] || data[6] != ruuviCompanyIdentifier[1] {
 		return m, errors.New("data has wrong company identifier")
 	}
 
-	data = data[11:]
+	data = data[7:]
 
 	if data[0] != 0x06 { // data format
 		return m, errors.New("data is not in data format 6")
