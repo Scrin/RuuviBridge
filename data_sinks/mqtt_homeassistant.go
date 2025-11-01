@@ -294,8 +294,8 @@ func publishHomeAssistantDiscovery(client mqtt.Client, conf config.MQTTPublisher
 	id := fmt.Sprintf("ruuvitag_%s_%s", strings.ReplaceAll(measurement.Mac, ":", ""), disco.JsonAttribute)
 	confTopicPrefix := fmt.Sprintf("%s/sensor/%s", conf.HomeassistantDiscoveryPrefix, id)
 	if !disco.Available {
-		client.Publish(confTopicPrefix+"/config", 0, false, "")
-		client.Publish(confTopicPrefix+"/attributes", 0, false, "")
+		client.Publish(confTopicPrefix+"/config", 0, conf.RetainMessages, "")
+		client.Publish(confTopicPrefix+"/attributes", 0, conf.RetainMessages, "")
 		return
 	}
 	var name string
@@ -344,6 +344,6 @@ func publishHomeAssistantDiscovery(client mqtt.Client, conf config.MQTTPublisher
 		log.Error().Err(err).Msg("Failed to serialize Home Assistant attribute data")
 		return
 	}
-	client.Publish(confTopicPrefix+"/attributes", 0, false, string(attributesJson))
-	client.Publish(confTopicPrefix+"/config", 0, false, string(discoveryJson))
+	client.Publish(confTopicPrefix+"/attributes", 0, conf.RetainMessages, string(attributesJson))
+	client.Publish(confTopicPrefix+"/config", 0, conf.RetainMessages, string(discoveryJson))
 }

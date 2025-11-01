@@ -81,24 +81,24 @@ func MQTT(conf config.MQTTPublisher) chan<- parser.Measurement {
 			if err != nil {
 				log.Error().Err(err).Msg("Failed to serialize measurement")
 			} else {
-				client.Publish(conf.TopicPrefix+"/"+measurement.Mac, 0, false, string(data))
+				client.Publish(conf.TopicPrefix+"/"+measurement.Mac, 0, conf.RetainMessages, string(data))
 				if conf.HomeassistantDiscoveryPrefix != "" {
 					publishHomeAssistantDiscoveries(client, conf, measurement)
 				}
 				if conf.PublishRaw {
 					safePublishF := func(label string, v *float64) {
 						if v != nil {
-							client.Publish(conf.TopicPrefix+"/"+measurement.Mac+"/"+label, 0, false, strconv.FormatFloat(*v, 'f', -1, 64))
+							client.Publish(conf.TopicPrefix+"/"+measurement.Mac+"/"+label, 0, conf.RetainMessages, strconv.FormatFloat(*v, 'f', -1, 64))
 						}
 					}
 					safePublishI := func(label string, v *int64) {
 						if v != nil {
-							client.Publish(conf.TopicPrefix+"/"+measurement.Mac+"/"+label, 0, false, strconv.FormatInt(*v, 10))
+							client.Publish(conf.TopicPrefix+"/"+measurement.Mac+"/"+label, 0, conf.RetainMessages, strconv.FormatInt(*v, 10))
 						}
 					}
 					safePublishB := func(label string, v *bool) {
 						if v != nil {
-							client.Publish(conf.TopicPrefix+"/"+measurement.Mac+"/"+label, 0, false, strconv.FormatBool(*v))
+							client.Publish(conf.TopicPrefix+"/"+measurement.Mac+"/"+label, 0, conf.RetainMessages, strconv.FormatBool(*v))
 						}
 					}
 					safePublishF("temperature", measurement.Temperature)

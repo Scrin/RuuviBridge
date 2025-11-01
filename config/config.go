@@ -81,6 +81,7 @@ type MQTTPublisher struct {
 	Password                     string        `yaml:"password"`
 	TopicPrefix                  string        `yaml:"topic_prefix"`
 	PublishRaw                   bool          `yaml:"publish_raw"`
+	RetainMessages               bool          `yaml:"retain_messages"`
 	HomeassistantDiscoveryPrefix string        `yaml:"homeassistant_discovery_prefix,omitempty"`
 	LWTTopic                     string        `yaml:"lwt_topic"`
 	LWTOnlinePayload             string        `yaml:"lwt_online_payload"`

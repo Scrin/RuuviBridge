@@ -128,6 +128,9 @@ mqtt_publisher:
   # to <topic_prefix>/<mac>/temperature, <topic_prefix>/<mac>/humidity, and so forth. When enabled, these are
   # published in addition to the JSON string which is published to <topic_prefix>/<mac>, not in place of them.
   publish_raw: false
+  # Whether to use retained messages. If enabled, MQTT messages will be published with the retain flag set. This has the benefit of always having the
+  # latest value available on the MQTT broker, but it also means you have to manually remove the retained messages if you remove a tag or so.
+  retain_messages: false
   # Topic where to publish LWT "status messages" on connect/disconnect. Empty means disabled.
   # Note that the mqtt_listener and mqtt_publisher have their own distinct connections and you should not use the same lwt topic for both.
   lwt_topic: ""
