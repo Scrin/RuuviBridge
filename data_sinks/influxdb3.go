@@ -10,6 +10,7 @@ import (
 	"github.com/Scrin/RuuviBridge/common/limiter"
 	"github.com/Scrin/RuuviBridge/config"
 	"github.com/Scrin/RuuviBridge/parser"
+	"github.com/influxdata/line-protocol/v2/lineprotocol"
 	"github.com/rs/zerolog/log"
 )
 
@@ -28,11 +29,22 @@ func InfluxDB3(conf config.InfluxDB3Publisher) chan<- parser.Measurement {
 		Dur("minimum_interval", conf.MinimumInterval).
 		Msg("Starting InfluxDB3 sink")
 
-	client, err := influxdb3.New(influxdb3.ClientConfig{
+	clientConfig := influxdb3.ClientConfig{
 		Host:     url,
 		Token:    conf.AuthToken,
 		Database: conf.Database,
-	})
+	}
+	if conf.TimestampPrecision != "" {
+		precision, err := parseInfluxDB3Precision(conf.TimestampPrecision)
+		if err != nil {
+			log.Error().Err(err).Str("timestamp_precision", conf.TimestampPrecision).Msg("Invalid InfluxDB3 timestamp_precision, using library default")
+		} else {
+			opts := influxdb3.DefaultWriteOptions
+			opts.Precision = precision
+			clientConfig.WriteOptions = &opts
+		}
+	}
+	client, err := influxdb3.New(clientConfig)
 
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to create InfluxDB3 client")
@@ -119,5 +131,20 @@ func influx3AddInt(p *influxdb3.Point, name string, value *int64) {
 func influx3AddBool(p *influxdb3.Point, name string, value *bool) {
 	if value != nil {
 		p.SetField(name, *value)
+	}
+}
+
+func parseInfluxDB3Precision(s string) (lineprotocol.Precision, error) {
+	switch s {
+	case "nanosecond":
+		return lineprotocol.Nanosecond, nil
+	case "microsecond":
+		return lineprotocol.Microsecond, nil
+	case "millisecond":
+		return lineprotocol.Millisecond, nil
+	case "second":
+		return lineprotocol.Second, nil
+	default:
+		return 0, fmt.Errorf("unsupported precision %q (valid: second, millisecond, microsecond, nanosecond)", s)
 	}
 }

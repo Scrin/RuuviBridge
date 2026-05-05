@@ -94,6 +94,8 @@ influxdb3_publisher:
   database: ruuvi
   # Measurement name to use
   measurement: ruuvi_measurements
+  # Timstamp precision. Valid values: "second", "millisecond", "microsecond", "nanosecond" (default)
+  timestamp_precision: nanosecond
   # Uncomment to add additional influxdb tags to the measurements
   #additional_tags:
   #  mytag: myvalue
